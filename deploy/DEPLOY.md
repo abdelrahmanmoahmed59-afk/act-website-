@@ -37,6 +37,8 @@ Note: If `next build` fails with a `sharp` CPU/runtime error, make sure you pull
 
 If `next build` fails with `pnpm: not found`, make sure you pulled the latest repo (we deploy with npm; older commits included a `pnpm-lock.yaml` that could make Next.js try to call `pnpm` during build).
 
+Do **not** use `npm ci --omit=optional` on the VPS: Tailwind v4 uses `lightningcss` which relies on optional native packages on Linux.
+
 ## 3) Configure environment + persistent data directory
 
 Create `/var/lib/act-website/data` to persist JSON/uploads across deployments:
