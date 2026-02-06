@@ -8,6 +8,13 @@ This project is a Next.js app with a file-backed CMS stored as JSON on disk.
 - Ports `80` and `443` open (and `22` for SSH).
 - Node.js LTS installed (recommended Node 20+).
 
+### If you use Cloudflare (fixes error 525)
+
+If Cloudflare shows **525 SSL handshake failed**, Cloudflare cannot establish HTTPS to your VPS. The usual causes are: no TLS on the origin yet, invalid/expired cert, or port `443` blocked.
+
+- Temporarily set the DNS record to **DNS only** (grey cloud) while you run `certbot` the first time.
+- In Cloudflare **SSL/TLS** mode, use **Full (strict)** after you have a valid cert on the VPS (or use **Full** temporarily if you must get the site up before fixing certs).
+
 ## 1) Create a deploy user (recommended)
 
 ```bash

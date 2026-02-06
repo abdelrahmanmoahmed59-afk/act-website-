@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server'
-import sharp from 'sharp'
 
 import { requireAdmin } from '@/lib/server/auth'
 import { createUpload, getUploadUrl } from '@/lib/server/uploads'
@@ -9,9 +8,6 @@ export const runtime = 'nodejs'
 
 const MAX_BYTES = 5 * 1024 * 1024
 const ALLOWED_IMAGE_TYPES = new Set(['image/webp', 'image/png', 'image/jpeg', 'image/avif'])
-const OUTPUT_MAX_WIDTH = 1600
-const OUTPUT_WEBP_QUALITY = 82
-
 export async function POST(req: Request) {
   const admin = await requireAdmin()
   if (!admin) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
@@ -47,25 +43,10 @@ export async function POST(req: Request) {
   }
 
   const bytes = new Uint8Array(await file.arrayBuffer())
-  let outputBytes = bytes
-  let outputType = file.type
-
-  try {
-    const input = Buffer.from(bytes)
-    const pipeline = sharp(input, { failOn: 'none' })
-    const meta = await pipeline.metadata()
-    const resized =
-      meta.width && meta.width > OUTPUT_MAX_WIDTH ? pipeline.resize({ width: OUTPUT_MAX_WIDTH }) : pipeline
-    const webp = await resized.webp({ quality: OUTPUT_WEBP_QUALITY }).toBuffer()
-    outputBytes = new Uint8Array(webp)
-    outputType = 'image/webp'
-  } catch {
-    // If optimization fails, store the original bytes as-is.
-  }
 
   const created = await createUpload({
-    bytes: outputBytes,
-    contentType: outputType,
+    bytes,
+    contentType: file.type,
     originalName: file.name || '',
   })
 
