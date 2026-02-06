@@ -35,6 +35,8 @@ npm run build
 
 Note: If `next build` fails with a `sharp` CPU/runtime error, make sure you pulled the latest repo and ran `npm ci` (the repo includes a `postinstall` step that removes `sharp` to avoid those failures on older VPS CPUs).
 
+If `next build` fails with `pnpm: not found`, make sure you pulled the latest repo (we deploy with npm; older commits included a `pnpm-lock.yaml` that could make Next.js try to call `pnpm` during build).
+
 ## 3) Configure environment + persistent data directory
 
 Create `/var/lib/act-website/data` to persist JSON/uploads across deployments:
