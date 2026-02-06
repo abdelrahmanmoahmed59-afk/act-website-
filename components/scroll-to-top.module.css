@@ -1,0 +1,42 @@
+.button {
+  position: fixed;
+  right: 1.5rem;
+  bottom: 1.5rem;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  border: 1px solid var(--accent);
+  background: rgba(from var(--accent) r g b / 0.12);
+  color: var(--accent);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(10px);
+  transition: opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  z-index: 900;
+}
+
+.button svg {
+  width: 20px;
+  height: 20px;
+}
+
+.button:hover {
+  box-shadow: 0 12px 24px rgba(from var(--accent) r g b / 0.25);
+  transform: translateY(6px);
+}
+
+.visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button {
+    transition: none;
+  }
+}

@@ -1,0 +1,562 @@
+.page {
+  background: var(--background);
+}
+
+.contactHero {
+  margin-top: 80px;
+  padding: 4rem 2rem;
+  background: linear-gradient(
+    135deg,
+    var(--primary) 0%,
+    rgba(from var(--accent) r g b / 0.82) 100%
+  );
+  color: var(--primary-foreground);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.contactHero::after {
+  content: '';
+  position: absolute;
+  inset: -50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.18), transparent 60%);
+  animation: heroSpin 18s linear infinite;
+  pointer-events: none;
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.title {
+  font-size: 2.8rem;
+  font-weight: 850;
+  margin: 0 0 1rem 0;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  animation: slideInUp 0.7s ease;
+}
+
+.intro {
+  font-size: 1.1rem;
+  margin: 0 auto;
+  max-width: 64ch;
+  opacity: 0.92;
+  line-height: 1.7;
+  animation: slideInUp 0.7s ease 0.1s both;
+}
+
+.contactContent {
+  padding: 4rem 2rem 5rem;
+  background: linear-gradient(180deg, var(--background) 0%, var(--card) 100%);
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  gap: 2.25rem;
+  align-items: start;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  animation: fadeInLeft 0.7s ease;
+}
+
+.detailsCard {
+  background: var(--background);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 18px 46px rgba(0, 0, 0, 0.08);
+}
+
+.detailsCard::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(from var(--accent) r g b / 0.06) 0%,
+    transparent 60%
+  );
+  opacity: 1;
+  pointer-events: none;
+}
+
+.detailsHeader {
+  position: relative;
+  z-index: 1;
+  padding: 1.5rem 1.6rem 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.detailList {
+  position: relative;
+  z-index: 1;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0;
+}
+
+.detailRow {
+  display: flex;
+  gap: 1rem;
+  padding: 1.15rem 1.6rem;
+  border-bottom: 1px solid var(--border);
+  align-items: flex-start;
+}
+
+.detailRow:last-child {
+  border-bottom: none;
+}
+
+.detailIcon {
+  flex: 0 0 auto;
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  border: 1px solid rgba(from var(--accent) r g b / 0.22);
+  background: rgba(from var(--accent) r g b / 0.08);
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.detailIcon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.detailBody {
+  min-width: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.detailLabel {
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.detailValueText {
+  margin: 0;
+  color: var(--foreground);
+  font-weight: 750;
+  line-height: 1.55;
+  word-break: break-word;
+}
+
+.detailValueLink {
+  display: inline-flex;
+  color: var(--foreground);
+  font-weight: 800;
+  text-decoration: none;
+  line-height: 1.55;
+  word-break: break-word;
+}
+
+.detailValueLink:hover {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+.detailValueLink:focus-visible {
+  outline: 2px solid rgba(from var(--accent) r g b / 0.75);
+  outline-offset: 3px;
+  border-radius: 10px;
+}
+
+.mapCard {
+  background: var(--background);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 18px 46px rgba(0, 0, 0, 0.08);
+}
+
+.mapHeader {
+  padding: 1.5rem 1.6rem 1.1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.sectionTitle {
+  margin: 0 0 0.55rem 0;
+  font-size: 1.5rem;
+  font-weight: 850;
+  color: var(--foreground);
+  letter-spacing: -0.01em;
+}
+
+.sectionText {
+  margin: 0;
+  color: var(--muted-foreground);
+  line-height: 1.65;
+}
+
+.mapFrameWrap {
+  background: rgba(from var(--muted) r g b / 0.55);
+  aspect-ratio: 16 / 10;
+}
+
+.mapFrame {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+  filter: saturate(1.05) contrast(1.02);
+}
+
+.formCard {
+  background: var(--background);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  box-shadow: 0 18px 46px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  animation: fadeInRight 0.7s ease;
+}
+
+.formHeader {
+  padding: 1.6rem 1.8rem 1.2rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.form {
+  padding: 1.6rem 1.8rem 1.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.label {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.input,
+.textarea {
+  padding: 0.95rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  font-family: inherit;
+  font-size: 1rem;
+  color: var(--foreground);
+  background: rgba(from var(--background) r g b / 0.94);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: var(--muted-foreground);
+}
+
+.input:focus-visible,
+.textarea:focus-visible {
+  outline: none;
+  border-color: rgba(from var(--accent) r g b / 0.8);
+  box-shadow: 0 0 0 4px rgba(from var(--accent) r g b / 0.12);
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 140px;
+}
+
+.helpText {
+  margin: 0;
+  color: var(--muted-foreground);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.submitBtn {
+  height: 48px;
+  padding: 0 1.4rem;
+  border-radius: 14px;
+  border: 1px solid rgba(from var(--accent) r g b / 0.85);
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  color: var(--primary-foreground);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+  box-shadow: 0 14px 32px rgba(from var(--accent) r g b / 0.22);
+}
+
+.submitBtn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 18px 44px rgba(from var(--accent) r g b / 0.3);
+}
+
+.submitBtn:disabled {
+  opacity: 0.75;
+  cursor: not-allowed;
+}
+
+.submitBtn:focus-visible {
+  outline: 2px solid rgba(from var(--accent) r g b / 0.85);
+  outline-offset: 3px;
+}
+
+.submitBtnBusy .submitSpinner {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.submitBtnText {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.submitSpinner {
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: rgba(255, 255, 255, 0.98);
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  animation: spin 0.9s linear infinite;
+}
+
+.successCard {
+  padding: 2.2rem 1.9rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+  text-align: center;
+  animation: successIn 0.55s ease both;
+}
+
+.successIcon {
+  width: 76px;
+  height: 76px;
+  color: var(--accent);
+  background: rgba(from var(--accent) r g b / 0.08);
+  border: 1px solid rgba(from var(--accent) r g b / 0.2);
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.successIcon svg {
+  width: 52px;
+  height: 52px;
+}
+
+.successCircle {
+  fill: none;
+  stroke: rgba(from var(--accent) r g b / 0.35);
+  stroke-width: 4;
+}
+
+.successCheck {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 40;
+  stroke-dashoffset: 40;
+  animation: draw 0.65s ease 0.2s forwards;
+}
+
+.successTitle {
+  margin: 0.35rem 0 0 0;
+  font-size: 1.35rem;
+  font-weight: 900;
+  color: var(--foreground);
+}
+
+.successText {
+  margin: 0;
+  color: var(--muted-foreground);
+  line-height: 1.7;
+  max-width: 62ch;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes heroSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes successIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@media (max-width: 1100px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 900px) {
+  .detailRow {
+    padding: 1.05rem 1.35rem;
+  }
+
+  .detailsHeader {
+    padding: 1.35rem 1.35rem 0.95rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .contactHero {
+    padding: 3rem 1.5rem;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .contactContent {
+    padding: 3rem 1.5rem 4rem;
+  }
+
+  .formHeader {
+    padding: 1.4rem 1.4rem 1.1rem;
+  }
+
+  .form {
+    padding: 1.4rem;
+  }
+
+  .mapHeader {
+    padding: 1.35rem 1.35rem 1.05rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .contactHero {
+    padding: 2.5rem 1rem;
+  }
+
+  .title {
+    font-size: 1.6rem;
+  }
+
+  .intro {
+    font-size: 1rem;
+  }
+
+  .contactContent {
+    padding: 2.5rem 1rem 3.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contactHero::after,
+  .title,
+  .intro,
+  .sidebar,
+  .formCard,
+  .successCard,
+  .successCheck,
+  .submitSpinner {
+    animation: none !important;
+  }
+
+  .infoCard,
+  .submitBtn,
+  .input,
+  .textarea {
+    transition: none !important;
+  }
+
+  .successCheck {
+    stroke-dashoffset: 0;
+  }
+}

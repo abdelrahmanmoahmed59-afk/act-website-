@@ -1,0 +1,258 @@
+.page {
+  background: var(--background);
+  min-height: 100vh;
+}
+
+.hero {
+  margin-top: 80px;
+  padding: 3.75rem 2rem 3rem;
+  background: linear-gradient(
+    135deg,
+    rgba(from var(--primary) r g b / 0.95) 0%,
+    rgba(from var(--accent) r g b / 0.82) 100%
+  );
+  color: var(--primary-foreground);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: -40% 0 0 -30%;
+  width: 160%;
+  height: 160%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.14), transparent 60%);
+  animation: rotateGlow 18s linear infinite;
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.heroTitle {
+  margin: 0 0 0.65rem 0;
+  font-size: clamp(2rem, 3.4vw, 2.8rem);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.heroSubtitle {
+  margin: 0;
+  max-width: 70ch;
+  opacity: 0.92;
+  line-height: 1.65;
+}
+
+.heroMeta {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  align-items: center;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.55rem 0.8rem;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: rgba(255, 255, 255, 0.92);
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.content {
+  padding: 2.75rem 2rem 5rem;
+  background:
+    radial-gradient(980px 420px at 15% 10%, rgba(from var(--accent) r g b / 0.10), transparent 65%),
+    radial-gradient(900px 420px at 85% 15%, rgba(from var(--primary) r g b / 0.08), transparent 62%),
+    linear-gradient(180deg, rgba(from var(--card) r g b / 0.75) 0%, var(--card) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.background {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.95;
+}
+
+.backgroundGrid {
+  position: absolute;
+  inset: -40% -20% -30% -20%;
+  background:
+    linear-gradient(transparent 0%, rgba(255, 255, 255, 0.10) 45%, transparent 100%),
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.10) 0px,
+      rgba(255, 255, 255, 0.10) 1px,
+      transparent 1px,
+      transparent 90px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.10) 0px,
+      rgba(255, 255, 255, 0.10) 1px,
+      transparent 1px,
+      transparent 90px
+    );
+  opacity: 0.12;
+  transform: rotate(-10deg);
+  animation: adminGridMove 18s linear infinite;
+  mask-image: radial-gradient(circle at 30% 30%, rgba(0, 0, 0, 0.75), transparent 65%);
+}
+
+.backgroundOrb {
+  position: absolute;
+  width: 420px;
+  height: 420px;
+  border-radius: 999px;
+  filter: blur(22px);
+  opacity: 0.55;
+  animation: adminFloat 10s ease-in-out infinite;
+}
+
+.backgroundOrb[data-variant='one'] {
+  left: -160px;
+  top: -120px;
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.18), transparent 65%);
+  animation-duration: 11s;
+}
+
+.backgroundOrb[data-variant='two'] {
+  right: -220px;
+  top: 60px;
+  width: 520px;
+  height: 520px;
+  background: radial-gradient(circle at 40% 45%, rgba(from var(--accent) r g b / 0.35), transparent 70%);
+  animation-duration: 13s;
+  animation-delay: -2s;
+}
+
+.backgroundOrb[data-variant='three'] {
+  left: 45%;
+  bottom: -300px;
+  width: 620px;
+  height: 620px;
+  background: radial-gradient(circle at 50% 45%, rgba(255, 255, 255, 0.12), transparent 72%);
+  animation-duration: 15s;
+  animation-delay: -4s;
+}
+
+.shell {
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  gap: 1.25rem;
+  align-items: start;
+}
+
+.sidebar {
+  position: sticky;
+  top: 110px;
+  border-radius: 18px;
+  padding: 1.1rem;
+  background: rgba(from var(--card) r g b / 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  box-shadow:
+    0 18px 48px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+}
+
+.navTitle {
+  margin: 0 0 0.8rem 0;
+  font-weight: 900;
+  letter-spacing: -0.01em;
+}
+
+.nav {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.navLink {
+  padding: 0.7rem 0.75rem;
+  border-radius: 14px;
+  color: rgba(248, 250, 252, 0.88);
+  text-decoration: none;
+  border: 1px solid transparent;
+  background: rgba(15, 23, 42, 0.24);
+}
+
+.navLink:hover {
+  border-color: rgba(255, 255, 255, 0.16);
+  background: rgba(15, 23, 42, 0.32);
+}
+
+.navLinkActive {
+  border-color: rgba(from var(--accent) r g b / 0.5);
+  background: rgba(from var(--accent) r g b / 0.16);
+}
+
+.logoutForm {
+  margin-top: 0.9rem;
+}
+
+.logoutButton {
+  width: 100%;
+  padding: 0.75rem 0.9rem;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(239, 68, 68, 0.14);
+  color: rgba(254, 226, 226, 0.95);
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.main {
+  min-width: 0;
+}
+
+@keyframes adminGridMove {
+  0% {
+    transform: rotate(-10deg) translate3d(0, 0, 0);
+  }
+  100% {
+    transform: rotate(-10deg) translate3d(-120px, 80px, 0);
+  }
+}
+
+@keyframes adminFloat {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(0, -16px, 0) scale(1.02);
+  }
+}
+
+@keyframes rotateGlow {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 960px) {
+  .shell {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    position: relative;
+    top: auto;
+  }
+}
+

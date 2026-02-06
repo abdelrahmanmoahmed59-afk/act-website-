@@ -1,0 +1,396 @@
+.page {
+  background: var(--background);
+}
+
+.content {
+  margin-top: 80px;
+  padding: 3.25rem 2rem 5rem;
+  background:
+    radial-gradient(980px 420px at 15% 10%, rgba(from var(--accent) r g b / 0.10), transparent 65%),
+    radial-gradient(900px 420px at 85% 15%, rgba(from var(--primary) r g b / 0.07), transparent 62%),
+    linear-gradient(180deg, rgba(from var(--card) r g b / 0.78) 0%, var(--card) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Page-scoped scroll reveal (pairs with components/scroll-reveal.tsx) */
+.content :global([data-reveal]) {
+  opacity: 0;
+  transform: translateY(18px) scale(0.985);
+  filter: blur(10px);
+  transition:
+    opacity 700ms cubic-bezier(0.2, 0.7, 0.2, 1),
+    transform 800ms cubic-bezier(0.2, 0.7, 0.2, 1),
+    filter 800ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform, filter;
+}
+
+.content :global([data-reveal='visible']) {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .content :global([data-reveal]) {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    transition: none !important;
+  }
+}
+
+.background {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.95;
+}
+
+.backgroundGrid {
+  position: absolute;
+  inset: -40% -20% -30% -20%;
+  background:
+    linear-gradient(transparent 0%, rgba(255, 255, 255, 0.10) 45%, transparent 100%),
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.10) 0px,
+      rgba(255, 255, 255, 0.10) 1px,
+      transparent 1px,
+      transparent 92px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.10) 0px,
+      rgba(255, 255, 255, 0.10) 1px,
+      transparent 1px,
+      transparent 92px
+    );
+  opacity: 0.14;
+  transform: rotate(-10deg);
+  animation: gridMove 18s linear infinite;
+  mask-image: radial-gradient(circle at 30% 30%, rgba(0, 0, 0, 0.75), transparent 65%);
+}
+
+.backgroundOrb {
+  position: absolute;
+  width: 420px;
+  height: 420px;
+  border-radius: 999px;
+  filter: blur(22px);
+  opacity: 0.55;
+  animation: float 10s ease-in-out infinite;
+}
+
+.backgroundOrb[data-variant='one'] {
+  left: -160px;
+  top: -120px;
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.22), transparent 65%);
+  animation-duration: 11s;
+}
+
+.backgroundOrb[data-variant='two'] {
+  right: -220px;
+  top: 60px;
+  width: 520px;
+  height: 520px;
+  background: radial-gradient(circle at 40% 45%, rgba(from var(--accent) r g b / 0.34), transparent 70%);
+  animation-duration: 13s;
+  animation-delay: -2s;
+}
+
+.backgroundOrb[data-variant='three'] {
+  left: 45%;
+  bottom: -300px;
+  width: 620px;
+  height: 620px;
+  background: radial-gradient(circle at 50% 45%, rgba(255, 255, 255, 0.14), transparent 72%);
+  animation-duration: 15s;
+  animation-delay: -4s;
+}
+
+@keyframes gridMove {
+  0% {
+    transform: rotate(-10deg) translate3d(0, 0, 0);
+  }
+  100% {
+    transform: rotate(-10deg) translate3d(-120px, 80px, 0);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(0, -16px, 0) scale(1.02);
+  }
+}
+
+@keyframes sheen {
+  0% {
+    transform: translateX(-40%);
+  }
+  100% {
+    transform: translateX(60%);
+  }
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.hero {
+  text-align: center;
+  padding: 0.75rem 0 2.5rem;
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(2.2rem, 4vw, 3.1rem);
+  font-weight: 950;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  color: var(--foreground);
+}
+
+.intro {
+  margin: 0.95rem auto 0;
+  max-width: 70ch;
+  color: var(--muted-foreground);
+  line-height: 1.75;
+  font-size: 1.05rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.6rem;
+}
+
+.card {
+  background: rgba(from var(--background) r g b / 0.92);
+  border: 1px solid rgba(from var(--border) r g b / 0.95);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  position: relative;
+  transform: translate3d(0, 0, 0);
+  transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+}
+
+.card::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  background: linear-gradient(
+    120deg,
+    transparent 0%,
+    rgba(from var(--accent) r g b / 0.18) 40%,
+    transparent 80%
+  );
+  opacity: 0;
+  transform: translateX(-40%);
+  pointer-events: none;
+}
+
+.card:hover {
+  transform: translate3d(0, -6px, 0);
+  border-color: rgba(from var(--accent) r g b / 0.5);
+  box-shadow: 0 24px 58px rgba(0, 0, 0, 0.12);
+}
+
+.card:hover::after {
+  opacity: 1;
+  animation: sheen 1.2s ease both;
+}
+
+.cardMedia {
+  position: relative;
+  background: rgba(from var(--muted) r g b / 0.48);
+  height: 235px;
+  overflow: hidden;
+}
+
+.cardMediaOverlay {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 45%, rgba(255, 255, 255, 0.16), transparent 62%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.06) 0%, rgba(0, 0, 0, 0.02) 55%, rgba(0, 0, 0, 0.06) 100%);
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+.cardImage {
+  object-fit: cover;
+  transform: scale(1.02);
+  transition: transform 520ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.card:hover .cardImage {
+  transform: scale(1.08);
+}
+
+.placeholderIcon {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.placeholderIcon svg {
+  width: 52px;
+  height: 52px;
+  padding: 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(from var(--border) r g b / 0.95);
+  background: rgba(from var(--background) r g b / 0.78);
+  color: rgba(from var(--muted-foreground) r g b / 0.7);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.10);
+}
+
+.cardChip {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  padding: 0.32rem 0.9rem;
+  border-radius: 999px;
+  background: rgba(from var(--accent) r g b / 0.95);
+  color: var(--accent-foreground);
+  font-weight: 850;
+  font-size: 0.78rem;
+  letter-spacing: 0.03em;
+  z-index: 2;
+}
+
+.cardBody {
+  padding: 1.55rem 1.55rem 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  flex: 1;
+}
+
+.cardTitle {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 900;
+  letter-spacing: -0.01em;
+  color: var(--foreground);
+}
+
+.cardText {
+  margin: 0;
+  color: var(--muted-foreground);
+  line-height: 1.7;
+}
+
+.cardFooter {
+  margin-top: auto;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.cardClient {
+  margin: 0;
+  color: rgba(from var(--muted-foreground) r g b / 0.95);
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.clientLabel {
+  color: rgba(from var(--foreground) r g b / 0.82);
+  font-weight: 800;
+}
+
+.readMoreButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid rgba(from var(--accent) r g b / 0.35);
+  background: rgba(from var(--accent) r g b / 0.1);
+  color: var(--foreground);
+  text-decoration: none;
+  font-weight: 850;
+  font-size: 0.9rem;
+  letter-spacing: -0.01em;
+  transition: transform 200ms ease, background 200ms ease, border-color 200ms ease;
+}
+
+.readMoreButton:hover {
+  transform: translate3d(0, -1px, 0);
+  background: rgba(from var(--accent) r g b / 0.16);
+  border-color: rgba(from var(--accent) r g b / 0.5);
+}
+
+.readMoreArrow {
+  font-size: 1rem;
+  line-height: 1;
+  transition: transform 200ms ease;
+}
+
+.readMoreButton:hover .readMoreArrow {
+  transform: translateX(3px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .backgroundGrid,
+  .backgroundOrb {
+    animation: none !important;
+  }
+}
+
+@media (max-width: 1050px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .content {
+    padding: 2.75rem 1rem 4rem;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cardMedia {
+    height: 210px;
+  }
+
+  .cardBody {
+    padding: 1.35rem;
+  }
+}
+
+/* RTL tweaks */
+:global([dir='rtl']) .cardChip {
+  left: auto;
+  right: 14px;
+}
+
+:global([dir='rtl']) .cardFooter {
+  flex-direction: row-reverse;
+}
+
+:global([dir='rtl']) .readMoreButton:hover .readMoreArrow {
+  transform: translateX(-3px);
+}

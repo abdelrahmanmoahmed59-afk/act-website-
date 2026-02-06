@@ -1,0 +1,500 @@
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 120px 2rem 2rem;
+  overflow: hidden;
+  margin-top: 60px;
+}
+
+.heroBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    var(--background) 0%,
+    var(--card) 50%,
+    var(--background) 100%
+  );
+  z-index: 0;
+}
+
+.gridSvg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  color: var(--accent);
+  opacity: 0.03;
+  animation: moveGrid 20s linear infinite;
+}
+
+@keyframes moveGrid {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(80px, 80px);
+  }
+}
+
+.animatedElements {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.element {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    var(--accent) 0%,
+    transparent 70%
+  );
+  opacity: 0.05;
+  animation: float 15s ease-in-out infinite;
+  animation-delay: var(--delay);
+}
+
+.element:nth-child(1) {
+  top: -100px;
+  left: -100px;
+}
+
+.element:nth-child(2) {
+  top: 30%;
+  right: -200px;
+}
+
+.element:nth-child(3) {
+  bottom: -150px;
+  left: 30%;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) scale(1);
+  }
+  50% {
+    transform: translateY(-30px) scale(1.05);
+  }
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.titleWrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.title {
+  font-size: 3.5rem;
+  font-weight: 800;
+  line-height: 1.2;
+  color: var(--primary);
+  margin: 0;
+  letter-spacing: -0.02em;
+  animation: slideInFromLeft 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  text-transform: uppercase;
+}
+
+@keyframes slideInFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.titleAccent {
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--accent), transparent);
+  width: 60%;
+  animation: expandWidth 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s both;
+}
+
+@keyframes expandWidth {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 60%;
+  }
+}
+
+.subtitle {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--accent);
+  margin: 0;
+  letter-spacing: 0.03em;
+  animation: slideInFromLeft 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.1s both;
+}
+
+.description {
+  font-size: 1.05rem;
+  color: var(--muted-foreground);
+  line-height: 1.8;
+  margin: 0;
+  max-width: 500px;
+  animation: slideInFromLeft 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s both;
+}
+
+.ctaButtons {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 1rem;
+  animation: slideInFromLeft 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.3s both;
+}
+
+.primaryButton,
+.secondaryButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 2rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  border: none;
+}
+
+.primaryButton {
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  color: var(--background);
+  box-shadow: 0 4px 15px rgba(from var(--accent) r g b / 0.3);
+}
+
+.primaryButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(from var(--accent) r g b / 0.4);
+}
+
+.primaryButton:active {
+  transform: translateY(0);
+}
+
+.secondaryButton {
+  background: transparent;
+  color: var(--primary);
+  border: 2px solid var(--primary);
+}
+
+.secondaryButton:hover {
+  background: var(--primary);
+  color: var(--background);
+  transform: translateY(-2px);
+}
+
+.secondaryButton:active {
+  transform: translateY(0);
+}
+
+.buttonArrow {
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.primaryButton:hover .buttonArrow {
+  transform: translateX(4px);
+}
+
+.visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1000px;
+}
+
+.visualContent {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.constructionSvg {
+  width: 100%;
+  height: 100%;
+  color: var(--accent);
+  filter: drop-shadow(0 10px 30px rgba(from var(--accent) r g b / 0.2));
+  animation: floatSvg 6s ease-in-out infinite;
+}
+
+@keyframes floatSvg {
+  0%, 100% {
+    transform: translateY(0px) rotateZ(0deg);
+  }
+  50% {
+    transform: translateY(-20px) rotateZ(2deg);
+  }
+}
+
+.craneArm {
+  animation: craneSwing 4s ease-in-out infinite;
+  transform-origin: 150px 86px;
+}
+
+@keyframes craneSwing {
+  0%, 100% {
+    transform: rotateZ(0deg);
+  }
+  50% {
+    transform: rotateZ(-15deg);
+  }
+}
+
+.craneHook {
+  animation: hookDrop 3s ease-in-out infinite;
+}
+
+@keyframes hookDrop {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(30px);
+  }
+}
+
+.buildingBlocks {
+  animation: blocksRise 4s ease-in-out infinite;
+}
+
+@keyframes blocksRise {
+  0% {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  25% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  75% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+}
+
+.blueprint {
+  animation: blueprintPulse 4s ease-in-out infinite;
+}
+
+@keyframes blueprintPulse {
+  0%, 100% {
+    opacity: 0.1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+.scrollIndicator {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: var(--muted-foreground);
+  animation: bounce 2s ease-in-out infinite;
+  cursor: pointer;
+}
+
+.scrollDot {
+  width: 8px;
+  height: 8px;
+  background: var(--accent);
+  border-radius: 50%;
+  animation: dotScroll 2s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    opacity: 1;
+  }
+  40% {
+    opacity: 0.5;
+  }
+  60% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes dotScroll {
+  0% {
+    transform: translateY(-10px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+}
+
+.scrollText {
+  width: 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--foreground);
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: rgba(from var(--background) r g b / 0.65);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+}
+
+.scrollIcon {
+  width: 18px;
+  height: 18px;
+  animation: arrowNudge 1.6s ease-in-out infinite;
+}
+
+@keyframes arrowNudge {
+  0% {
+    transform: translateY(-2px);
+    opacity: 0.7;
+  }
+  50% {
+    transform: translateY(4px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-2px);
+    opacity: 0.7;
+  }
+}
+
+@media (max-width: 1024px) {
+  .hero {
+    padding: 100px 2rem 2rem;
+  }
+
+  .container {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .title {
+    font-size: 2.5rem;
+  }
+
+  .subtitle {
+    font-size: 1.1rem;
+  }
+
+  .description {
+    font-size: 1rem;
+  }
+
+  .ctaButtons {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero {
+    padding: 80px 1rem 2rem;
+    min-height: auto;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+  }
+
+  .description {
+    font-size: 0.95rem;
+  }
+
+  .ctaButtons {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .primaryButton,
+  .secondaryButton {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .visualContent {
+    max-width: 250px;
+    margin-top: 2rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gridSvg,
+  .element,
+  .title,
+  .titleAccent,
+  .subtitle,
+  .description,
+  .ctaButtons,
+  .primaryButton,
+  .secondaryButton,
+  .constructionSvg,
+  .craneArm,
+  .craneHook,
+  .buildingBlocks,
+  .blueprint,
+  .scrollIndicator,
+  .scrollDot {
+    animation: none !important;
+  }
+
+  .scrollIcon {
+    animation: none !important;
+  }
+}

@@ -1,0 +1,191 @@
+.founder {
+  position: relative;
+  padding: 100px 20px;
+  background: linear-gradient(135deg, var(--card) 0%, var(--background) 100%);
+  overflow: hidden;
+}
+
+.bgPattern {
+  position: absolute;
+  top: -30%;
+  left: -30%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
+  opacity: 0.05;
+  border-radius: 50%;
+  animation: pulse 8s ease-in-out infinite;
+  z-index: 0;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.founderImage {
+  position: relative;
+  animation: slideInLeft 0.8s ease-out;
+}
+
+.founderImage svg {
+  width: 100%;
+  max-width: 400px;
+  color: var(--accent);
+  filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.1));
+}
+
+.founderInfo {
+  animation: slideInRight 0.8s ease-out;
+}
+
+.title {
+  font-size: 24px;
+  color: var(--accent);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+}
+
+.name {
+  font-size: 40px;
+  font-weight: 700;
+  color: var(--foreground);
+  margin-bottom: 8px;
+  line-height: 1.2;
+}
+
+.position {
+  font-size: 18px;
+  color: var(--primary);
+  font-weight: 600;
+  margin-bottom: 24px;
+}
+
+.bio {
+  font-size: 16px;
+  color: var(--muted-foreground);
+  line-height: 1.8;
+  margin-bottom: 40px;
+}
+
+.achievements {
+  background: var(--background);
+  padding: 30px;
+  border-radius: 12px;
+  border-left: 4px solid var(--accent);
+}
+
+.achievementsTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--foreground);
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.achievementsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.achievementItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  color: var(--muted-foreground);
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+.achievementItem:last-child {
+  margin-bottom: 0;
+}
+
+.checkmark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  width: 20px;
+  height: 20px;
+  background: var(--accent);
+  color: var(--foreground);
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.05;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.08;
+  }
+}
+
+@media (max-width: 768px) {
+  .founder {
+    padding: 60px 20px;
+  }
+
+  .content {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .name {
+    font-size: 28px;
+  }
+
+  .founderImage svg {
+    max-width: 300px;
+  }
+
+  .founderInfo {
+    animation: none;
+  }
+
+  .achievements {
+    padding: 20px;
+  }
+}

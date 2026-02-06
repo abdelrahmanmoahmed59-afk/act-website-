@@ -1,0 +1,17 @@
+[Unit]
+Description=ACT Next.js website
+After=network.target
+
+[Service]
+Type=simple
+User=act
+WorkingDirectory=/home/act/act-website
+Environment=NODE_ENV=production
+EnvironmentFile=/home/act/act-website/.env.local
+ExecStart=/usr/bin/npm run start -- -p 3000
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target
+

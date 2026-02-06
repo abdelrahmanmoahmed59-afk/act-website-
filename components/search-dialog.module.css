@@ -1,0 +1,228 @@
+.searchButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--foreground);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.searchButton:hover {
+  background: var(--accent);
+  color: var(--accent-foreground);
+  border-color: var(--accent);
+  transform: scale(1.05);
+}
+
+.searchButton:active {
+  transform: scale(0.95);
+}
+
+
+
+.dialogOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 2rem 1rem;
+  z-index: 2000;
+  animation: fadeIn 0.2s ease;
+  backdrop-filter: blur(2px);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.dialog {
+  background: var(--background);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  max-width: 500px;
+  margin-top: 100px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  animation: slideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.searchContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--card);
+  color: var(--muted-foreground);
+}
+
+.searchContainer:focus-within {
+  border-bottom-color: rgba(from var(--accent) r g b / 0.75);
+  box-shadow: 0 0 0 3px rgba(from var(--accent) r g b / 0.12);
+}
+
+.searchInput {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  color: var(--foreground);
+  font-family: inherit;
+}
+
+.searchInput::placeholder {
+  color: var(--muted-foreground);
+}
+
+.resultsContainer {
+  flex: 1;
+  overflow-y: auto;
+  max-height: 400px;
+}
+
+.results {
+  padding: 0.5rem;
+}
+
+.resultItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: none;
+  background: transparent;
+  color: var(--foreground);
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s ease;
+  border-radius: 8px;
+}
+
+.resultItem:hover {
+  background: var(--accent);
+  color: var(--accent-foreground);
+}
+
+.resultItem:focus-visible {
+  outline: 2px solid rgba(from var(--accent) r g b / 0.8);
+  outline-offset: 2px;
+}
+
+.resultContent {
+  flex: 1;
+  text-align: left;
+}
+
+.resultTitle {
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-bottom: 0.25rem;
+}
+
+.resultDescription {
+  font-size: 0.8rem;
+  opacity: 0.7;
+}
+
+.resultCategory {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.25rem 0.75rem;
+  background: var(--muted);
+  color: var(--muted-foreground);
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  flex-shrink: 0;
+  margin-left: 1rem;
+}
+
+.resultItem:hover .resultCategory {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.noResults,
+.placeholder {
+  padding: 2rem 1rem;
+  text-align: center;
+  color: var(--muted-foreground);
+  font-size: 0.9rem;
+}
+
+.hints {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  border-top: 1px solid var(--border);
+  background: var(--card);
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+}
+
+.hint {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.hint kbd {
+  padding: 0.25rem 0.5rem;
+  background: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 0.7rem;
+}
+
+@media (max-width: 640px) {
+  .dialog {
+    margin-top: 50px;
+    max-width: calc(100% - 2rem);
+  }
+
+  .resultCategory {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dialogOverlay,
+  .dialog,
+  .resultItem {
+    animation: none;
+  }
+}
