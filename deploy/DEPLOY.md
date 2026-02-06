@@ -33,6 +33,8 @@ npm ci
 npm run build
 ```
 
+Note: If `next build` fails with a `sharp` CPU/runtime error, make sure you pulled the latest repo and ran `npm ci` (the repo includes a `postinstall` step that removes `sharp` to avoid those failures on older VPS CPUs).
+
 ## 3) Configure environment + persistent data directory
 
 Create `/var/lib/act-website/data` to persist JSON/uploads across deployments:

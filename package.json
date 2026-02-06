@@ -9,6 +9,7 @@
     "dev:webpack": "next dev --webpack",
     "dev:clean:webpack": "node -e \"require('fs').rmSync('.next',{recursive:true,force:true});\" && next dev --webpack",
     "lint": "node ./node_modules/eslint/bin/eslint.js . --ext .js,.jsx,.ts,.tsx",
+    "postinstall": "node scripts/postinstall-remove-sharp.mjs",
     "start": "next start"
   },
   "dependencies": {
