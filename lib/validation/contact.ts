@@ -15,7 +15,17 @@ export const contactSettingsSchema = z.object({
   emailText: z.string().trim().min(3).max(320),
   phoneNum: z.string().trim().min(3).max(80),
   address: localizedTextSchema({ min: 1, max: 400 }),
-  mapSrc: z.string().trim().min(1).max(2000),
+  mapSrc: z.preprocess((value) => {
+    if (typeof value !== 'string') return value
+    const trimmed = value.trim()
+    if (!trimmed) return trimmed
+
+    // Allow pasting a full iframe snippet. We'll extract the src attribute.
+    const match = trimmed.match(/src\s*=\s*["']([^"']+)["']/i)
+    if (match?.[1]) return match[1].trim()
+
+    return trimmed
+  }, z.string().trim().min(1).max(8000)),
 })
 
 export const contactSubmissionSchema = z.object({

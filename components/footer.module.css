@@ -320,7 +320,7 @@
 }
 
 :global([dir='rtl']) .infoItem {
-  flex-direction: row-reverse;
+  flex-direction: row;
 }
 
 :global([dir='rtl']) .infoBody {
@@ -328,7 +328,7 @@
 }
 
 :global([dir='rtl']) .socialRow {
-  justify-content: flex-end;
+  justify-content: flex-start;
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -201,6 +201,8 @@ export default function AdminContactPage() {
     return { count }
   }, [submissions.length])
 
+  const errorStyle = (message?: string) => (message ? ({ borderColor: 'rgba(248,113,113,0.9)' } as const) : undefined)
+
   return (
     <div>
       <section className={ui.section}>
@@ -256,11 +258,37 @@ export default function AdminContactPage() {
           <div className={ui.gridTwo}>
             <div className={ui.field}>
               <label className={ui.label}>Email</label>
-              <input className={ui.input} value={settings.emailText} onChange={(e) => setSettings((p) => ({ ...p, emailText: e.target.value }))} />
+              <input
+                className={ui.input}
+                value={settings.emailText}
+                onChange={(e) => setSettings((p) => ({ ...p, emailText: e.target.value }))}
+                aria-invalid={fieldErrors.emailText ? 'true' : undefined}
+                style={errorStyle(fieldErrors.emailText)}
+                maxLength={320}
+                required
+              />
+              {fieldErrors.emailText && (
+                <p className={ui.hint} style={{ marginTop: 6, color: 'rgba(248,113,113,0.95)' }}>
+                  {fieldErrors.emailText}
+                </p>
+              )}
             </div>
             <div className={ui.field}>
               <label className={ui.label}>Phone</label>
-              <input className={ui.input} value={settings.phoneNum} onChange={(e) => setSettings((p) => ({ ...p, phoneNum: e.target.value }))} />
+              <input
+                className={ui.input}
+                value={settings.phoneNum}
+                onChange={(e) => setSettings((p) => ({ ...p, phoneNum: e.target.value }))}
+                aria-invalid={fieldErrors.phoneNum ? 'true' : undefined}
+                style={errorStyle(fieldErrors.phoneNum)}
+                maxLength={80}
+                required
+              />
+              {fieldErrors.phoneNum && (
+                <p className={ui.hint} style={{ marginTop: 6, color: 'rgba(248,113,113,0.95)' }}>
+                  {fieldErrors.phoneNum}
+                </p>
+              )}
             </div>
           </div>
 
@@ -275,8 +303,21 @@ export default function AdminContactPage() {
 
           <div className={ui.field}>
             <label className={ui.label}>Map iframe URL</label>
-            <input className={ui.input} value={settings.mapSrc} onChange={(e) => setSettings((p) => ({ ...p, mapSrc: e.target.value }))} />
-            <p className={ui.hint}>Use a Google Maps embed URL.</p>
+            <input
+              className={ui.input}
+              value={settings.mapSrc}
+              onChange={(e) => setSettings((p) => ({ ...p, mapSrc: e.target.value }))}
+              aria-invalid={fieldErrors.mapSrc ? 'true' : undefined}
+              style={errorStyle(fieldErrors.mapSrc)}
+              maxLength={8000}
+              required
+            />
+            {fieldErrors.mapSrc && (
+              <p className={ui.hint} style={{ marginTop: 6, color: 'rgba(248,113,113,0.95)' }}>
+                {fieldErrors.mapSrc}
+              </p>
+            )}
+            <p className={ui.hint}>Use a Google Maps embed URL (you can also paste the full &lt;iframe&gt; code).</p>
           </div>
         </div>
       </section>

@@ -10,10 +10,22 @@ import styles from './footer.module.css'
 type FooterLink = { label: string; href: string }
 type SocialLink = FooterLink & { icon: LucideIcon }
 
+type LocalizedText = { en: string; ar: string }
+
+type ContactSettings = {
+  title: LocalizedText
+  intro: LocalizedText
+  emailText: string
+  phoneNum: string
+  address: LocalizedText
+  mapSrc: string
+}
+
 function FooterContent() {
   const { language, t } = useLanguage()
   const isArabic = language === 'ar'
   const currentYear = new Date().getFullYear()
+  const [contactSettings, setContactSettings] = useState<ContactSettings | null>(null)
 
   const footerContent: Record<
     'en' | 'ar',
@@ -37,23 +49,20 @@ function FooterContent() {
         { label: 'Overview', href: '/overview' },
         { label: 'About Us', href: '/about' },
         { label: 'Services', href: '/services' },
-        { label: 'News', href: '/news' },
         { label: 'Careers', href: '/careers' },
         { label: 'Projects', href: '/projects' },
         { label: 'Clients', href: '/clients' },
-        { label: 'Blog', href: '/blog' },
-        { label: 'Media', href: '/media' },
       ],
       office: {
         addressText: 'Shuwaikh, Kuwait',
-        emailText: 'info@actgroup.com.kw',
-        phoneNum: '+965 2246 8899',
+        emailText: 'info@act-kw.com',
+        phoneNum: '+965 9558 8251',
       },
       contact: [
         { label: 'Get Quotation', href: '/get-quotation' },
         { label: 'Contact Page', href: '/contact' },
-        { label: 'Email Us', href: 'mailto:info@actgroup.com.kw' },
-        { label: 'Call Us', href: 'tel:+96522468899' },
+        { label: 'Email Us', href: 'mailto:info@act-kw.com' },
+        { label: 'Call Us', href: 'tel:+96595588251' },
       ],
       social: [
         { label: 'LinkedIn', href: '#', icon: Linkedin },
@@ -73,23 +82,20 @@ function FooterContent() {
         { label: 'نظرة عامة', href: '/overview' },
         { label: 'من نحن', href: '/about' },
         { label: 'الخدمات', href: '/services' },
-        { label: 'الأخبار', href: '/news' },
         { label: 'الوظائف', href: '/careers' },
         { label: 'المشاريع', href: '/projects' },
         { label: 'العملاء', href: '/clients' },
-        { label: 'المدونة', href: '/blog' },
-        { label: 'الميديا', href: '/media' },
       ],
       office: {
         addressText: 'الشويخ، الكويت',
-        emailText: 'info@actgroup.com.kw',
-        phoneNum: '+965 2246 8899',
+        emailText: 'info@act-kw.com',
+        phoneNum: '+965 9558 8251',
       },
       contact: [
         { label: 'احصل على عرض سعر', href: '/get-quotation' },
         { label: 'صفحة التواصل', href: '/contact' },
-        { label: 'أرسل بريدًا', href: 'mailto:info@actgroup.com.kw' },
-        { label: 'اتصل بنا', href: 'tel:+96522468899' },
+        { label: 'أرسل بريدًا', href: 'mailto:info@act-kw.com' },
+        { label: 'اتصل بنا', href: 'tel:+96595588251' },
       ],
       social: [
         { label: 'LinkedIn', href: '#', icon: Linkedin },
@@ -102,24 +108,53 @@ function FooterContent() {
 
   const data = footerContent[language]
 
+  useEffect(() => {
+    let cancelled = false
+    fetch('/api/contact/settings', { cache: 'no-store' })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((json) => {
+        if (cancelled) return
+        const settings = (json as any)?.settings
+        if (settings && typeof settings === 'object') setContactSettings(settings as ContactSettings)
+      })
+      .catch(() => {})
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
+  const addressText = contactSettings?.address?.[language] || data.office.addressText
+  const emailText = contactSettings?.emailText || data.office.emailText
+  const phoneNum = contactSettings?.phoneNum || data.office.phoneNum
+  const mapHref = `https://www.google.com/maps?q=${encodeURIComponent(addressText)}`
+
+  const contactLinks: FooterLink[] = data.contact.map((link) => {
+    if (link.href.startsWith('mailto:')) return { ...link, href: `mailto:${emailText}` }
+    if (link.href.startsWith('tel:')) return { ...link, href: `tel:${phoneNum.replace(/\s+/g, '')}` }
+    return link
+  })
+
   const officeItems = [
     {
       icon: MapPin,
       label: isArabic ? 'العنوان' : 'Address',
-      value: data.office.addressText,
-      href: 'https://www.google.com/maps?q=Shuwaikh%2C%20Kuwait',
+      value: addressText,
+      href: mapHref,
+      dir: isArabic ? 'rtl' : 'ltr',
     },
     {
       icon: Mail,
       label: isArabic ? 'البريد الإلكتروني' : 'Email',
-      value: data.office.emailText,
-      href: `mailto:${data.office.emailText}`,
+      value: emailText,
+      href: `mailto:${emailText}`,
+      dir: 'ltr',
     },
     {
       icon: Phone,
       label: isArabic ? 'الهاتف' : 'Phone',
-      value: data.office.phoneNum,
-      href: `tel:${data.office.phoneNum.replace(/\s+/g, '')}`,
+      value: phoneNum,
+      href: `tel:${phoneNum.replace(/\s+/g, '')}`,
+      dir: 'ltr',
     },
   ] as const
 
@@ -190,6 +225,7 @@ function FooterContent() {
                       <a
                         className={styles.infoLink}
                         href={item.href}
+                        dir={item.dir}
                         target={item.href.startsWith('http') ? '_blank' : undefined}
                         rel={item.href.startsWith('http') ? 'noreferrer' : undefined}
                       >
@@ -205,7 +241,7 @@ function FooterContent() {
           <div className={styles.linkColumn}>
             <h4 className={styles.columnTitle}>{data.headings.contact}</h4>
             <ul className={styles.linkList}>
-              {data.contact.map((link) => (
+              {contactLinks.map((link) => (
                 <li key={`${link.label}-${link.href}`}>
                   {link.href.startsWith('/') ? (
                     <Link href={link.href} className={styles.link}>

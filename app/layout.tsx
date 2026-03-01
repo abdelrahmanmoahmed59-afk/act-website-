@@ -1,6 +1,6 @@
 import React from "react"
 import type { Metadata } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
+import { Cairo, Geist, Geist_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 import { ThemeProvider } from '@/providers/theme-provider'
@@ -9,8 +9,9 @@ import LoadingScreen from '@/components/loading-screen'
 import ScrollReveal from '@/components/scroll-reveal'
 import ScrollToTop from '@/components/scroll-to-top'
 
-const _geist = Geist({ subsets: ["latin"] });
-const _geistMono = Geist_Mono({ subsets: ["latin"] });
+const geistSans = Geist({ subsets: ["latin"], variable: '--font-geist-sans' })
+const geistMono = Geist_Mono({ subsets: ["latin"], variable: '--font-geist-mono' })
+const cairo = Cairo({ subsets: ["arabic"], variable: '--font-cairo' })
 
 export const metadata: Metadata = {
   title: {
@@ -64,7 +65,12 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" dir="ltr" suppressHydrationWarning>
+    <html
+      lang="en"
+      dir="ltr"
+      suppressHydrationWarning
+      className={`${geistSans.variable} ${geistMono.variable} ${cairo.variable}`}
+    >
       <head>
         <script
           dangerouslySetInnerHTML={{
@@ -84,7 +90,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="font-sans antialiased">
+      <body className="font-sans antialiased" suppressHydrationWarning>
         <a href="#main-content" className="skip-link">
           Skip to content
         </a>

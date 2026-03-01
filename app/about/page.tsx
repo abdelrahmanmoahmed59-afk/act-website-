@@ -1,13 +1,9 @@
 'use client'
 
 import React, { useEffect, useState } from "react"
-import Image from 'next/image'
 import {
   Award,
-  Briefcase,
-  ClipboardCheck,
   Eye,
-  FileText,
   Handshake,
   Lightbulb,
   ShieldCheck,
@@ -25,7 +21,6 @@ function AboutContent() {
   const { language } = useLanguage()
 
   const valueIcons = [Award, Lightbulb, Handshake, ShieldCheck] as const
-  const leaderIcons = [Briefcase, ClipboardCheck, FileText, ShieldCheck] as const
 
   const content = {
     en: {
@@ -198,55 +193,6 @@ function AboutContent() {
                 <h2 className={styles.sectionTitle}>{data.vision}</h2>
               </div>
               <p className={styles.sectionText}>{data.visionDesc}</p>
-            </div>
-          </div>
-        </section>
-
-        <section className={styles.leadership}>
-          <div className={styles.container}>
-            <div className={styles.leadershipHeader}>
-              <h2 className={styles.sectionTitle}>
-                <span className={styles.titleIcon} aria-hidden="true" data-reveal-skip>
-                  <Users className={styles.titleIconSvg} data-reveal-skip />
-                </span>
-                <span className={styles.titleText}>{data.leadershipTitle}</span>
-              </h2>
-              <p className={styles.leadershipIntro}>{data.leadershipIntro}</p>
-            </div>
-            <div className={styles.leadershipGrid}>
-              {data.leadership.map(
-                (
-                  member: { name: string; image: string; role: string; summary: string },
-                  index: number
-                ) => {
-                const Icon = leaderIcons[index % leaderIcons.length]
-                return (
-                  <article
-                    key={member.name}
-                    className={styles.leaderCard}
-                    style={{ '--leader-index': index } as React.CSSProperties}
-                  >
-                    <div className={styles.leaderImageWrap}>
-                      <span className={styles.leaderIconBadge} aria-hidden="true" data-reveal-skip>
-                        <Icon className={styles.leaderIconSvg} data-reveal-skip />
-                      </span>
-                      <Image
-                        src={member.image}
-                        alt={member.name}
-                        fill
-                        sizes="(max-width: 768px) 100vw, (max-width: 1100px) 50vw, 25vw"
-                        className={styles.leaderImage}
-                      />
-                    </div>
-                    <div className={styles.leaderBody}>
-                      <h3 className={styles.leaderName}>{member.name}</h3>
-                      <p className={styles.leaderRole}>{member.role}</p>
-                      <p className={styles.leaderSummary}>{member.summary}</p>
-                    </div>
-                  </article>
-                )
-                }
-              )}
             </div>
           </div>
         </section>

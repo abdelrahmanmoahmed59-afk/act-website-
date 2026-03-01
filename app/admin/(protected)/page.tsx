@@ -13,10 +13,7 @@ export default function AdminHomePage() {
           </div>
         <div className={ui.card}>
           <div className={ui.toolbar} aria-label="Quick actions">
-            <Link className={`${ui.button} ${ui.buttonPrimary}`} href="/admin/news">
-              Manage News
-            </Link>
-            <Link className={ui.button} href="/admin/pages">
+            <Link className={`${ui.button} ${ui.buttonPrimary}`} href="/admin/pages">
               Manage Pages
             </Link>
             <Link className={ui.button} href="/admin/clients">
@@ -24,12 +21,6 @@ export default function AdminHomePage() {
             </Link>
             <Link className={ui.button} href="/admin/projects">
               Manage Projects
-            </Link>
-            <Link className={ui.button} href="/admin/blog">
-              Manage Blog
-            </Link>
-            <Link className={ui.button} href="/admin/media">
-              Manage Media
             </Link>
             <Link className={ui.button} href="/admin/careers">
               Manage Careers

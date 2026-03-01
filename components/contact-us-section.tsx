@@ -22,8 +22,8 @@ function ContactUsContent() {
       },
       contactInfo: [
         { icon: "📍", title: "Address", value: "Shuwaikh, Kuwait" },
-        { icon: "📞", title: "Phone", value: "+965 2246 8899" },
-        { icon: "✉️", title: "Email", value: "info@actgroup.com.kw" }
+        { icon: "📞", title: "Phone", value: "+965 9558 8251" },
+        { icon: "✉️", title: "Email", value: "info@act-kw.com" }
       ]
     },
     ar: {
@@ -39,8 +39,8 @@ function ContactUsContent() {
       },
       contactInfo: [
         { icon: "📍", title: "العنوان", value: "الشويخ، الكويت" },
-        { icon: "📞", title: "الهاتف", value: "+965 2246 8899" },
-        { icon: "✉️", title: "البريد الإلكتروني", value: "info@actgroup.com.kw" }
+        { icon: "📞", title: "الهاتف", value: "+965 9558 8251" },
+        { icon: "✉️", title: "البريد الإلكتروني", value: "info@act-kw.com" }
       ]
     }
   }

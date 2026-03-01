@@ -6,8 +6,17 @@ import { getClientIp, rateLimit } from '@/lib/server/rate-limit'
 
 export const runtime = 'nodejs'
 
-const MAX_BYTES = 5 * 1024 * 1024
+const MAX_BYTES = 15 * 1024 * 1024
 const ALLOWED_IMAGE_TYPES = new Set(['image/webp', 'image/png', 'image/jpeg', 'image/avif'])
+
+function storageErrorMessage(error: unknown) {
+  const code = typeof error === 'object' && error ? (error as any).code : undefined
+  if (code === 'EROFS') return 'Upload storage is read-only on this server.'
+  if (code === 'EACCES' || code === 'EPERM') return 'Upload storage is not writable (permission denied).'
+  if (code === 'ENOSPC') return 'Upload storage is full (no space left).'
+  return null
+}
+
 export async function POST(req: Request) {
   const admin = await requireAdmin()
   if (!admin) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
@@ -39,16 +48,30 @@ export async function POST(req: Request) {
   }
 
   if (file.size <= 0 || file.size > MAX_BYTES) {
-    return NextResponse.json({ error: `File must be <= ${MAX_BYTES} bytes` }, { status: 400 })
+    const maxMb = Math.round(MAX_BYTES / (1024 * 1024))
+    return NextResponse.json({ error: `File too large. Max ${maxMb}MB.` }, { status: 400 })
   }
 
   const bytes = new Uint8Array(await file.arrayBuffer())
 
-  const created = await createUpload({
-    bytes,
-    contentType: file.type,
-    originalName: file.name || '',
-  })
+  try {
+    const created = await createUpload({
+      bytes,
+      contentType: file.type,
+      originalName: file.name || '',
+    })
 
-  return NextResponse.json({ id: created.id, url: getUploadUrl(created.id) }, { status: 201 })
+    return NextResponse.json({ id: created.id, url: getUploadUrl(created.id) }, { status: 201 })
+  } catch (error) {
+    console.error('POST /api/admin/uploads failed:', error)
+    const storageMessage = storageErrorMessage(error)
+    const details = error instanceof Error ? error.message : String(error)
+    const base =
+      storageMessage ??
+      'Upload failed. This deployment may not have writable persistent storage. Set `ACT_DATA_DIR` to a writable directory and restart the server.'
+    return NextResponse.json(
+      process.env.NODE_ENV === 'production' ? { error: base } : { error: base, details },
+      { status: 503 }
+    )
+  }
 }

@@ -119,6 +119,10 @@ export function localizeSettings(settings: ProjectsSettingsI18n, lang: Language)
 }
 
 export function localizeProject(project: ProjectI18n, lang: Language): LocalizedProject {
+  const images =
+    Array.isArray(project.images) && project.images.length
+      ? project.images
+      : galleryIdsToUrls(normalizeGalleryIds(project.galleryUploadIds))
   return {
     id: project.id,
     slug: project.slug,
@@ -136,7 +140,7 @@ export function localizeProject(project: ProjectI18n, lang: Language): Localized
     summary: project.summary[lang],
     details: project.details[lang],
     methodology: project.methodology[lang] ?? [],
-    images: project.images ?? galleryIdsToUrls(normalizeGalleryIds(project.galleryUploadIds)),
+    images,
   }
 }
 
@@ -162,7 +166,11 @@ export async function listProjects(opts?: { publishedOnly?: boolean; menuOnly?: 
   const items = sortProjects(store.projects ?? [])
     .filter((p) => (publishedOnly ? p.published : true))
     .filter((p) => (menuOnly ? p.showInMenu : true))
-    .map((p) => ({ ...p, images: p.images ?? galleryIdsToUrls(normalizeGalleryIds(p.galleryUploadIds)) }))
+    .map((p) => ({
+      ...p,
+      images:
+        Array.isArray(p.images) && p.images.length ? p.images : galleryIdsToUrls(normalizeGalleryIds(p.galleryUploadIds)),
+    }))
   return typeof limit === 'number' ? items.slice(0, limit) : items
 }
 
@@ -174,14 +182,26 @@ export async function getProjectBySlug(slug: string, opts?: { publishedOnly?: bo
   const project = store.projects.find((p) => p.slug === wanted) ?? null
   if (!project) return null
   if (publishedOnly && !project.published) return null
-  return { ...project, images: project.images ?? galleryIdsToUrls(normalizeGalleryIds(project.galleryUploadIds)) }
+  return {
+    ...project,
+    images:
+      Array.isArray(project.images) && project.images.length
+        ? project.images
+        : galleryIdsToUrls(normalizeGalleryIds(project.galleryUploadIds)),
+  }
 }
 
 export async function getProjectById(id: number): Promise<ProjectI18n | null> {
   const store = await readStore()
   const project = store.projects.find((p) => p.id === id) ?? null
   if (!project) return null
-  return { ...project, images: project.images ?? galleryIdsToUrls(normalizeGalleryIds(project.galleryUploadIds)) }
+  return {
+    ...project,
+    images:
+      Array.isArray(project.images) && project.images.length
+        ? project.images
+        : galleryIdsToUrls(normalizeGalleryIds(project.galleryUploadIds)),
+  }
 }
 
 export async function createProject(input: ProjectInput): Promise<ProjectI18n> {

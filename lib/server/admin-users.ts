@@ -36,6 +36,11 @@ export async function countAdminUsers() {
   return store.users.length
 }
 
+export async function listAdminUsers(): Promise<AdminUser[]> {
+  const store = await readStore()
+  return [...store.users].sort((a, b) => a.id - b.id)
+}
+
 export async function getAdminUserById(id: number): Promise<AdminUser | null> {
   const store = await readStore()
   return store.users.find((u) => u.id === id) ?? null

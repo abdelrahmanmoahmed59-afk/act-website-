@@ -46,18 +46,6 @@ const searchData: Record<string, SearchResult[]> = {
       category: 'Navigation',
     },
     {
-      title: 'Blog',
-      description: 'Insights from ACT project teams',
-      href: '/blog',
-      category: 'Navigation',
-    },
-    {
-      title: 'Media',
-      description: 'Press highlights and project visuals',
-      href: '/media',
-      category: 'Navigation',
-    },
-    {
       title: 'Get Quotation',
       description: 'Request a quotation for your project',
       href: '/get-quotation',
@@ -91,12 +79,6 @@ const searchData: Record<string, SearchResult[]> = {
       title: 'Overview',
       description: 'Contracting capabilities and delivery approach',
       href: '/overview',
-      category: 'Navigation',
-    },
-    {
-      title: 'News',
-      description: 'Updates and project milestones',
-      href: '/news',
       category: 'Navigation',
     },
     {
@@ -144,27 +126,9 @@ const searchData: Record<string, SearchResult[]> = {
       category: 'التنقل',
     },
     {
-      title: 'المدونة',
-      description: 'رؤى من فرق المشاريع لدى ACT',
-      href: '/blog',
-      category: 'التنقل',
-    },
-    {
-      title: 'الميديا',
-      description: 'أبرز المواد الإعلامية وصور المشاريع',
-      href: '/media',
-      category: 'التنقل',
-    },
-    {
       title: 'احصل على عرض سعر',
       description: 'اطلب عرض سعر لمشروعك',
       href: '/get-quotation',
-      category: 'التنقل',
-    },
-    {
-      title: 'الأخبار',
-      description: 'تحديثات ومراحل إنجاز المشاريع',
-      href: '/news',
       category: 'التنقل',
     },
     {

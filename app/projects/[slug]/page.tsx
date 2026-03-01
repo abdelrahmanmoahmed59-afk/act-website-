@@ -40,7 +40,6 @@ function getMediaFit(src: string) {
 function ProjectDetailsContent({ slug }: { slug: string }) {
   const { language } = useLanguage()
   const isArabic = language === 'ar'
-  const [galleryAspects, setGalleryAspects] = useState<Record<string, string>>({})
   const [project, setProject] = useState<LocalizedProject | null>(null)
   const [loaded, setLoaded] = useState(false)
 
@@ -220,7 +219,7 @@ function ProjectDetailsContent({ slug }: { slug: string }) {
 
   if (!loaded) {
     return (
-      <main className={styles.page}>
+      <main className={styles.page} dir={isArabic ? 'rtl' : 'ltr'} lang={language}>
         <Header />
         <section id="main-content" tabIndex={-1} className={styles.content}>
           <div className={styles.container}>
@@ -234,7 +233,7 @@ function ProjectDetailsContent({ slug }: { slug: string }) {
 
   if (!project) {
     return (
-      <main className={styles.page}>
+      <main className={styles.page} dir={isArabic ? 'rtl' : 'ltr'} lang={language}>
         <Header />
         <section id="main-content" tabIndex={-1} className={styles.content}>
           <div className={styles.background} aria-hidden="true" data-reveal-skip>
@@ -276,7 +275,7 @@ function ProjectDetailsContent({ slug }: { slug: string }) {
   const heroFit = getMediaFit(heroSrc)
 
   return (
-    <main className={styles.page}>
+    <main className={styles.page} dir={isArabic ? 'rtl' : 'ltr'} lang={language}>
       <Header />
 
       <section id="main-content" tabIndex={-1} className={styles.content}>
@@ -369,18 +368,11 @@ function ProjectDetailsContent({ slug }: { slug: string }) {
             <div className={styles.galleryGrid} role="list">
               {project.images.map((src, index) => {
                 const fit = getMediaFit(src)
-                const itemKey = `${src}-${index}`
-                const aspect = galleryAspects[itemKey]
                 return (
                   <div key={`${src}-${index}`} className={styles.galleryItem} role="listitem">
                     <div
                       className={styles.galleryMedia}
                       data-fit={fit}
-                      style={
-                        aspect
-                          ? ({ '--gallery-aspect': aspect } as React.CSSProperties)
-                          : undefined
-                      }
                     >
                       <Image
                         src={src}
@@ -392,17 +384,6 @@ function ProjectDetailsContent({ slug }: { slug: string }) {
                         fill
                         sizes="(max-width: 640px) 100vw, (max-width: 1100px) 50vw, 33vw"
                         className={styles.galleryImage}
-                        onLoadingComplete={(imageElement) => {
-                          const width = imageElement.naturalWidth
-                          const height = imageElement.naturalHeight
-                          if (!width || !height) return
-
-                          const ratio = (width / height).toFixed(4)
-                          setGalleryAspects((prev) => {
-                            if (prev[itemKey] === ratio) return prev
-                            return { ...prev, [itemKey]: ratio }
-                          })
-                        }}
                       />
                       <div className={styles.galleryOverlay} aria-hidden="true" data-reveal-skip />
                     </div>

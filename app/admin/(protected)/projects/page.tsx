@@ -155,6 +155,57 @@ function LocalizedField({
   )
 }
 
+function GalleryPreview({
+  ids,
+  onMove,
+  onRemove,
+}: {
+  ids: number[]
+  onMove: (index: number, direction: -1 | 1) => void
+  onRemove: (id: number) => void
+}) {
+  if (!ids.length) return null
+  return (
+    <div className={ui.thumbGrid} aria-label="Gallery preview">
+      {ids.map((id, index) => (
+        <div key={`${id}-${index}`} className={ui.thumbItem}>
+          <div className={ui.thumbImageWrap}>
+            <img className={ui.thumbImage} src={`/api/uploads/${id}`} alt="" loading="lazy" />
+          </div>
+          <div className={ui.thumbBar}>
+            <span className={ui.thumbMeta}>#{id}</span>
+            <div className={ui.thumbButtons}>
+              <button
+                type="button"
+                className={`${ui.thumbButton} ${ui.thumbButtonMuted}`}
+                onClick={() => onMove(index, -1)}
+                disabled={index === 0}
+                aria-disabled={index === 0 ? 'true' : undefined}
+                title="Move left"
+              >
+                ‹
+              </button>
+              <button
+                type="button"
+                className={`${ui.thumbButton} ${ui.thumbButtonMuted}`}
+                onClick={() => onMove(index, 1)}
+                disabled={index === ids.length - 1}
+                aria-disabled={index === ids.length - 1 ? 'true' : undefined}
+                title="Move right"
+              >
+                ›
+              </button>
+              <button type="button" className={`${ui.thumbButton} ${ui.thumbButtonDanger}`} onClick={() => onRemove(id)} title="Remove">
+                ×
+              </button>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  )
+}
+
 function textAreaList(value: string[]) {
   return value.join('\n')
 }
@@ -179,6 +230,27 @@ function slugifyClient(input: string) {
     .replace(/--+/g, '-')
 
   return slug
+}
+
+const MAX_GALLERY_IMAGES = 30
+
+function mergeUniqueNumbers(existing: number[], added: number[]) {
+  const next: number[] = []
+  const seen = new Set<number>()
+  for (const value of [...existing, ...added]) {
+    if (typeof value !== 'number' || !Number.isFinite(value)) continue
+    if (seen.has(value)) continue
+    seen.add(value)
+    next.push(value)
+  }
+  return next
+}
+
+function moveInArray<T>(items: T[], from: number, to: number) {
+  const next = items.slice()
+  const [item] = next.splice(from, 1)
+  next.splice(to, 0, item)
+  return next
 }
 
 function newEmptyProject(): Project {
@@ -216,10 +288,13 @@ export default function AdminProjectsPage() {
 
   const [settingsErrors, setSettingsErrors] = useState<Record<string, string>>({})
   const [projectErrors, setProjectErrors] = useState<Record<number, Record<string, string>>>({})
+  const [newProjectErrors, setNewProjectErrors] = useState<Record<string, string>>({})
 
   const [savingSettings, setSavingSettings] = useState(false)
   const [savingId, setSavingId] = useState<number | null>(null)
   const [deletingId, setDeletingId] = useState<number | null>(null)
+  const [uploadingId, setUploadingId] = useState<number | null>(null)
+  const [uploadingNew, setUploadingNew] = useState(false)
 
   const [newProject, setNewProject] = useState<Project>(() => newEmptyProject())
 
@@ -238,12 +313,41 @@ export default function AdminProjectsPage() {
     return (await res.json()) as { id: number; url: string }
   }
 
+  const uploadFiles = async (files: File[]) => {
+    const results = await Promise.allSettled(
+      files.map(async (file) => {
+        try {
+          return await uploadFile(file)
+        } catch (error) {
+          const message = error instanceof Error ? error.message : String(error)
+          const name = file?.name?.trim() ? file.name.trim() : 'file'
+          throw new Error(`${name}: ${message}`)
+        }
+      })
+    )
+
+    const ids: number[] = []
+    const errors: string[] = []
+
+    for (const result of results) {
+      if (result.status === 'fulfilled') {
+        if (result.value) ids.push(result.value.id)
+        continue
+      }
+
+      errors.push(result.reason instanceof Error ? result.reason.message : String(result.reason))
+    }
+
+    return { ids, errors }
+  }
+
   const loadAll = useCallback(async () => {
     setLoading(true)
     setError(null)
     setSuccess(null)
     setSettingsErrors({})
     setProjectErrors({})
+    setNewProjectErrors({})
     try {
       const [sRes, pRes] = await Promise.all([
         fetch('/api/admin/projects/settings', { cache: 'no-store' }),
@@ -336,23 +440,26 @@ export default function AdminProjectsPage() {
 
   const validateProject = (project: Project) => {
     const parsed = projectInputSchema.safeParse(project)
-    if (!parsed.success) return { ok: false as const, issues: issuesToFieldErrors(parsed.error.issues) }
+    if (!parsed.success) {
+      return {
+        ok: false as const,
+        issues: issuesToFieldErrors(parsed.error.issues),
+        formatted: formatIssues(parsed.error.issues),
+      }
+    }
     return { ok: true as const, data: parsed.data }
   }
 
-  const saveProject = async (id: number) => {
+  const persistProject = async (id: number, project: Project, opts?: { successMessage?: string }) => {
     if (savingId) return
     setSavingId(id)
     setError(null)
     setSuccess(null)
     try {
-      const project = projects.find((p) => p.id === id)
-      if (!project) return
-
       const validated = validateProject(project)
       if (!validated.ok) {
         setProjectErrors((prev) => ({ ...prev, [id]: validated.issues }))
-        setError('Please fix the highlighted fields.')
+        setError(validated.formatted ? `Please fix the highlighted fields.\n${validated.formatted}` : 'Please fix the highlighted fields.')
         return
       }
 
@@ -373,13 +480,19 @@ export default function AdminProjectsPage() {
         )
         return
       }
-      setSuccess('Project saved.')
+      setSuccess(opts?.successMessage ?? 'Project saved.')
       await loadAll()
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Failed to save project.')
     } finally {
       setSavingId(null)
     }
+  }
+
+  const saveProject = async (id: number) => {
+    const project = projects.find((p) => p.id === id)
+    if (!project) return
+    await persistProject(id, project)
   }
 
   const deleteProject = async (id: number) => {
@@ -408,9 +521,11 @@ export default function AdminProjectsPage() {
   const addNewProject = async () => {
     setError(null)
     setSuccess(null)
+    setNewProjectErrors({})
     const validated = validateProject(newProject)
     if (!validated.ok) {
-      setError('Please fix the new project fields.')
+      setNewProjectErrors(validated.issues)
+      setError(validated.formatted ? `Please fix the highlighted fields.\n${validated.formatted}` : 'Please fix the highlighted fields.')
       return
     }
 
@@ -433,6 +548,7 @@ export default function AdminProjectsPage() {
         return
       }
       setNewProject(newEmptyProject())
+      setNewProjectErrors({})
       setSuccess('Project added.')
       await loadAll()
     } catch (e) {
@@ -440,33 +556,91 @@ export default function AdminProjectsPage() {
     }
   }
 
-  const uploadGallery = async (projectId: number, files: FileList | null) => {
-    if (!files || files.length === 0) return
+  const uploadGallery = async (projectId: number, files: File[]) => {
+    if (!files.length) return
     setError(null)
     setSuccess(null)
+
+    const project = projects.find((p) => p.id === projectId)
+    const existingCount = project?.galleryUploadIds?.length ?? 0
+    const remaining = Math.max(0, MAX_GALLERY_IMAGES - existingCount)
+    if (remaining === 0) {
+      setError(`Max ${MAX_GALLERY_IMAGES} images per project. Remove an image to upload more.`)
+      return
+    }
+
+    const picked = files
+    const toUpload = picked.slice(0, remaining)
+    const skipped = picked.length - toUpload.length
+    if (skipped > 0) {
+      setError(`Only ${remaining} more image(s) allowed (max ${MAX_GALLERY_IMAGES}). Skipping ${skipped}.`)
+    }
+
     try {
-      const uploads = await Promise.all(Array.from(files).map((file) => uploadFile(file)))
-      const ids = uploads.filter(Boolean).map((u) => (u as any).id as number)
-      setProjects((prev) =>
-        prev.map((p) => (p.id === projectId ? { ...p, galleryUploadIds: [...(p.galleryUploadIds ?? []), ...ids] } : p))
-      )
-      setSuccess('Images uploaded (pending save).')
+      setUploadingId(projectId)
+      const { ids, errors } = await uploadFiles(toUpload)
+      if (ids.length) {
+        setProjects((prev) =>
+          prev.map((p) =>
+            p.id === projectId
+              ? { ...p, galleryUploadIds: mergeUniqueNumbers(p.galleryUploadIds ?? [], ids).slice(0, MAX_GALLERY_IMAGES) }
+              : p
+          )
+        )
+        setSuccess(`Uploaded ${ids.length} image(s). Click Save to publish.`)
+      }
+      if (errors.length) {
+        const prefix = ids.length ? 'Some uploads failed:' : 'Upload failed:'
+        setError(`${prefix}\n${errors.map((message) => `- ${message}`).join('\n')}`)
+      } else if (!ids.length) {
+        setError('Upload failed.')
+      }
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Upload failed.')
+    } finally {
+      setUploadingId((prev) => (prev === projectId ? null : prev))
     }
   }
 
-  const uploadNewGallery = async (files: FileList | null) => {
-    if (!files || files.length === 0) return
+  const uploadNewGallery = async (files: File[]) => {
+    if (!files.length) return
     setError(null)
     setSuccess(null)
+
+    const existingCount = newProject.galleryUploadIds?.length ?? 0
+    const remaining = Math.max(0, MAX_GALLERY_IMAGES - existingCount)
+    if (remaining === 0) {
+      setError(`Max ${MAX_GALLERY_IMAGES} images per project. Remove an image to upload more.`)
+      return
+    }
+
+    const picked = files
+    const toUpload = picked.slice(0, remaining)
+    const skipped = picked.length - toUpload.length
+    if (skipped > 0) {
+      setError(`Only ${remaining} more image(s) allowed (max ${MAX_GALLERY_IMAGES}). Skipping ${skipped}.`)
+    }
+
     try {
-      const uploads = await Promise.all(Array.from(files).map((file) => uploadFile(file)))
-      const ids = uploads.filter(Boolean).map((u) => (u as any).id as number)
-      setNewProject((prev) => ({ ...prev, galleryUploadIds: [...(prev.galleryUploadIds ?? []), ...ids] }))
-      setSuccess('Images uploaded (pending add).')
+      setUploadingNew(true)
+      const { ids, errors } = await uploadFiles(toUpload)
+      if (ids.length) {
+        setNewProject((prev) => ({
+          ...prev,
+          galleryUploadIds: mergeUniqueNumbers(prev.galleryUploadIds ?? [], ids).slice(0, MAX_GALLERY_IMAGES),
+        }))
+        setSuccess(`Uploaded ${ids.length} image(s).`)
+      }
+      if (errors.length) {
+        const prefix = ids.length ? 'Some uploads failed:' : 'Upload failed:'
+        setError(`${prefix}\n${errors.map((message) => `- ${message}`).join('\n')}`)
+      } else if (!ids.length) {
+        setError('Upload failed.')
+      }
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Upload failed.')
+    } finally {
+      setUploadingNew(false)
     }
   }
 
@@ -531,7 +705,9 @@ export default function AdminProjectsPage() {
         <div className={ui.sectionTitleRow}>
           <div>
             <h2 className={ui.sectionTitle}>Projects list</h2>
-            <p className={ui.sectionHint}>Upload images as files (stored locally). Save each project to publish changes.</p>
+            <p className={ui.sectionHint}>
+              Upload images as files (stored locally). Max {MAX_GALLERY_IMAGES} images per project (PNG/JPEG/WebP/AVIF, up to 15MB each). Save each project to publish changes.
+            </p>
           </div>
           <div className={ui.toolbar}>
             <button type="button" className={`${ui.button} ${ui.buttonMuted}`} onClick={loadAll} aria-disabled={loading ? 'true' : 'false'}>
@@ -556,21 +732,52 @@ export default function AdminProjectsPage() {
                 value={newProject.slug}
                 onChange={(e) => setNewProject((p) => ({ ...p, slug: e.target.value }))}
                 placeholder="my-project-slug"
+                aria-invalid={newProjectErrors.slug ? 'true' : undefined}
+                style={newProjectErrors.slug ? ({ borderColor: 'rgba(248,113,113,0.9)' } as const) : undefined}
               />
+              {newProjectErrors.slug && (
+                <p className={ui.sectionHint} style={{ marginTop: 6, color: 'rgba(248,113,113,0.95)' }}>
+                  {newProjectErrors.slug}
+                </p>
+              )}
               <p className={ui.sectionHint} style={{ margin: 0 }}>
                 Leave blank to auto-generate from the English title.
               </p>
             </div>
             <div className={ui.field}>
               <label className={ui.label}>Year</label>
-              <input className={ui.input} value={newProject.year} onChange={(e) => setNewProject((p) => ({ ...p, year: e.target.value }))} placeholder="2026" />
+              <input
+                className={ui.input}
+                value={newProject.year}
+                onChange={(e) => setNewProject((p) => ({ ...p, year: e.target.value }))}
+                placeholder="2026"
+                aria-invalid={newProjectErrors.year ? 'true' : undefined}
+                style={newProjectErrors.year ? ({ borderColor: 'rgba(248,113,113,0.9)' } as const) : undefined}
+              />
+              {newProjectErrors.year && (
+                <p className={ui.sectionHint} style={{ marginTop: 6, color: 'rgba(248,113,113,0.95)' }}>
+                  {newProjectErrors.year}
+                </p>
+              )}
             </div>
           </div>
 
           <div className={ui.gridTwoWide}>
             <div className={ui.field}>
               <label className={ui.label}>Sort order</label>
-              <input className={ui.input} type="number" value={newProject.sortOrder} onChange={(e) => setNewProject((p) => ({ ...p, sortOrder: Number(e.target.value) }))} />
+              <input
+                className={ui.input}
+                type="number"
+                value={newProject.sortOrder}
+                onChange={(e) => setNewProject((p) => ({ ...p, sortOrder: Number(e.target.value) }))}
+                aria-invalid={newProjectErrors.sortOrder ? 'true' : undefined}
+                style={newProjectErrors.sortOrder ? ({ borderColor: 'rgba(248,113,113,0.9)' } as const) : undefined}
+              />
+              {newProjectErrors.sortOrder && (
+                <p className={ui.sectionHint} style={{ marginTop: 6, color: 'rgba(248,113,113,0.95)' }}>
+                  {newProjectErrors.sortOrder}
+                </p>
+              )}
             </div>
             <div className={ui.field}>
               <label className={ui.label}>Flags</label>
@@ -596,24 +803,25 @@ export default function AdminProjectsPage() {
             }}
             required
             maxLength={200}
+            errors={{ en: newProjectErrors['title.en'], ar: newProjectErrors['title.ar'] }}
           />
           <div className={ui.gridTwoWide}>
-            <LocalizedField label="Sector" value={newProject.sector} onChange={(v) => setNewProject((p) => ({ ...p, sector: v }))} required maxLength={200} />
-            <LocalizedField label="Project type" value={newProject.projectType} onChange={(v) => setNewProject((p) => ({ ...p, projectType: v }))} required maxLength={200} />
+            <LocalizedField label="Sector" value={newProject.sector} onChange={(v) => setNewProject((p) => ({ ...p, sector: v }))} required maxLength={200} errors={{ en: newProjectErrors['sector.en'], ar: newProjectErrors['sector.ar'] }} />
+            <LocalizedField label="Project type" value={newProject.projectType} onChange={(v) => setNewProject((p) => ({ ...p, projectType: v }))} required maxLength={200} errors={{ en: newProjectErrors['projectType.en'], ar: newProjectErrors['projectType.ar'] }} />
           </div>
 
           <div className={ui.gridTwoWide}>
-            <LocalizedField label="Status" value={newProject.status} onChange={(v) => setNewProject((p) => ({ ...p, status: v }))} required maxLength={200} />
-            <LocalizedField label="Client" value={newProject.client} onChange={(v) => setNewProject((p) => ({ ...p, client: v }))} required maxLength={200} />
+            <LocalizedField label="Status" value={newProject.status} onChange={(v) => setNewProject((p) => ({ ...p, status: v }))} required maxLength={200} errors={{ en: newProjectErrors['status.en'], ar: newProjectErrors['status.ar'] }} />
+            <LocalizedField label="Client" value={newProject.client} onChange={(v) => setNewProject((p) => ({ ...p, client: v }))} required maxLength={200} errors={{ en: newProjectErrors['client.en'], ar: newProjectErrors['client.ar'] }} />
           </div>
 
           <div className={ui.gridTwoWide}>
-            <LocalizedField label="Location" value={newProject.location} onChange={(v) => setNewProject((p) => ({ ...p, location: v }))} required maxLength={200} />
-            <LocalizedField label="Cost" value={newProject.cost} onChange={(v) => setNewProject((p) => ({ ...p, cost: v }))} required maxLength={200} />
+            <LocalizedField label="Location" value={newProject.location} onChange={(v) => setNewProject((p) => ({ ...p, location: v }))} required maxLength={200} errors={{ en: newProjectErrors['location.en'], ar: newProjectErrors['location.ar'] }} />
+            <LocalizedField label="Cost" value={newProject.cost} onChange={(v) => setNewProject((p) => ({ ...p, cost: v }))} required maxLength={200} errors={{ en: newProjectErrors['cost.en'], ar: newProjectErrors['cost.ar'] }} />
           </div>
 
-          <LocalizedField label="Summary" value={newProject.summary} onChange={(v) => setNewProject((p) => ({ ...p, summary: v }))} required textarea maxLength={1200} />
-          <LocalizedField label="Details" value={newProject.details} onChange={(v) => setNewProject((p) => ({ ...p, details: v }))} required textarea maxLength={8000} />
+          <LocalizedField label="Summary" value={newProject.summary} onChange={(v) => setNewProject((p) => ({ ...p, summary: v }))} required textarea maxLength={1200} errors={{ en: newProjectErrors['summary.en'], ar: newProjectErrors['summary.ar'] }} />
+          <LocalizedField label="Details" value={newProject.details} onChange={(v) => setNewProject((p) => ({ ...p, details: v }))} required textarea maxLength={8000} errors={{ en: newProjectErrors['details.en'], ar: newProjectErrors['details.ar'] }} />
 
           <div className={ui.gridTwoWide}>
             <div className={ui.field}>
@@ -628,10 +836,35 @@ export default function AdminProjectsPage() {
 
           <div className={ui.field}>
             <label className={ui.label}>Gallery images</label>
-            <input className={ui.input} type="file" accept="image/png,image/jpeg,image/webp,image/avif" multiple onChange={(e) => uploadNewGallery(e.target.files)} />
+            <input
+              className={ui.input}
+              type="file"
+              accept="image/png,image/jpeg,image/webp,image/avif"
+              multiple
+              disabled={uploadingNew || newProject.galleryUploadIds.length >= MAX_GALLERY_IMAGES}
+              onChange={(e) => {
+                const files = Array.from(e.currentTarget.files ?? [])
+                e.currentTarget.value = ''
+                uploadNewGallery(files)
+              }}
+            />
             <p className={ui.sectionHint} style={{ margin: 0 }}>
-              Uploaded: {newProject.galleryUploadIds.length}
+              {uploadingNew
+                ? 'Uploading…'
+                : `Uploaded: ${newProject.galleryUploadIds.length} / ${MAX_GALLERY_IMAGES} (saved when you add the project)`}
             </p>
+            <GalleryPreview
+              ids={newProject.galleryUploadIds}
+              onMove={(index, direction) =>
+                setNewProject((prev) => {
+                  const ids = prev.galleryUploadIds ?? []
+                  const to = index + direction
+                  if (to < 0 || to >= ids.length) return prev
+                  return { ...prev, galleryUploadIds: moveInArray(ids, index, to) }
+                })
+              }
+              onRemove={(id) => setNewProject((prev) => ({ ...prev, galleryUploadIds: (prev.galleryUploadIds ?? []).filter((x) => x !== id) }))}
+            />
           </div>
 
           <div className={ui.toolbar} style={{ justifyContent: 'flex-end' }}>
@@ -784,10 +1017,42 @@ export default function AdminProjectsPage() {
 
                   <div className={ui.field}>
                     <label className={ui.label}>Gallery images</label>
-                    <input className={ui.input} type="file" accept="image/png,image/jpeg,image/webp,image/avif" multiple onChange={(e) => uploadGallery(project.id, e.target.files)} />
+                    <input
+                      className={ui.input}
+                      type="file"
+                      accept="image/png,image/jpeg,image/webp,image/avif"
+                      multiple
+                      disabled={uploadingId === project.id || project.galleryUploadIds.length >= MAX_GALLERY_IMAGES}
+                      onChange={(e) => {
+                        const files = Array.from(e.currentTarget.files ?? [])
+                        e.currentTarget.value = ''
+                        uploadGallery(project.id, files)
+                      }}
+                    />
                     <p className={ui.sectionHint} style={{ margin: 0 }}>
-                      Uploaded (pending save): {project.galleryUploadIds.length}
+                      {uploadingId === project.id
+                        ? 'Uploading…'
+                        : `Uploaded: ${project.galleryUploadIds.length} / ${MAX_GALLERY_IMAGES} (click Save to publish)`}
                     </p>
+                    <GalleryPreview
+                      ids={project.galleryUploadIds}
+                      onMove={(index, direction) =>
+                        setProjects((prev) =>
+                          prev.map((p) => {
+                            if (p.id !== project.id) return p
+                            const ids = p.galleryUploadIds ?? []
+                            const to = index + direction
+                            if (to < 0 || to >= ids.length) return p
+                            return { ...p, galleryUploadIds: moveInArray(ids, index, to) }
+                          })
+                        )
+                      }
+                      onRemove={(id) =>
+                        setProjects((prev) =>
+                          prev.map((p) => (p.id === project.id ? { ...p, galleryUploadIds: (p.galleryUploadIds ?? []).filter((x) => x !== id) } : p))
+                        )
+                      }
+                    />
                   </div>
                 </div>
               )

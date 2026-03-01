@@ -216,7 +216,7 @@
 .cardMedia {
   position: relative;
   background: rgba(from var(--muted) r g b / 0.48);
-  height: 235px;
+  aspect-ratio: 16 / 9;
   overflow: hidden;
 }
 
@@ -370,10 +370,6 @@
 
   .grid {
     grid-template-columns: 1fr;
-  }
-
-  .cardMedia {
-    height: 210px;
   }
 
   .cardBody {

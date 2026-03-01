@@ -146,7 +146,6 @@ function HeaderContent() {
       subItems: [
         { label: t('nav.about'), href: '/about' },
         { label: t('nav.services'), href: '/services' },
-        { label: t('nav.news'), href: '/news' },
         { label: t('nav.careers'), href: '/careers' },
       ],
     },
@@ -156,8 +155,6 @@ function HeaderContent() {
       subItems: dynamicProjectItems.length ? dynamicProjectItems : undefined,
     },
     { label: t('nav.clients'), href: '/clients' },
-    { label: t('nav.blog'), href: '/blog' },
-    { label: t('nav.media'), href: '/media' },
     { label: t('nav.quotation'), href: '/get-quotation' },
     { label: t('nav.contact'), href: '/contact' },
   ]
@@ -239,8 +236,8 @@ function HeaderContent() {
                   )}
                 </div>
                 {item.subItems && (
-                  <div className={styles.dropdown}>
-                    <ul className={styles.dropdownList}>
+                  <div className={`${styles.dropdown} ${item.href === '/projects' ? styles.dropdownProjects : ''}`}>
+                    <ul className={`${styles.dropdownList} ${item.href === '/projects' ? styles.dropdownListProjects : ''}`}>
                       {item.subItems.map((subItem) => {
                         const subItemCurrent = !subItem.href.includes('#') && isHrefActive(subItem.href)
 

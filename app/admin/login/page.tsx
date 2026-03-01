@@ -57,7 +57,7 @@ export default function AdminLoginPage() {
       }
 
       // Force a full navigation so server components definitely see the new cookie.
-      window.location.assign('/admin/news')
+      window.location.assign('/admin')
     } catch {
       setError(t.error)
     } finally {

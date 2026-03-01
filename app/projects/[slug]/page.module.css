@@ -448,24 +448,21 @@
 
 .galleryMedia {
   position: relative;
-  aspect-ratio: var(--gallery-aspect, 1.6);
+  aspect-ratio: 16 / 9;
   background:
     radial-gradient(900px 360px at 20% 18%, rgba(from var(--accent) r g b / 0.14), transparent 62%),
     rgba(from var(--background) r g b / 0.96);
 }
 
 .galleryImage {
-  object-fit: contain;
+  object-fit: cover;
   padding: 0;
   transition: transform 260ms ease, filter 260ms ease;
   filter: saturate(1.02);
 }
 
-.galleryMedia[data-fit='contain'] {
-  --gallery-aspect: 1.3333;
-}
-
 .galleryMedia[data-fit='contain'] .galleryImage {
+  object-fit: contain;
   padding: clamp(0.35rem, 0.9vw, 0.75rem);
 }
 
@@ -791,20 +788,16 @@
 }
 
 /* RTL tweaks */
-:global([dir='rtl']) .backLink {
-  flex-direction: row-reverse;
-}
-
 :global([dir='rtl']) .detailsItem {
-  flex-direction: row-reverse;
   text-align: right;
 }
 
 :global([dir='rtl']) .solutionItem {
-  flex-direction: row-reverse;
   text-align: right;
 }
 
-:global([dir='rtl']) .ctaButton {
-  flex-direction: row-reverse;
+:global([dir='rtl']) .eyebrow,
+:global([dir='rtl']) .detailsLabel {
+  letter-spacing: 0;
+  text-transform: none;
 }

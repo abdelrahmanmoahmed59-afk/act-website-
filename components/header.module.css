@@ -200,7 +200,8 @@
 .dropdown {
   position: absolute;
   top: calc(100% + 0.75rem);
-  left: 0;
+  inset-inline-start: 0;
+  inset-inline-end: auto;
   min-width: 220px;
   background: var(--background);
   border: 1px solid var(--border);
@@ -229,6 +230,31 @@
   list-style: none;
   margin: 0;
   padding: 0;
+}
+
+.dropdownProjects {
+  min-width: 420px;
+  width: min(92vw, 780px);
+  max-width: min(92vw, 780px);
+  padding: 0.75rem;
+  overflow-x: hidden;
+  transform-origin: top left;
+}
+
+.dropdownListProjects {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-rows: repeat(7, auto);
+  grid-auto-columns: minmax(220px, 1fr);
+  column-gap: 0.45rem;
+  row-gap: 0.2rem;
+  align-items: start;
+}
+
+.dropdownListProjects .dropdownLink {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .dropdownItem {
@@ -415,6 +441,17 @@
   .dropdownLink {
     padding: 0.5rem 0;
     font-size: 0.85rem;
+  }
+
+  .dropdownProjects {
+    min-width: auto;
+    max-width: 100%;
+    padding: 0 0 0.75rem 1.5rem;
+    overflow-x: visible;
+  }
+
+  .dropdownListProjects {
+    display: block;
   }
 
   .mobileMenuButton {

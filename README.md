@@ -35,9 +35,7 @@ This repo includes a file-based API + admin dashboard to manage site content usi
 
 Currently implemented:
 
-- **News page content** (`/news`) with bilingual fields (English + Arabic)
-- **Admin dashboard** (`/admin`) to add/edit/delete news items and edit page settings
-- **Public API** (`/api/news?lang=en|ar`) for news content
+- **Admin dashboard** (`/admin`) to manage site content stored in local JSON files
 
 ### 1) Environment variables
 
@@ -70,10 +68,8 @@ After an admin exists, this endpoint returns `409`.
 ### 4) Admin dashboard
 
 - Visit `/admin/login`
-- Manage News at `/admin/news`
 - Use **Seed from template** to quickly restore sample content into the JSON store.
 
 ### SEO + performance notes
 
-- `/news` is rendered SEO-friendly and cached with **1 minute revalidation**.
-- Saving content in the dashboard triggers revalidation so updates show up quickly on the public page.
+- Saving content in the dashboard triggers revalidation so updates show up quickly on the public pages.

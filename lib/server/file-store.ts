@@ -31,6 +31,43 @@ async function ensureDir(filePath: string) {
   await fs.mkdir(path.dirname(filePath), { recursive: true })
 }
 
+async function replaceFile(tmpPath: string, destPath: string) {
+  try {
+    await fs.rename(tmpPath, destPath)
+    return
+  } catch (error: any) {
+    const code = error?.code
+
+    // Windows can fail renames if the destination file is being read/locked by another process.
+    // Fall back to replacing the destination.
+    if (code === 'EPERM' || code === 'EEXIST' || code === 'EACCES' || code === 'EBUSY') {
+      try {
+        await fs.rm(destPath, { force: true })
+      } catch {
+        // Ignore: destination might not exist or might still be locked.
+      }
+
+      try {
+        await fs.rename(tmpPath, destPath)
+        return
+      } catch {
+        // Fall through to copy/unlink fallback.
+      }
+    }
+
+    // Last resort: copy to destination and remove tmp.
+    try {
+      await fs.copyFile(tmpPath, destPath)
+      await fs.rm(tmpPath, { force: true })
+      return
+    } catch {
+      // Ignore and throw original error below.
+    }
+
+    throw error
+  }
+}
+
 export async function withFileLock<T>(key: string, fn: () => Promise<T>): Promise<T> {
   const locks = getLocks()
   const previous = locks.get(key) ?? Promise.resolve()
@@ -92,19 +129,7 @@ export async function writeJsonFile(relativePath: string, data: unknown): Promis
   const tmp = `${fullPath}.tmp-${crypto.randomBytes(8).toString('hex')}`
   const payload = JSON.stringify(data, null, 2) + '\n'
   await fs.writeFile(tmp, payload, 'utf8')
-
-  try {
-    await fs.rename(tmp, fullPath)
-  } catch (error: any) {
-    // Windows can fail renames if the destination file is being read.
-    // Fall back to replacing the destination.
-    if (error?.code === 'EPERM' || error?.code === 'EEXIST') {
-      await fs.rm(fullPath, { force: true })
-      await fs.rename(tmp, fullPath)
-      return
-    }
-    throw error
-  }
+  await replaceFile(tmp, fullPath)
 }
 
 export async function readBinaryFile(relativePath: string): Promise<Buffer | null> {
@@ -122,16 +147,7 @@ export async function writeBinaryFile(relativePath: string, bytes: Uint8Array): 
   await ensureDir(fullPath)
   const tmp = `${fullPath}.tmp-${crypto.randomBytes(8).toString('hex')}`
   await fs.writeFile(tmp, Buffer.from(bytes))
-  try {
-    await fs.rename(tmp, fullPath)
-  } catch (error: any) {
-    if (error?.code === 'EPERM' || error?.code === 'EEXIST') {
-      await fs.rm(fullPath, { force: true })
-      await fs.rename(tmp, fullPath)
-      return
-    }
-    throw error
-  }
+  await replaceFile(tmp, fullPath)
 }
 
 export function nextId(current: number | undefined) {

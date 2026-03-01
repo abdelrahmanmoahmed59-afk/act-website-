@@ -57,8 +57,8 @@ function ContactSectionContent({
       },
       contact: { email: 'Email', phone: 'Phone', address: 'Address' },
       info: {
-        emailText: 'info@actgroup.com.kw',
-        phoneNum: '+965 2246 8899',
+        emailText: 'info@act-kw.com',
+        phoneNum: '+965 9558 8251',
         addressText: 'Shuwaikh, Kuwait',
       },
       helpText: 'Add a short summary of your request, scope, and timeline.',
@@ -87,8 +87,8 @@ function ContactSectionContent({
         address: 'العنوان',
       },
       info: {
-        emailText: 'info@actgroup.com.kw',
-        phoneNum: '+965 2246 8899',
+        emailText: 'info@act-kw.com',
+        phoneNum: '+965 9558 8251',
         addressText: 'الشويخ، الكويت',
       },
       helpText: 'اكتب ملخصًا عن طلبك، نطاق العمل، والجدول الزمني.',
@@ -188,7 +188,7 @@ function ContactSectionContent({
                     </span>
                     <div className={styles.detailBody}>
                       <div className={styles.detailLabel}>{data.contact.email}</div>
-                      <a className={styles.detailValueLink} href={`mailto:${data.info.emailText}`}>
+                      <a className={styles.detailValueLink} href={`mailto:${emailText}`} dir="ltr">
                         {emailText}
                       </a>
                     </div>
@@ -208,6 +208,7 @@ function ContactSectionContent({
                       <a
                         className={styles.detailValueLink}
                         href={`tel:${phoneNum.replace(/\s+/g, '')}`}
+                        dir="ltr"
                       >
                         {phoneNum}
                       </a>
