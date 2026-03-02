@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useEffect, useState } from "react"
+import Image from 'next/image'
 import { useLanguage } from '@/providers/language-provider'
 import styles from './about-story-section.module.css'
 
@@ -46,12 +47,14 @@ function AboutStoryContent({ isPageTop }: { isPageTop?: boolean }) {
         </div>
         <div className={styles.storyPanel}>
           <div className={styles.imageFrame}>
-            <svg viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect width="400" height="300" fill="currentColor" opacity="0.1"/>
-              <rect x="40" y="60" width="320" height="180" fill="none" stroke="currentColor" strokeWidth="2" opacity="0.3"/>
-              <rect x="70" y="100" width="120" height="90" fill="currentColor" opacity="0.08"/>
-              <rect x="210" y="90" width="120" height="110" fill="currentColor" opacity="0.12"/>
-            </svg>
+            <Image
+              src="/modern-corporate-building-kuwait-premium-architect.jpg"
+              alt=""
+              fill
+              className={styles.storyImage}
+              sizes="(max-width: 768px) 100vw, 40vw"
+              priority={isPageTop}
+            />
           </div>
           <div className={styles.highlights}>
             {t.highlights.map((highlight, index) => (

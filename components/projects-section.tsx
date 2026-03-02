@@ -1,12 +1,15 @@
 'use client'
 
 import React, { useEffect, useState } from "react"
+import Image from 'next/image'
 import Link from 'next/link'
+import { Image as ImageIcon } from 'lucide-react'
 import { useLanguage } from '@/providers/language-provider'
 import type { LocalizedProject } from '@/lib/projects'
 import styles from './projects-section.module.css'
+import cardStyles from '@/app/projects/page.module.css'
 
-const MAX_FEATURED_PROJECTS = 6
+const MAX_FEATURED_PROJECTS = 3
 
 function ProjectsContent() {
   const { language } = useLanguage()
@@ -16,6 +19,7 @@ function ProjectsContent() {
     title: string
     subtitle: string
     showAllLabel: string
+    clientLabel: string
     readMoreLabel: string
   } | null>(null)
   const [loaded, setLoaded] = useState(false)
@@ -51,7 +55,8 @@ function ProjectsContent() {
                 title: String(s.homeTitle ?? ''),
                 subtitle: String(s.homeSubtitle ?? ''),
                 showAllLabel: String(s.homeShowAllLabel ?? ''),
-                readMoreLabel: String(s.homeReadMoreLabel ?? ''),
+                clientLabel: String(s.pageClientLabel ?? ''),
+                readMoreLabel: String(s.pageReadMoreLabel ?? s.homeReadMoreLabel ?? ''),
               }
             : null
         if (!alive) return
@@ -71,9 +76,10 @@ function ProjectsContent() {
   }, [language])
 
   const t = labels ?? content[language as keyof typeof content]
+  const clientLabel = labels?.clientLabel || (isArabic ? '\u0627\u0644\u0639\u0645\u064a\u0644' : 'Client')
+  const readMoreLabel = labels?.readMoreLabel || t.readMoreLabel
 
   const featuredProjects = projects.slice(0, MAX_FEATURED_PROJECTS)
-  const hasMoreProjects = projects.length > MAX_FEATURED_PROJECTS
 
   return (
     <section className={styles.projects}>
@@ -83,48 +89,57 @@ function ProjectsContent() {
           <p className={styles.subtitle}>{t.subtitle}</p>
         </div>
 
-        <div className={styles.projectsGrid}>
+        <section className={cardStyles.grid} aria-label={t.title}>
           {featuredProjects.map((project, index) => (
-            <article key={project.slug} className={styles.projectCard}>
-              <div className={styles.projectImage}>
-                <svg viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <rect width="400" height="300" fill="currentColor" opacity="0.1"/>
-                  <rect x="50" y="80" width="300" height="200" fill="none" stroke="currentColor" strokeWidth="2" opacity="0.3"/>
-                  <text x="200" y="180" textAnchor="middle" fill="currentColor" opacity="0.5" fontSize="16">
-                    Project Image
-                  </text>
-                </svg>
+            <article key={project.id} className={cardStyles.card}>
+              <div className={cardStyles.cardMedia} aria-hidden="true">
+                {project.images[0] === '/placeholder.jpg' && (
+                  <div className={cardStyles.placeholderIcon} aria-hidden="true">
+                    <ImageIcon />
+                  </div>
+                )}
+                <Image
+                  src={project.images[0]}
+                  alt=""
+                  fill
+                  sizes="(max-width: 640px) 100vw, (max-width: 1100px) 50vw, 33vw"
+                  className={cardStyles.cardImage}
+                  priority={index === 0}
+                />
+                <span className={cardStyles.cardChip}>{project.sector}</span>
+                <div className={cardStyles.cardMediaOverlay} />
               </div>
-              <div className={styles.projectOverlay}>
-                <span className={styles.category}>{project.sector}</span>
-              </div>
-              <div className={styles.projectContent}>
-                <h3 className={styles.projectName}>{project.title}</h3>
-                <p className={styles.projectLocation}>{project.location}</p>
-                <div className={styles.projectMeta}>
-                  <p className={styles.projectYear}>{project.year}</p>
+
+              <div className={cardStyles.cardBody}>
+                <h3 className={cardStyles.cardTitle}>{project.title}</h3>
+                <p className={cardStyles.cardText}>{project.summary}</p>
+
+                <div className={cardStyles.cardFooter}>
+                  <p className={cardStyles.cardClient}>
+                    <span className={cardStyles.clientLabel}>{clientLabel}:</span> {project.client}
+                  </p>
                   <Link
                     href={`/projects/${project.slug}`}
-                    className={styles.readMoreButton}
-                    aria-label={`${t.readMoreLabel}: ${project.title}`}
+                    className={cardStyles.readMoreButton}
+                    aria-label={`${readMoreLabel}: ${project.title}`}
                   >
-                    {t.readMoreLabel}
-                    <span className={styles.readMoreArrow} aria-hidden="true">
-                      {isArabic ? '←' : '→'}
+                    {readMoreLabel}
+                    <span className={cardStyles.readMoreArrow} aria-hidden="true">
+                      {isArabic ? '\u2190' : '\u2192'}
                     </span>
                   </Link>
                 </div>
               </div>
             </article>
           ))}
-        </div>
+        </section>
 
-        {loaded && hasMoreProjects && (
+        {loaded && featuredProjects.length > 0 && (
           <div className={styles.actions}>
             <Link href="/projects" className={styles.showAllButton}>
               {t.showAllLabel}
               <span className={styles.showAllArrow} aria-hidden="true">
-                {isArabic ? '←' : '→'}
+                {isArabic ? '\u2190' : '\u2192'}
               </span>
             </Link>
           </div>
