@@ -45,7 +45,7 @@ function AboutContent() {
       leadershipIntro: 'Experienced leaders guiding delivery, safety, and client outcomes.',
       leadership: [
         {
-          name: 'Eng. Ahmad Al Rashid',
+          name: 'Eng. Wessam Ibrahim',
           role: 'Managing Director',
           summary: 'Leads strategic growth and program governance across public and private clients.',
           image: '/placeholder-user.jpg',
@@ -92,7 +92,7 @@ function AboutContent() {
       leadershipIntro: 'قادة خبراء يوجهون التسليم والسلامة ونتائج العملاء.',
       leadership: [
         {
-          name: 'المهندس أحمد الراشد',
+          name: 'المهندس وسام إبراهيم',
           role: 'المدير العام',
           summary: 'يقود التوجه الاستراتيجي وحوكمة البرامج مع الجهات الحكومية والقطاع الخاص.',
           image: '/placeholder-user.jpg',
