@@ -17,6 +17,7 @@ export default async function AdminProtectedLayout({ children }: { children: Rea
     { href: '/admin/pages', label: 'Pages' },
     { href: '/admin/clients', label: 'Clients' },
     { href: '/admin/projects', label: 'Projects' },
+    { href: '/admin/table-projects', label: 'Table Projects' },
     { href: '/admin/careers', label: 'Careers' },
     { href: '/admin/contact', label: 'Contact' },
     { href: '/admin/quotation', label: 'Quotation' },

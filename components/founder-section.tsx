@@ -12,10 +12,10 @@ function FounderContent() {
       title: "Meet Our Founder",
       name: "Engineer Wessam Ibrahim",
       position: "Founder & Chairman",
-      bio: "Engineer Wessam Ibrahim is a visionary leader with over 30 years of experience in the construction and contracting industry. With a degree in Civil Engineering from Kuwait University and numerous certifications in project management, he founded ACT with the mission to elevate construction standards in Kuwait and the region.",
+      bio: "Engineer Wessam Ibrahim is a visionary leader with over 30 years of experience in the construction and contracting industry. With a degree in Civil Engineering from Alexandria University and numerous certifications in project management, he founded ACT with the mission to elevate construction standards in Kuwait and the region.",
       achievements: [
         "30+ Years Industry Experience",
-        "Civil Engineering Degree - Kuwait University",
+        "Civil Engineering Degree - Alexandria University",
         "ISO 9001 Project Management Certification",
         "Board Member of Construction Association",
         "Recipient of Multiple Industry Awards"
@@ -23,12 +23,12 @@ function FounderContent() {
     },
     ar: {
       title: "قابل مؤسسنا",
-      name: "المهندس وسام إبراهيم",
+      name: "المهندس وسام ابراهيم",
       position: "المؤسس والرئيس",
-      bio: "المهندس وسام إبراهيم هو قائد رؤيوي يتمتع بأكثر من 30 سنة من الخبرة في صناعة البناء والمقاولات. مع درجة في الهندسة المدنية من جامعة الكويت وعدد من الشهادات في إدارة المشاريع، أسس ACT برسالة رفع معايير البناء في الكويت والمنطقة.",
+      bio: "المهندس وسام ابراهيم هو قائد رؤيوي يتمتع بأكثر من 30 سنة من الخبرة في صناعة البناء والمقاولات. مع درجة في الهندسة المدنية من جامعة الإسكندرية وعدد من الشهادات في إدارة المشاريع، أسس ACT برسالة رفع معايير البناء في الكويت والمنطقة.",
       achievements: [
         "30+ سنة من خبرة الصناعة",
-        "درجة الهندسة المدنية - جامعة الكويت",
+        "درجة الهندسة المدنية - جامعة الإسكندرية",
         "شهادة ISO 9001 في إدارة المشاريع",
         "عضو مجلس إدارة جمعية البناء",
         "حائز على العديد من جوائز الصناعة"

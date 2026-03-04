@@ -167,6 +167,111 @@
   font-size: 1.05rem;
 }
 
+.tableSection {
+  margin: 1.75rem 0 2.25rem;
+}
+
+.tableCard {
+  border: 1px solid rgba(from var(--border) r g b / 0.95);
+  background: rgba(from var(--background) r g b / 0.9);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.1);
+}
+
+.tableHeader {
+  padding: 1.25rem 1.35rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border-bottom: 1px solid rgba(from var(--border) r g b / 0.8);
+  background:
+    radial-gradient(680px 220px at 10% 20%, rgba(from var(--accent) r g b / 0.08), transparent 65%),
+    rgba(from var(--card) r g b / 0.55);
+}
+
+.tableTitle {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 950;
+  letter-spacing: -0.02em;
+  color: var(--foreground);
+}
+
+.tableWrap {
+  padding: 0.25rem;
+}
+
+.table {
+  display: flex;
+  flex-direction: column;
+}
+
+.tableRow {
+  display: grid;
+  grid-template-columns:
+    64px
+    minmax(240px, 2.2fr)
+    minmax(140px, 1.4fr)
+    minmax(120px, 1fr)
+    minmax(140px, 1.2fr)
+    minmax(120px, 1fr)
+    minmax(120px, 0.9fr);
+  gap: 0.9rem;
+  align-items: start;
+  padding: 0.95rem 1.1rem;
+  border-bottom: 1px solid rgba(from var(--border) r g b / 0.7);
+}
+
+.tableRow:last-child {
+  border-bottom: none;
+}
+
+.tableRow:hover {
+  background: rgba(from var(--accent) r g b / 0.05);
+}
+
+.tableHead {
+  font-weight: 900;
+  color: rgba(from var(--foreground) r g b / 0.82);
+  background: rgba(from var(--muted) r g b / 0.25);
+}
+
+.tableCell {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.cellValue {
+  color: rgba(from var(--foreground) r g b / 0.92);
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.tableLink {
+  color: rgba(from var(--foreground) r g b / 0.95);
+  text-decoration: none;
+  font-weight: 900;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.tableLink:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.mobileLabel {
+  display: none;
+  font-size: 0.74rem;
+  font-weight: 850;
+  letter-spacing: 0.03em;
+  color: rgba(from var(--muted-foreground) r g b / 0.85);
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -361,6 +466,17 @@
   .grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  .tableRow {
+    grid-template-columns:
+      58px
+      minmax(220px, 2fr)
+      minmax(140px, 1.3fr)
+      minmax(120px, 1fr)
+      minmax(140px, 1.1fr)
+      minmax(120px, 0.95fr)
+      minmax(110px, 0.9fr);
+  }
 }
 
 @media (max-width: 640px) {
@@ -374,6 +490,35 @@
 
   .cardBody {
     padding: 1.35rem;
+  }
+
+  .tableSection {
+    margin: 1.35rem 0 1.9rem;
+  }
+
+  .tableWrap {
+    padding: 0.75rem;
+  }
+
+  .tableHead {
+    display: none;
+  }
+
+  .tableRow {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    border: 1px solid rgba(from var(--border) r g b / 0.8);
+    border-radius: 16px;
+    margin-bottom: 0.9rem;
+    padding: 1rem 1.05rem;
+    background: rgba(from var(--background) r g b / 0.92);
+  }
+
+  .tableRow:last-child {
+    margin-bottom: 0;
+  }
+
+  .mobileLabel {
+    display: block;
   }
 }
 
