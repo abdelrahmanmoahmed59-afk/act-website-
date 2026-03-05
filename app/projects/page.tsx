@@ -103,6 +103,7 @@ function PortfolioContent() {
 
   const base = content[language as keyof typeof content]
   const data = { ...base, ...(labels ?? {}) }
+  const gridProjects = projects.filter((project) => project.showInGrid !== false)
 
   return (
     <main className={styles.page}>
@@ -195,8 +196,9 @@ function PortfolioContent() {
             </section>
           )}
 
-          <section className={styles.grid} aria-label={data.gridLabel}>
-            {projects.map((project) => (
+          {gridProjects.length > 0 && (
+            <section className={styles.grid} aria-label={data.gridLabel}>
+              {gridProjects.map((project) => (
               <article key={project.id} className={styles.card}>
                 <div className={styles.cardMedia} aria-hidden="true">
                   {project.images[0] === '/placeholder.jpg' && (
@@ -212,7 +214,6 @@ function PortfolioContent() {
                     className={styles.cardImage}
                     priority={project.id === 1}
                   />
-                  <span className={styles.cardChip}>{project.sector}</span>
                   <div className={styles.cardMediaOverlay} />
                 </div>
 
@@ -237,8 +238,9 @@ function PortfolioContent() {
                   </div>
                 </div>
               </article>
-            ))}
-          </section>
+              ))}
+            </section>
+          )}
           {loaded && projects.length === 0 && (
             <p style={{ color: 'rgba(226,232,240,0.72)', marginTop: 18 }}>No projects found.</p>
           )}

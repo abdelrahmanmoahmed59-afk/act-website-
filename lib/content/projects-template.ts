@@ -6,6 +6,7 @@ export const projectsTemplateInputs: ProjectInput[] = staticProjects.map((p, ind
   sortOrder: index,
   published: true,
   showInMenu: true,
+  showInGrid: true,
   title: p.title,
   sector: p.sector,
   projectType: p.projectType,

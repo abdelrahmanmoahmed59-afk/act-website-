@@ -41,6 +41,7 @@ export const projectInputSchema = z.object({
   sortOrder: z.coerce.number().int().min(0).max(1_000_000).default(0),
   published: z.coerce.boolean().default(true),
   showInMenu: z.coerce.boolean().default(true),
+  showInGrid: z.coerce.boolean().default(true),
   title: localizedShort,
   sector: localizedShort,
   projectType: localizedShort,

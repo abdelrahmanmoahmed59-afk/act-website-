@@ -53,6 +53,7 @@ function createDefaultProjectInput(row: z.infer<typeof upsertRowSchema>, slug: s
     sortOrder: row.sortOrder ?? 0,
     published: row.published ?? true,
     showInMenu: row.showInMenu ?? true,
+    showInGrid: false,
     title: row.title,
     sector: { en: 'General', ar: 'عام' },
     projectType: row.projectType,
@@ -151,6 +152,7 @@ export async function PUT(req: Request) {
             sortOrder: upsert.sortOrder ?? existing.sortOrder,
             published: upsert.published ?? existing.published,
             showInMenu: upsert.showInMenu ?? existing.showInMenu,
+            showInGrid: existing.showInGrid ?? true,
             title: upsert.title,
             sector: existing.sector,
             projectType: upsert.projectType,
@@ -211,4 +213,3 @@ export async function PUT(req: Request) {
 
   return NextResponse.json(results)
 }
-

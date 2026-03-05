@@ -44,7 +44,7 @@ function ProjectsContent() {
     ;(async () => {
       setLoaded(false)
       try {
-        const res = await fetch(`/api/projects?lang=${language}&limit=${MAX_FEATURED_PROJECTS + 1}`, { cache: 'no-store' })
+        const res = await fetch(`/api/projects?lang=${language}&limit=50`, { cache: 'no-store' })
         if (!res.ok) throw new Error('projects')
         const json = await res.json()
         const nextProjects = Array.isArray(json?.projects) ? (json.projects as LocalizedProject[]) : []
@@ -79,7 +79,8 @@ function ProjectsContent() {
   const clientLabel = labels?.clientLabel || (isArabic ? '\u0627\u0644\u0639\u0645\u064a\u0644' : 'Client')
   const readMoreLabel = labels?.readMoreLabel || t.readMoreLabel
 
-  const featuredProjects = projects.slice(0, MAX_FEATURED_PROJECTS)
+  const gridProjects = projects.filter((project) => project.showInGrid !== false)
+  const featuredProjects = gridProjects.slice(0, MAX_FEATURED_PROJECTS)
 
   return (
     <section className={styles.projects}>
@@ -106,7 +107,6 @@ function ProjectsContent() {
                   className={cardStyles.cardImage}
                   priority={index === 0}
                 />
-                <span className={cardStyles.cardChip}>{project.sector}</span>
                 <div className={cardStyles.cardMediaOverlay} />
               </div>
 

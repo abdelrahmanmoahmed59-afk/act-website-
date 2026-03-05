@@ -23,6 +23,10 @@ export type Project = {
 export type LocalizedProject = {
   id: number
   slug: string
+  sortOrder: number
+  published: boolean
+  showInMenu: boolean
+  showInGrid: boolean
   title: string
   sector: string
   projectType: string
@@ -398,6 +402,10 @@ export function localizeProject(project: Project, language: Language): Localized
   return {
     id: project.id,
     slug: project.slug,
+    sortOrder: project.id,
+    published: true,
+    showInMenu: true,
+    showInGrid: true,
     title: project.title[language],
     sector: project.sector[language],
     projectType: project.projectType[language],

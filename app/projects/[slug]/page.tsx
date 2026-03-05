@@ -13,7 +13,6 @@ import {
   Calendar,
   CheckCircle2,
   MapPin,
-  Tag,
   Wallet,
   Wrench,
 } from 'lucide-react'
@@ -53,7 +52,6 @@ function ProjectDetailsContent({ slug }: { slug: string }) {
           'Each delivery combines disciplined planning, safety-first execution, and QA/QC controls to protect schedule and quality.',
         detailsCardTitle: 'Project Details',
         detailsLabels: {
-          sector: 'Sector',
           projectType: 'Project Type',
           year: 'Year',
           status: 'Status',
@@ -84,7 +82,6 @@ function ProjectDetailsContent({ slug }: { slug: string }) {
           'نعتمد على التخطيط المنضبط، وتنفيذ يضع السلامة أولاً، وضوابط الجودة لضمان الالتزام بالوقت والجودة.',
         detailsCardTitle: 'تفاصيل المشروع',
         detailsLabels: {
-          sector: 'القطاع',
           projectType: 'نوع المشروع',
           year: 'السنة',
           status: 'الحالة',
@@ -262,7 +259,6 @@ function ProjectDetailsContent({ slug }: { slug: string }) {
   const CtaIcon = isArabic ? ArrowLeft : ArrowRight
 
   const detailsItems = [
-    { icon: Tag, label: t.detailsLabels.sector, value: project.sector },
     { icon: BriefcaseBusiness, label: t.detailsLabels.projectType, value: project.projectType },
     { icon: Calendar, label: t.detailsLabels.year, value: project.year },
     { icon: BadgeCheck, label: t.detailsLabels.status, value: project.status },

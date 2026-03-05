@@ -27,6 +27,7 @@ type Project = {
   sortOrder: number
   published: boolean
   showInMenu: boolean
+  showInGrid: boolean
   title: LocalizedText
   sector: LocalizedText
   projectType: LocalizedText
@@ -260,6 +261,7 @@ function newEmptyProject(): Project {
     sortOrder: 0,
     published: true,
     showInMenu: true,
+    showInGrid: true,
     title: emptyLocalized(),
     sector: emptyLocalized(),
     projectType: emptyLocalized(),
@@ -439,7 +441,15 @@ export default function AdminProjectsPage() {
   }
 
   const validateProject = (project: Project) => {
-    const parsed = projectInputSchema.safeParse(project)
+    const normalizedSector =
+      project.sector?.en?.trim() && project.sector?.ar?.trim()
+        ? project.sector
+        : {
+            en: project.client?.en?.trim() ? project.client.en.trim() : 'General',
+            ar: project.client?.ar?.trim() ? project.client.ar.trim() : 'عام',
+          }
+
+    const parsed = projectInputSchema.safeParse({ ...project, sector: normalizedSector })
     if (!parsed.success) {
       return {
         ok: false as const,
@@ -788,6 +798,9 @@ export default function AdminProjectsPage() {
                 <label className={ui.label}>
                   <input type="checkbox" checked={newProject.showInMenu} onChange={(e) => setNewProject((p) => ({ ...p, showInMenu: e.target.checked }))} /> Show in menu
                 </label>
+                <label className={ui.label}>
+                  <input type="checkbox" checked={newProject.showInGrid} onChange={(e) => setNewProject((p) => ({ ...p, showInGrid: e.target.checked }))} /> Show in grid
+                </label>
               </div>
             </div>
           </div>
@@ -806,19 +819,16 @@ export default function AdminProjectsPage() {
             errors={{ en: newProjectErrors['title.en'], ar: newProjectErrors['title.ar'] }}
           />
           <div className={ui.gridTwoWide}>
-            <LocalizedField label="Sector" value={newProject.sector} onChange={(v) => setNewProject((p) => ({ ...p, sector: v }))} required maxLength={200} errors={{ en: newProjectErrors['sector.en'], ar: newProjectErrors['sector.ar'] }} />
             <LocalizedField label="Project type" value={newProject.projectType} onChange={(v) => setNewProject((p) => ({ ...p, projectType: v }))} required maxLength={200} errors={{ en: newProjectErrors['projectType.en'], ar: newProjectErrors['projectType.ar'] }} />
-          </div>
-
-          <div className={ui.gridTwoWide}>
             <LocalizedField label="Status" value={newProject.status} onChange={(v) => setNewProject((p) => ({ ...p, status: v }))} required maxLength={200} errors={{ en: newProjectErrors['status.en'], ar: newProjectErrors['status.ar'] }} />
-            <LocalizedField label="Client" value={newProject.client} onChange={(v) => setNewProject((p) => ({ ...p, client: v }))} required maxLength={200} errors={{ en: newProjectErrors['client.en'], ar: newProjectErrors['client.ar'] }} />
           </div>
 
           <div className={ui.gridTwoWide}>
+            <LocalizedField label="Client" value={newProject.client} onChange={(v) => setNewProject((p) => ({ ...p, client: v }))} required maxLength={200} errors={{ en: newProjectErrors['client.en'], ar: newProjectErrors['client.ar'] }} />
             <LocalizedField label="Location" value={newProject.location} onChange={(v) => setNewProject((p) => ({ ...p, location: v }))} required maxLength={200} errors={{ en: newProjectErrors['location.en'], ar: newProjectErrors['location.ar'] }} />
-            <LocalizedField label="Cost" value={newProject.cost} onChange={(v) => setNewProject((p) => ({ ...p, cost: v }))} required maxLength={200} errors={{ en: newProjectErrors['cost.en'], ar: newProjectErrors['cost.ar'] }} />
           </div>
+
+          <LocalizedField label="Cost" value={newProject.cost} onChange={(v) => setNewProject((p) => ({ ...p, cost: v }))} required maxLength={200} errors={{ en: newProjectErrors['cost.en'], ar: newProjectErrors['cost.ar'] }} />
 
           <LocalizedField label="Summary" value={newProject.summary} onChange={(v) => setNewProject((p) => ({ ...p, summary: v }))} required textarea maxLength={1200} errors={{ en: newProjectErrors['summary.en'], ar: newProjectErrors['summary.ar'] }} />
           <LocalizedField label="Details" value={newProject.details} onChange={(v) => setNewProject((p) => ({ ...p, details: v }))} required textarea maxLength={8000} errors={{ en: newProjectErrors['details.en'], ar: newProjectErrors['details.ar'] }} />
@@ -919,7 +929,7 @@ export default function AdminProjectsPage() {
                       </h3>
                       <p className={ui.itemMeta}>
                         Slug: <code>{project.slug}</code> · Sort: {project.sortOrder} · {project.published ? 'Published' : 'Draft'} ·{' '}
-                        {project.showInMenu ? 'In menu' : 'Not in menu'} · Images: {project.galleryUploadIds.length}
+                        {project.showInMenu ? 'In menu' : 'Not in menu'} · {project.showInGrid ? 'In grid' : 'Table only'} · Images: {project.galleryUploadIds.length}
                       </p>
                     </div>
                     <div className={ui.itemActions}>
@@ -968,6 +978,9 @@ export default function AdminProjectsPage() {
                         <label className={ui.label}>
                           <input type="checkbox" checked={project.showInMenu} onChange={(e) => setProjects((prev) => prev.map((p) => (p.id === project.id ? { ...p, showInMenu: e.target.checked } : p)))} /> Show in menu
                         </label>
+                        <label className={ui.label}>
+                          <input type="checkbox" checked={project.showInGrid} onChange={(e) => setProjects((prev) => prev.map((p) => (p.id === project.id ? { ...p, showInGrid: e.target.checked } : p)))} /> Show in grid
+                        </label>
                       </div>
                     </div>
                   </div>
@@ -989,17 +1002,14 @@ export default function AdminProjectsPage() {
                     errors={{ en: errs['title.en'], ar: errs['title.ar'] }}
                   />
                   <div className={ui.gridTwoWide}>
-                    <LocalizedField label="Sector" value={project.sector} onChange={(v) => setProjects((prev) => prev.map((p) => (p.id === project.id ? { ...p, sector: v } : p)))} required maxLength={200} errors={{ en: errs['sector.en'], ar: errs['sector.ar'] }} />
                     <LocalizedField label="Project type" value={project.projectType} onChange={(v) => setProjects((prev) => prev.map((p) => (p.id === project.id ? { ...p, projectType: v } : p)))} required maxLength={200} errors={{ en: errs['projectType.en'], ar: errs['projectType.ar'] }} />
-                  </div>
-                  <div className={ui.gridTwoWide}>
                     <LocalizedField label="Status" value={project.status} onChange={(v) => setProjects((prev) => prev.map((p) => (p.id === project.id ? { ...p, status: v } : p)))} required maxLength={200} errors={{ en: errs['status.en'], ar: errs['status.ar'] }} />
-                    <LocalizedField label="Client" value={project.client} onChange={(v) => setProjects((prev) => prev.map((p) => (p.id === project.id ? { ...p, client: v } : p)))} required maxLength={200} errors={{ en: errs['client.en'], ar: errs['client.ar'] }} />
                   </div>
                   <div className={ui.gridTwoWide}>
+                    <LocalizedField label="Client" value={project.client} onChange={(v) => setProjects((prev) => prev.map((p) => (p.id === project.id ? { ...p, client: v } : p)))} required maxLength={200} errors={{ en: errs['client.en'], ar: errs['client.ar'] }} />
                     <LocalizedField label="Location" value={project.location} onChange={(v) => setProjects((prev) => prev.map((p) => (p.id === project.id ? { ...p, location: v } : p)))} required maxLength={200} errors={{ en: errs['location.en'], ar: errs['location.ar'] }} />
-                    <LocalizedField label="Cost" value={project.cost} onChange={(v) => setProjects((prev) => prev.map((p) => (p.id === project.id ? { ...p, cost: v } : p)))} required maxLength={200} errors={{ en: errs['cost.en'], ar: errs['cost.ar'] }} />
                   </div>
+                  <LocalizedField label="Cost" value={project.cost} onChange={(v) => setProjects((prev) => prev.map((p) => (p.id === project.id ? { ...p, cost: v } : p)))} required maxLength={200} errors={{ en: errs['cost.en'], ar: errs['cost.ar'] }} />
 
                   <LocalizedField label="Summary" value={project.summary} onChange={(v) => setProjects((prev) => prev.map((p) => (p.id === project.id ? { ...p, summary: v } : p)))} required textarea maxLength={1200} errors={{ en: errs['summary.en'], ar: errs['summary.ar'] }} />
                   <LocalizedField label="Details" value={project.details} onChange={(v) => setProjects((prev) => prev.map((p) => (p.id === project.id ? { ...p, details: v } : p)))} required textarea maxLength={8000} errors={{ en: errs['details.en'], ar: errs['details.ar'] }} />

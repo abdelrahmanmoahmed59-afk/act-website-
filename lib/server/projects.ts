@@ -32,6 +32,7 @@ export type LocalizedProject = {
   images: string[]
   published: boolean
   showInMenu: boolean
+  showInGrid: boolean
 }
 
 type ProjectsStore = {
@@ -129,6 +130,7 @@ export function localizeProject(project: ProjectI18n, lang: Language): Localized
     sortOrder: project.sortOrder,
     published: project.published,
     showInMenu: project.showInMenu,
+    showInGrid: project.showInGrid ?? true,
     title: project.title[lang],
     sector: project.sector[lang],
     projectType: project.projectType[lang],
@@ -168,6 +170,7 @@ export async function listProjects(opts?: { publishedOnly?: boolean; menuOnly?: 
     .filter((p) => (menuOnly ? p.showInMenu : true))
     .map((p) => ({
       ...p,
+      showInGrid: p.showInGrid ?? true,
       images:
         Array.isArray(p.images) && p.images.length ? p.images : galleryIdsToUrls(normalizeGalleryIds(p.galleryUploadIds)),
     }))
