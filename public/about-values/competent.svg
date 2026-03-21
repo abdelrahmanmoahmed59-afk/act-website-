@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 360" role="img" aria-labelledby="title">
+  <title>Competent</title>
+  <path fill="#ff3b30" d="M0 0h360v360H88C39 360 0 321 0 272V0Z"/>
+  <g fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="14">
+    <circle cx="115" cy="112" r="26"/>
+    <path d="M115 145v90"/>
+    <path d="M84 180v53"/>
+    <path d="M146 180v53"/>
+    <path d="M102 234v72"/>
+    <path d="M128 234v72"/>
+
+    <path d="M195 88h26l10 22v130h-46V110z"/>
+    <path d="M185 150h46"/>
+    <path d="M184 240h48"/>
+
+    <path d="M270 90v152"/>
+    <path d="M242 102h56"/>
+    <path d="M255 102v42"/>
+    <path d="M286 102v42"/>
+    <path d="M270 144v78"/>
+    <path d="M248 242h44"/>
+    <path d="M258 242v26"/>
+    <path d="M282 242v26"/>
+  </g>
+  <text
+    x="180"
+    y="324"
+    fill="#fff"
+    font-family="Arial, Helvetica, sans-serif"
+    font-size="48"
+    font-weight="700"
+    letter-spacing="6"
+    text-anchor="middle"
+  >
+    COMPETENT
+  </text>
+</svg>

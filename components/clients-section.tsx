@@ -37,7 +37,7 @@ function ClientsSectionContent({ content }: { content?: SuccessClientsContentByL
   const copy = useMemo(
     () => ({
       en: {
-        title: 'Our Success Clients',
+        title: 'Our Clients',
         subtitle:
           'OUR COMMON SUCCESS IS THE BASE OF OUR PARTNERSHIP, WHETHER YOU ARE A SUPPLIER OR CUSTOMER',
       },
@@ -84,9 +84,9 @@ function ClientsSectionContent({ content }: { content?: SuccessClientsContentByL
                       <Image
                         src={logo.src}
                         alt={alt}
-                        width={220}
-                        height={90}
-                        sizes="220px"
+                        width={280}
+                        height={116}
+                        sizes="280px"
                         className={styles.logo}
                         priority={index < logos.length}
                       />

@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 360" role="img" aria-labelledby="title">
+  <title>Reliable</title>
+  <path fill="#0b486d" d="M0 0h360v360H88C39 360 0 321 0 272V0Z"/>
+  <path
+    fill="#fff"
+    d="M180 58c15 0 27 12 40 16s31-4 42 7 9 28 17 40 28 15 33 28-6 30-6 44 12 29 6 42-23 18-33 30-8 29-19 40-29 3-42 7-24 16-38 16-26-12-39-16-31 4-42-7-9-28-17-40-28-15-33-28 6-30 6-44-12-29-6-42 23-18 33-30 8-29 19-40 29-3 42-7 24-16 37-16Z"
+  />
+  <path
+    fill="#0b486d"
+    d="m180 111 19 39 43 7-31 30 7 43-38-20-38 20 7-43-31-30 43-7 19-39Z"
+  />
+  <text
+    x="180"
+    y="324"
+    fill="#fff"
+    font-family="Arial, Helvetica, sans-serif"
+    font-size="50"
+    font-weight="700"
+    letter-spacing="6"
+    text-anchor="middle"
+  >
+    RELIABLE
+  </text>
+</svg>

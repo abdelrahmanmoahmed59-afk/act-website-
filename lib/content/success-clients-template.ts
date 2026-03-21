@@ -7,10 +7,10 @@ export type SuccessClientsLogoTemplate = {
 }
 
 export const successClientsTemplate = {
-  title: { en: 'Our Success Clients', ar: 'عملاؤنا الناجحون' },
+  title: { en: 'Our Clients', ar: 'عملاؤنا الناجحون' },
   subtitle: {
     en: 'OUR COMMON SUCCESS IS THE BASE OF OUR PARTNERSHIP, WHETHER YOU ARE A SUPPLIER OR CUSTOMER',
-    ar: 'نجاحنا المشترك هو أساس شراكتنا، سواء كنت مورّدًا أو عميلًا',
+    ar: 'نجاحنا المشترك هو أساس شراكتنا، سواء كنت مورّداً أو عميلاً',
   },
   logos: [
     { imageUrl: '/placeholder-logo.png', alt: { en: 'Tiba Mills', ar: 'تيبا ميلز' }, sortOrder: 0 },
@@ -21,4 +21,3 @@ export const successClientsTemplate = {
     { imageUrl: '/placeholder-logo.png', alt: { en: 'GIZ', ar: 'GIZ' }, sortOrder: 5 },
   ] as SuccessClientsLogoTemplate[],
 }
-

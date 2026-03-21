@@ -40,17 +40,12 @@ function OverviewContent() {
       missionTitle: 'Mission',
       missionDesc:
         'Keep projects on track with disciplined planning, safe sites, and transparent reporting at every stage.',
-      visionTitle: 'Vision',
+      visionTitle: 'Our Vision',
       visionDesc:
-        'Be the trusted contracting partner in Kuwait for public, commercial, and infrastructure work.',
+        'To be the most trusted and innovative construction partner in the region, known for quality, reliability, and transformative projects.',
       valuesTitle: 'Values',
-      values: [
-        'Safety first',
-        'Integrity and transparency',
-        'On-time delivery',
-        'Quality without compromise',
-        'Continuous improvement',
-      ],
+      values:
+        'We are committed to being the best. To achieve it, we foster innovative solutions, leverage advanced technology, provide leadership in each phase of development, and communicate with every stakeholder - all while honoring schedules and meeting budgets',
       highlightsTitle: 'What We Deliver',
       highlights: [
         {
@@ -95,22 +90,22 @@ function OverviewContent() {
       journeyIntro: 'Milestones that shaped our delivery model across Kuwait.',
       journey: [
         {
-          year: '2008',
+          year: '2017',
           title: 'Company founded',
           description: 'Launched as a civil contractor serving municipal and commercial works.',
         },
         {
-          year: '2012',
+          year: '2019',
           title: 'Public sector growth',
           description: 'Expanded delivery capacity for government and infrastructure programs.',
         },
         {
-          year: '2016',
+          year: '2021',
           title: 'MEP integration',
           description: 'Built in-house coordination for building systems and fit-out packages.',
         },
         {
-          year: '2020',
+          year: '2022',
           title: 'Program management',
           description: 'Standardized reporting, QA/QC gates, and safety leadership across sites.',
         },
@@ -124,10 +119,10 @@ function OverviewContent() {
       assuranceDesc:
         'Our HSE and QA/QC programs combine on-site supervision, toolbox talks, and inspection gates to protect people, assets, and specifications.',
       stats: [
-        { value: '18+', label: 'Years of delivery' },
-        { value: '200+', label: 'Projects completed' },
-        { value: '35', label: 'Active sites' },
-        { value: '3.2M', label: 'm2 built' },
+        { value: '10+', label: 'Years of delivery' },
+        { value: '20+', label: 'Projects completed' },
+        { value: '20', label: 'Active sites' },
+        { value: '1.2M', label: 'm2 built' },
       ],
       ctaTitle: 'Plan your next project',
       ctaDesc: 'Share your scope and timeline and we will respond with the right delivery approach.',
@@ -144,15 +139,11 @@ function OverviewContent() {
       missionDesc:
         'تنفيذ المشاريع بتخطيط منضبط ومواقع آمنة وتقارير واضحة ليبقى العميل مسيطرا على كل مرحلة.',
       visionTitle: 'رؤيتنا',
-      visionDesc: 'أن نكون الشريك التعاقدي الموثوق في الكويت للمشاريع العامة والتجارية والبنية التحتية.',
+      visionDesc:
+        'تقديم حلول بناء وتطوير استثنائية تتجاوز توقعات العملاء وتساهم في النمو المستدام للكويت.',
       valuesTitle: 'قيمنا',
-      values: [
-        'السلامة أولاً',
-        'النزاهة والشفافية',
-        'الالتزام بالمواعيد',
-        'جودة بلا تنازل',
-        'تحسين مستمر',
-      ],
+      values:
+        'نحن ملتزمون بأن نكون الأفضل. ولتحقيق ذلك، فإننا نرعى الحلول المبتكرة، ونستفيد من التكنولوجيا المتقدمة، ونوفر القيادة في كل مرحلة من مراحل التطوير، ونتواصل مع كل صاحب مصلحة - مع الالتزام بالجداول الزمنية والميزانيات',
       highlightsTitle: 'ما نقدمه',
       highlights: [
         {
@@ -197,22 +188,22 @@ function OverviewContent() {
       journeyIntro: 'محطات رئيسية شكلت نموذج تسليمنا في الكويت.',
       journey: [
         {
-          year: '2008',
+          year: '2017',
           title: 'تأسيس الشركة',
           description: 'انطلقنا كمقاول مدني يخدم الأعمال البلدية والتجارية.',
         },
         {
-          year: '2012',
+          year: '2019',
           title: 'النمو في القطاع الحكومي',
           description: 'وسعنا القدرة على تنفيذ برامج الجهات الحكومية والبنية التحتية.',
         },
         {
-          year: '2016',
+          year: '2021',
           title: 'تكامل أعمال MEP',
           description: 'طورنا التنسيق الداخلي لأنظمة المباني وحزم التشطيبات.',
         },
         {
-          year: '2020',
+          year: '2022',
           title: 'إدارة البرامج',
           description: 'وحدنا التقارير ونقاط فحص الجودة وقيادة السلامة عبر المواقع.',
         },
@@ -226,10 +217,10 @@ function OverviewContent() {
       assuranceDesc:
         'برنامج HSE وQA/QC يجمع بين إشراف ميداني واجتماعات سلامة ونقاط فحص لضمان سلامة الأفراد والالتزام بالمواصفات.',
       stats: [
-        { value: '18+', label: 'سنة خبرة' },
-        { value: '200+', label: 'مشروع منجز' },
-        { value: '35', label: 'موقع نشط' },
-        { value: '3.2M', label: 'م2 منفذة' },
+        { value: '10+', label: 'سنة خبرة' },
+        { value: '20+', label: 'مشروع منجز' },
+        { value: '20', label: 'موقع نشط' },
+        { value: '1.2M', label: 'م2 منفذة' },
       ],
       ctaTitle: 'خطط لمشروعك القادم',
       ctaDesc: 'شاركنا نطاق العمل والجدول الزمني لنقترح أسلوب التنفيذ المناسب.',
@@ -339,17 +330,21 @@ function OverviewContent() {
                   </span>
                   <h3 className={styles.cardTitle}>{data.valuesTitle}</h3>
                 </div>
-                <div className={styles.valuesList}>
-                  {data.values.map((value: string, index: number) => (
-                    <span
-                      key={value}
-                      className={styles.valuePill}
-                      style={{ '--i': index } as React.CSSProperties}
-                    >
-                      {value}
-                    </span>
-                  ))}
-                </div>
+                {Array.isArray(data.values) ? (
+                  <div className={styles.valuesList}>
+                    {data.values.map((value: string, index: number) => (
+                      <span
+                        key={value}
+                        className={styles.valuePill}
+                        style={{ '--i': index } as React.CSSProperties}
+                      >
+                        {value}
+                      </span>
+                    ))}
+                  </div>
+                ) : (
+                  <p className={styles.cardText}>{data.values}</p>
+                )}
               </div>
             </div>
           </div>

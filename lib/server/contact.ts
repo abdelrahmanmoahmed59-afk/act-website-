@@ -2,6 +2,7 @@ import 'server-only'
 
 import { promises as fs } from 'node:fs'
 
+import { normalizeContactSettings } from '@/lib/contact-settings'
 import { contactTemplate } from '@/lib/content/contact-template'
 import { readOrInitJsonFile, resolveDataPath, withFileLock, writeJsonFile } from '@/lib/server/file-store'
 import type { ContactSettingsInput, ContactSubmissionInput } from '@/lib/validation/contact'
@@ -39,14 +40,22 @@ function initSubmissionsStore(): ContactSubmissionsStore {
   return { submissions: [], nextId: 1, updatedAt: new Date().toISOString() }
 }
 
+async function readSettingsStoreFile() {
+  return readOrInitJsonFile<ContactSettingsStore>(SETTINGS_PATH, initSettingsStore)
+}
+
+async function readSubmissionsStoreFile() {
+  return readOrInitJsonFile<ContactSubmissionsStore>(SUBMISSIONS_PATH, initSubmissionsStore)
+}
+
 async function readSettingsStore() {
   await migrateLegacyStoreIfNeeded()
-  return readOrInitJsonFile<ContactSettingsStore>(SETTINGS_PATH, initSettingsStore)
+  return readSettingsStoreFile()
 }
 
 async function readSubmissionsStore() {
   await migrateLegacyStoreIfNeeded()
-  return readOrInitJsonFile<ContactSubmissionsStore>(SUBMISSIONS_PATH, initSubmissionsStore)
+  return readSubmissionsStoreFile()
 }
 
 async function migrateLegacyStoreIfNeeded() {
@@ -78,7 +87,7 @@ async function migrateLegacyStoreIfNeeded() {
 
     const legacy = JSON.parse(legacyRaw) as any
     const updatedAt = typeof legacy?.updatedAt === 'string' ? legacy.updatedAt : new Date().toISOString()
-    const legacySettings = legacy?.settings ?? contactTemplate
+    const legacySettings = normalizeContactSettings(legacy?.settings ?? contactTemplate)
     const legacySubmissions = Array.isArray(legacy?.submissions) ? legacy.submissions : []
     const legacyNextId =
       typeof legacy?.nextSubmissionId === 'number' && Number.isFinite(legacy.nextSubmissionId)
@@ -92,12 +101,13 @@ async function migrateLegacyStoreIfNeeded() {
 
 export async function getContactSettings(): Promise<ContactSettingsI18n | null> {
   const store = await readSettingsStore()
-  return store.settings ?? null
+  return store.settings ? normalizeContactSettings(store.settings) : null
 }
 
 export async function upsertContactSettings(input: ContactSettingsInput): Promise<ContactSettingsI18n> {
+  await migrateLegacyStoreIfNeeded()
   return withFileLock(SETTINGS_PATH, async () => {
-    const store = await readSettingsStore()
+    const store = await readSettingsStoreFile()
     const next: ContactSettingsStore = { ...store, settings: input, updatedAt: new Date().toISOString() }
     await writeJsonFile(SETTINGS_PATH, next)
     return next.settings
@@ -105,8 +115,9 @@ export async function upsertContactSettings(input: ContactSettingsInput): Promis
 }
 
 export async function createContactSubmission(input: ContactSubmissionInput): Promise<ContactSubmission> {
+  await migrateLegacyStoreIfNeeded()
   return withFileLock(SUBMISSIONS_PATH, async () => {
-    const store = await readSubmissionsStore()
+    const store = await readSubmissionsStoreFile()
     const id = Math.max(1, Math.floor(store.nextId || 1))
     const created: ContactSubmission = {
       id,

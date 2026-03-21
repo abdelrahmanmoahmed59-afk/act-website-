@@ -34,14 +34,20 @@
 
 .founderImage {
   position: relative;
+  display: flex;
+  justify-content: center;
   animation: slideInLeft 0.8s ease-out;
 }
 
-.founderImage svg {
+.founderPortrait {
   width: 100%;
   max-width: 400px;
-  color: var(--accent);
-  filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.1));
+  height: auto;
+  display: block;
+  border-radius: 18px;
+  object-fit: cover;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.14);
+  margin-inline: auto;
 }
 
 .founderInfo {
@@ -177,7 +183,7 @@
     font-size: 28px;
   }
 
-  .founderImage svg {
+  .founderPortrait {
     max-width: 300px;
   }
 

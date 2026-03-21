@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 360" role="img" aria-labelledby="title">
+  <title>Care</title>
+  <path fill="#73c7d0" d="M0 0h360v360H88C39 360 0 321 0 272V0Z"/>
+  <g fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="14">
+    <path d="M180 82c11-23 42-31 63-13 20 17 22 47 4 67l-67 66-67-66c-18-20-16-50 4-67 21-18 52-10 63 13Z"/>
+    <path d="M77 194h34v78H77z"/>
+    <path d="M111 210h38l95-11c17-2 24 21 8 29l-43 15 32 2c13 1 22 12 22 24 0 12-8 22-19 25l-62 18h-49l-22-16"/>
+    <path d="M150 212 178 233"/>
+  </g>
+  <text
+    x="180"
+    y="324"
+    fill="#fff"
+    font-family="Arial, Helvetica, sans-serif"
+    font-size="52"
+    font-weight="700"
+    letter-spacing="6"
+    text-anchor="middle"
+  >
+    CARE
+  </text>
+</svg>

@@ -266,7 +266,6 @@ function ProjectDetailsContent({ slug }: { slug: string }) {
     { icon: MapPin, label: t.detailsLabels.location, value: project.location },
     { icon: Wallet, label: t.detailsLabels.cost, value: project.cost },
   ]
-
   const heroSrc = project.images[0] || '/placeholder.jpg'
   const heroFit = getMediaFit(heroSrc)
 
@@ -284,6 +283,19 @@ function ProjectDetailsContent({ slug }: { slug: string }) {
 
         <div className={styles.container}>
           <header className={styles.hero}>
+            <div className={styles.heroCopy}>
+              <Link href="/projects" className={styles.backLink} aria-label={t.back}>
+                <BackIcon className={styles.backIcon} aria-hidden="true" />
+                <span>{t.back}</span>
+              </Link>
+
+              <div className={styles.heroTextBlock}>
+                <p className={styles.eyebrow}>{t.eyebrow}</p>
+                <h1 className={styles.heroTitle}>{project.title}</h1>
+                <p className={styles.heroSubtitle}>{project.summary}</p>
+              </div>
+            </div>
+
             <div
               className={styles.heroMedia}
               aria-hidden="true"
@@ -294,21 +306,13 @@ function ProjectDetailsContent({ slug }: { slug: string }) {
                 src={heroSrc}
                 alt=""
                 fill
-                sizes="100vw"
+                sizes="(max-width: 1024px) 100vw, 42vw"
                 priority
                 className={styles.heroImage}
               />
               <div className={styles.heroMediaOverlay} />
             </div>
 
-            <Link href="/projects" className={styles.backLink} aria-label={t.back}>
-              <BackIcon className={styles.backIcon} aria-hidden="true" />
-              <span>{t.back}</span>
-            </Link>
-
-            <p className={styles.eyebrow}>{t.eyebrow}</p>
-            <h1 className={styles.heroTitle}>{project.title}</h1>
-            <p className={styles.heroSubtitle}>{project.summary}</p>
           </header>
 
           <section className={styles.splitSection} aria-label={t.overviewTitle}>

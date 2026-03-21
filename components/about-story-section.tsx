@@ -10,20 +10,20 @@ function AboutStoryContent({ isPageTop }: { isPageTop?: boolean }) {
 
   const content = {
     en: {
-      title: "About Our Story",
-      subtitle: "Building Excellence Since 2010",
-      description: "Advanced Combined Group (ACT) was founded with a vision to transform the construction and contracting industry in Kuwait. With over a decade of expertise, we have established ourselves as a trusted partner for major infrastructure and commercial projects.",
+      title: "Our Story",
+      subtitle: "Founded in Kuwait in Jan. 2017",
+      description: "Founded in Kuwait in Jan. 2017, today is the regional in design, build and construction of industrial, Residential and commercial buildings in Kuwait. Structured in a decentralized manner, the company has built its reputation on the ability to provide design solutions for extremely fast track projects and enable to participate in various governmental tenders & projects in Kuwait State.",
       highlights: [
-        { label: "Years of Experience", value: "15+" },
-        { label: "Projects Completed", value: "200+" },
-        { label: "Team Members", value: "500+" },
-        { label: "Client Satisfaction", value: "98%" }
+        { label: "Years of Experience", value: "10+" },
+        { label: "Projects Completed", value: "20+" },
+        { label: "Team Members", value: "50+" },
+        { label: "Client Satisfaction", value: "100%" }
       ]
     },
     ar: {
       title: "عن قصتنا",
-      subtitle: "بناء التميز منذ 2010",
-      description: "تأسست مجموعة ACT المتقدمة برؤية تحويل صناعة البناء والمقاولات في الكويت. مع أكثر من عقد من الخبرة، أثبتنا أنفسنا كشريك موثوق للمشاريع البنية التحتية والتجارية الكبرى.",
+      subtitle: "تأسست في الكويت في يناير 2017",
+      description: "تأسست في الكويت في يناير 2017، واليوم تُعد من الشركات الإقليمية الرائدة في تصميم وبناء وتشييد المباني الصناعية والسكنية والتجارية في الكويت. وتعتمد الشركة هيكلاً لامركزياً، وقد بنت سمعتها على قدرتها على تقديم حلول تصميمية للمشاريع ذات الجداول الزمنية السريعة للغاية، وتمكينها من المشاركة في مختلف المناقصات والمشاريع الحكومية في دولة الكويت.",
       highlights: [
         { label: "سنوات الخبرة", value: "15+" },
         { label: "المشاريع المكتملة", value: "200+" },
@@ -48,8 +48,8 @@ function AboutStoryContent({ isPageTop }: { isPageTop?: boolean }) {
         <div className={styles.storyPanel}>
           <div className={styles.imageFrame}>
             <Image
-              src="/modern-corporate-building-kuwait-premium-architect.jpg"
-              alt=""
+              src="/actProfile.png"
+              alt="ACT Advanced Combined Group profile"
               fill
               className={styles.storyImage}
               sizes="(max-width: 768px) 100vw, 40vw"

@@ -441,8 +441,9 @@
 
 .readMoreButton:hover {
   transform: translate3d(0, -1px, 0);
-  background: rgba(from var(--accent) r g b / 0.16);
-  border-color: rgba(from var(--accent) r g b / 0.5);
+  background: #2E5F9B;
+  border-color: #2E5F9B;
+  color: #ffffff;
 }
 
 .readMoreArrow {

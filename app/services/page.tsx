@@ -6,11 +6,15 @@ import {
   AlarmClock,
   BadgeCheck,
   Building2,
+  Calculator,
   ClipboardList,
+  DraftingCompass,
   Factory,
   Handshake,
   Home,
+  Landmark,
   Layers,
+  MapPinned,
   MessageCircle,
   Network,
   Route,
@@ -27,7 +31,17 @@ import styles from './page.module.css'
 function ServicesContent() {
   const { language } = useLanguage()
 
-  const serviceIcons = [Building2, Home, Route, Wrench] as const
+  const serviceIcons = [
+    Building2,
+    Calculator,
+    ClipboardList,
+    Home,
+    Landmark,
+    Route,
+    Wrench,
+    MapPinned,
+    DraftingCompass,
+  ] as const
   const whyIcons = [Layers, BadgeCheck, AlarmClock, Network, Factory, MessageCircle] as const
   const caseIcons = [Building2, Warehouse, Route] as const
 
@@ -39,36 +53,111 @@ function ServicesContent() {
       services: [
         {
           id: 1,
-          title: 'Commercial Construction',
+          title: 'General Construction & Allied Services',
           description:
-            'From concept to completion, we deliver state-of-the-art commercial buildings with modern designs and sustainable practices.',
+            'Integrated construction delivery for buildings, fit-out packages, and support trades managed under one coordinated team.',
           features: [
-            'Office buildings',
-            'Retail complexes',
-            'Mixed-use developments',
-            'Business parks',
+            'Main contracting and site execution',
+            'Structural, finishing, and allied trade packages',
+            'MEP coordination and handover support',
+            'Quality, safety, and schedule control',
           ],
         },
         {
           id: 2,
-          title: 'Residential Development',
+          title: 'Construction Cost Consultancy',
           description:
-            'We create quality residential spaces that combine comfort, luxury, and durability.',
-          features: ['Apartment complexes', 'Villas', 'Town houses', 'Master-planned communities'],
+            'Commercial guidance that helps clients understand budgets early, compare options, and keep construction costs under control.',
+          features: [
+            'Preliminary cost planning and benchmarking',
+            'Bill of quantities and tender reviews',
+            'Value engineering recommendations',
+            'Budget tracking across project stages',
+          ],
         },
         {
           id: 3,
-          title: 'Infrastructure Projects',
+          title: 'Project Management',
           description:
-            'Government and public infrastructure contracts delivered with precision and adherence to schedules.',
-          features: ['Roads and highways', 'Water systems', 'Power facilities', 'Public buildings'],
+            'Structured project leadership from kickoff to closeout with clear reporting, risk control, and stakeholder coordination.',
+          features: [
+            'Program planning and milestone control',
+            'Consultant and contractor coordination',
+            'Progress reporting and issue escalation',
+            'Risk, quality, and procurement oversight',
+          ],
         },
         {
           id: 4,
-          title: 'Renovation & Restoration',
+          title: 'Real Estate',
           description:
-            'Complete modernization and restoration of existing structures while preserving structural integrity.',
-          features: ['Building refurbishment', 'System upgrades', 'Interior redesign', 'Heritage restoration'],
+            'Real estate support for clients seeking property opportunities, development positioning, and transaction guidance in Kuwait.',
+          features: [
+            'Property sourcing and opportunity review',
+            'Market-oriented asset evaluation',
+            'Buyer and seller coordination',
+            'Development feasibility input',
+          ],
+        },
+        {
+          id: 5,
+          title: 'Property Development & Investment',
+          description:
+            'Development planning and investment support focused on long-term value, workable phasing, and commercially viable delivery models.',
+          features: [
+            'Site potential and concept review',
+            'Investment and development planning',
+            'Phasing and delivery strategy',
+            'Commercial positioning for projects',
+          ],
+        },
+        {
+          id: 6,
+          title: 'Civil Engineering Works',
+          description:
+            'Execution of civil works packages for infrastructure, utilities, and external works with disciplined site controls.',
+          features: [
+            'Roads, pavements, and grading',
+            'Drainage and utility networks',
+            'Earthworks and enabling works',
+            'Public realm and infrastructure support',
+          ],
+        },
+        {
+          id: 7,
+          title: 'Facility Management',
+          description:
+            'Operational support services that help facilities remain safe, functional, and efficient after project completion.',
+          features: [
+            'Preventive and corrective maintenance',
+            'MEP systems monitoring and upkeep',
+            'Asset condition and service coordination',
+            'Operational readiness support',
+          ],
+        },
+        {
+          id: 8,
+          title: 'Land Sales',
+          description:
+            'Professional assistance for land transactions with practical evaluation of location, use potential, and development readiness.',
+          features: [
+            'Land parcel review and matching',
+            'Use-case and development suitability checks',
+            'Transaction coordination support',
+            'Owner and buyer communication',
+          ],
+        },
+        {
+          id: 9,
+          title: 'Architectural Drawings',
+          description:
+            'Architectural drawing services that translate project requirements into clear layouts, presentation sets, and coordinated documents.',
+          features: [
+            'Concept and schematic layouts',
+            'Permit and presentation drawing sets',
+            'Detailed architectural drafting',
+            'Coordination with engineering disciplines',
+          ],
         },
       ],
       whyTitle: 'Why Choose ACT',
@@ -100,22 +189,27 @@ function ServicesContent() {
         },
       ],
       caseTitle: 'Case Studies',
-      caseIntro: 'A snapshot of how our teams deliver complex projects across Kuwait.',
+      caseIntro: 'Selected completed projects that reflect our practical experience in contracting, construction, renovation, and residential delivery.',
       caseStudies: [
         {
-          title: 'Kuwait City Mixed-Use Complex',
-          scope: 'Commercial towers, retail podium, and MEP coordination.',
-          result: 'Delivered phased handovers with strict safety controls and zero critical delays.',
+          title: "Workers' Housing Project",
+          scope: "Execution of full workers' housing facilities including structural works, internal services, finishing packages, and supporting site infrastructure.",
+          result: 'Delivered as a complete accommodation project ready for occupancy with coordinated finishing, utilities, and handover requirements.',
         },
         {
-          title: 'Industrial Logistics Hub',
-          scope: 'Warehousing, utilities, and heavy-duty pavements.',
-          result: 'Optimized site logistics and commissioning for 24/7 operations readiness.',
+          title: 'Mosque Renovation & Maintenance',
+          scope: 'Renovation, repair, and maintenance works covering architectural finishes, essential building services, and ongoing site coordination.',
+          result: 'Completed with careful attention to building condition, service continuity, and the functional requirements of an active mosque facility.',
         },
         {
-          title: 'Public Infrastructure Corridor',
-          scope: 'Roadworks, drainage, and traffic management.',
-          result: 'Maintained live traffic flow while meeting government milestones.',
+          title: 'Commercial Building Project',
+          scope: 'Full construction delivery including structural frame, envelope, internal finishes, electromechanical coordination, and external works.',
+          result: 'Handed over as a complete commercial asset with controlled execution, coordinated trades, and readiness for tenant or owner use.',
+        },
+        {
+          title: 'Large-Scale Housing Development',
+          scope: 'Residential construction program covering repeated housing units, utility connections, road interfaces, and phased site delivery.',
+          result: 'Managed as a large-scale housing package with consistent quality control, organized sequencing, and practical handover across multiple units.',
         },
       ],
       readyTitle: 'Ready to Get Started',
@@ -128,29 +222,109 @@ function ServicesContent() {
       services: [
         {
           id: 1,
-          title: 'البناء التجاري',
+          title: 'الإنشاءات العامة والخدمات المساندة',
           description:
-            'من المفهوم إلى الإنجاز، نقدم مباني تجارية حديثة بتصاميم عصرية وممارسات مستدامة.',
-          features: ['مباني المكاتب', 'المجمعات التجارية', 'المشاريع المختلطة', 'مدن الأعمال'],
+            'تنفيذ متكامل لأعمال البناء والمباني وحزم التشطيبات والأعمال المساندة من خلال فريق واحد منسق.',
+          features: [
+            'المقاولات الرئيسية وتنفيذ الأعمال بالموقع',
+            'الأعمال الإنشائية والتشطيبات والحزم المساندة',
+            'تنسيق أعمال الكهروميكانيك ودعم التسليم',
+            'ضبط الجودة والسلامة والجدول الزمني',
+          ],
         },
         {
           id: 2,
-          title: 'التطوير السكني',
-          description: 'نحن ننشئ مساحات سكنية عالية الجودة تجمع بين الراحة والفخامة والمتانة.',
-          features: ['المجمعات السكنية', 'الفلل', 'التاون هاوسات', 'المجتمعات المخططة'],
+          title: 'استشارات تكاليف البناء',
+          description: 'استشارات تجارية تساعد العملاء على فهم الميزانيات مبكرًا ومقارنة البدائل وضبط تكاليف التنفيذ.',
+          features: [
+            'التخطيط التقديري للتكلفة والمقارنات المرجعية',
+            'حصر الكميات ومراجعة العطاءات',
+            'اقتراحات الهندسة القيمية',
+            'متابعة الميزانية خلال مراحل المشروع',
+          ],
         },
         {
           id: 3,
-          title: 'المشاريع الهندسية',
-          description: 'عقود البنية التحتية الحكومية والعامة المنفذة بدقة والالتزام بالجداول الزمنية.',
-          features: ['الطرق والطرق السريعة', 'الأنظمة المائية', 'مرافق الطاقة', 'المباني العامة'],
+          title: 'إدارة المشاريع',
+          description: 'قيادة منظمة للمشروع من البداية حتى الإقفال مع تقارير واضحة وضبط للمخاطر وتنسيق بين جميع الأطراف.',
+          features: [
+            'التخطيط البرنامجي وضبط المراحل',
+            'التنسيق بين الاستشاريين والمقاولين',
+            'تقارير التقدم ومعالجة التحديات',
+            'الإشراف على المخاطر والجودة والمشتريات',
+          ],
         },
         {
           id: 4,
-          title: 'التجديد والترميم',
+          title: 'العقارات',
           description:
-            'تحديث وترميم شامل للهياكل الموجودة مع الحفاظ على سلامة البناء الهيكلي.',
-          features: ['تجديد المباني', 'تحديث الأنظمة', 'إعادة تصميم داخلي', 'ترميم التراث'],
+            'دعم عقاري للعملاء الباحثين عن فرص مناسبة وتقييم الأصول وربط القرارات العقارية بأهداف التطوير.',
+          features: [
+            'البحث عن الفرص العقارية المناسبة',
+            'تقييم الأصول من منظور السوق',
+            'التنسيق بين البائعين والمشترين',
+            'مدخلات أولية لجدوى التطوير',
+          ],
+        },
+        {
+          id: 5,
+          title: 'تطوير واستثمار العقارات',
+          description:
+            'خدمات تخطيط التطوير والاستثمار بما يركز على القيمة طويلة الأجل ومراحل تنفيذ عملية ونماذج تطوير مجدية.',
+          features: [
+            'دراسة إمكانات الموقع والفكرة التطويرية',
+            'التخطيط الاستثماري والتطويري',
+            'وضع مراحل التنفيذ والاستراتيجية',
+            'التموضع التجاري للمشاريع',
+          ],
+        },
+        {
+          id: 6,
+          title: 'الأعمال الهندسية المدنية',
+          description:
+            'تنفيذ حزم الأعمال المدنية للبنية التحتية والمرافق والأعمال الخارجية مع ضبط دقيق للموقع.',
+          features: [
+            'الطرق والساحات وأعمال التسوية',
+            'شبكات التصريف والمرافق',
+            'أعمال الحفر والتهيئة',
+            'دعم البنية التحتية والأعمال الخارجية',
+          ],
+        },
+        {
+          id: 7,
+          title: 'إدارة المرافق',
+          description:
+            'خدمات تشغيلية تساعد المنشآت على البقاء آمنة وفعالة وجاهزة للتشغيل بعد اكتمال المشروع.',
+          features: [
+            'الصيانة الوقائية والتصحيحية',
+            'متابعة وصيانة أنظمة الكهروميكانيك',
+            'تنسيق الأصول والخدمات التشغيلية',
+            'دعم الجاهزية التشغيلية',
+          ],
+        },
+        {
+          id: 8,
+          title: 'بيع الأراضي',
+          description:
+            'مساندة مهنية لعمليات بيع وشراء الأراضي مع تقييم عملي للموقع وقابلية الاستخدام والاستعداد للتطوير.',
+          features: [
+            'مراجعة قطع الأراضي ومطابقتها للاحتياج',
+            'فحص ملاءمة الاستخدام والتطوير',
+            'دعم تنسيق العملية البيعية',
+            'التواصل بين الملاك والمشترين',
+          ],
+        },
+        {
+          id: 9,
+          title: 'الرسومات المعمارية',
+          description:
+            'خدمات إعداد الرسومات المعمارية لتحويل متطلبات المشروع إلى مخططات واضحة وعروض تقديمية ووثائق منسقة.',
+          features: [
+            'المخططات المفاهيمية والابتدائية',
+            'رسومات التقديم والتراخيص',
+            'إعداد الرسومات المعمارية التفصيلية',
+            'التنسيق مع التخصصات الهندسية',
+          ],
         },
       ],
       whyTitle: 'لماذا تختار ACT',
@@ -182,22 +356,27 @@ function ServicesContent() {
         },
       ],
       caseTitle: 'دراسات حالة',
-      caseIntro: 'لمحة عن كيفية تنفيذ فرقنا لمشاريع معقدة في الكويت.',
+      caseIntro: 'نماذج من المشاريع المنجزة التي تعكس خبرتنا العملية في المقاولات وأعمال البناء والترميم وتنفيذ المشروعات السكنية.',
       caseStudies: [
         {
-          title: 'مجمع متعدد الاستخدامات في مدينة الكويت',
-          scope: 'أبراج تجارية ومنصة تجزئة وتنسيق أعمال MEP.',
-          result: 'تسليم مرحلي مع ضوابط سلامة صارمة ودون تأخير حرج.',
+          title: 'مشروع سكن عمال',
+          scope: 'تنفيذ متكامل لمرافق سكن العمال بما يشمل الأعمال الإنشائية والخدمات الداخلية والتشطيبات والبنية التحتية المساندة للموقع.',
+          result: 'تم تسليم المشروع كمجمع سكني مكتمل وجاهز للإشغال مع تنسيق أعمال التشطيبات والمرافق ومتطلبات التسليم.',
         },
         {
-          title: 'مركز لوجستي صناعي',
-          scope: 'مستودعات ومرافق وخدمات وبلاطات تحميل ثقيلة.',
-          result: 'تحسين لوجستيات الموقع والتشغيل لتجهيز العمل 24/7.',
+          title: 'ترميم وصيانة مسجد',
+          scope: 'أعمال ترميم وإصلاح وصيانة شملت التشطيبات المعمارية والخدمات الأساسية للمبنى والتنسيق الموقعي المستمر.',
+          result: 'أُنجزت الأعمال مع مراعاة حالة المبنى واستمرارية الخدمة والمتطلبات التشغيلية لمسجد قائم.',
         },
         {
-          title: 'ممر بنية تحتية عامة',
-          scope: 'أعمال طرق وتصريف وإدارة مرور.',
-          result: 'الحفاظ على حركة المرور أثناء تحقيق معالم الجهة المالكة.',
+          title: 'مشروع مبنى تجاري',
+          scope: 'تنفيذ كامل للمبنى من الهيكل الإنشائي والواجهات والتشطيبات الداخلية وتنسيق الأعمال الكهروميكانيكية والأعمال الخارجية.',
+          result: 'تم تسليم المبنى كأصل تجاري متكامل مع ضبط جيد للتنفيذ وتنسيق فعّال بين مختلف البنود والتخصصات.',
+        },
+        {
+          title: 'مشروع إسكان واسع النطاق',
+          scope: 'برنامج إنشاء سكني شمل وحدات متكررة مع توصيلات الخدمات والواجهات المرتبطة بالطرق وتسليم الموقع على مراحل.',
+          result: 'تمت إدارة المشروع كحزمة إسكانية واسعة النطاق مع توحيد معايير الجودة وحسن ترتيب مراحل التنفيذ والتسليم العملي لعدة وحدات.',
         },
       ],
       readyTitle: 'جاهز للبدء',

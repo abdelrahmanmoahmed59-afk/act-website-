@@ -34,7 +34,7 @@ export const pagesTemplates: Record<ManagedPageKey, PageContent> = {
         "To deliver exceptional construction and development solutions that exceed client expectations and contribute to Kuwait's sustainable growth.",
       vision: 'Our Vision',
       visionDesc:
-        'To be the most trusted and innovative construction partner in the region, known for quality, reliability, and transformative projects.',
+        "We want to build the best place to work. Our employees' high level of engagement comes from our focus on having a culture centered on caring for each other. We truly desire the best for everyone, which includes investing in mentorship, career planning, education, training, and goals. Engaged employees, in turn, create better project outcomes, stronger client relationships, and an exceptional work environment overall",
     },
     ar: {
       title: 'من نحن',
@@ -46,7 +46,7 @@ export const pagesTemplates: Record<ManagedPageKey, PageContent> = {
         'تقديم حلول بناء وتطوير استثنائية تتجاوز توقعات العملاء وتساهم في النمو المستدام للكويت.',
       vision: 'رؤيتنا',
       visionDesc:
-        'أن نكون الشريك الإنشائي الأكثر موثوقية وابتكاراً في المنطقة، معروفين بالجودة والموثوقية والمشاريع التحويلية.',
+        'نريد بناء أفضل مكان للعمل. يأتي مستوى مشاركة موظفينا العالي من تركيزنا على وجود ثقافة تتمحور حول رعاية بعضنا البعض. نرغب حقًا في الأفضل للجميع، وهو ما يشمل الاستثمار في الإرشاد والتخطيط الوظيفي والتعليم والتدريب والأهداف. بدوره، يخلق الموظفون الملتزمون نتائج أفضل للمشاريع، وعلاقات أقوى مع العملاء، وبيئة عمل استثنائية بشكل عام',
     },
   },
   services: {

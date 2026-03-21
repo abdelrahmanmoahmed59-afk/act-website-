@@ -73,7 +73,7 @@ function HeroContent() {
               <span className={styles.buttonArrow} />
             </Link>
             <Link href="/contact" className={styles.secondaryButton}>
-              {t('contact.title')}
+              {t('hero.secondaryCta')}
             </Link>
           </div>
         </div>

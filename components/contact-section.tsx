@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useEffect, useId, useMemo, useState } from 'react'
+import { normalizeContactSettings } from '@/lib/contact-settings'
 import { useLanguage } from '@/providers/language-provider'
 import styles from '@/app/contact/page.module.css'
 
@@ -8,7 +9,8 @@ type LocalizedText = { en: string; ar: string }
 
 type ContactSettings = {
   title: LocalizedText
-  intro: LocalizedText
+  introLineOne: LocalizedText
+  introLineTwo: LocalizedText
   emailText: string
   phoneNum: string
   address: LocalizedText
@@ -39,7 +41,9 @@ function ContactSectionContent({
   const content = {
     en: {
       title: 'Get In Touch',
-      intro: 'Have a project in mind? Contact us today and our team will reach out.',
+      introLineOne: "Let's Discuss Your Construction Projects",
+      introLineTwo:
+        'Our Team is ready to discuss your project requirements and provide professional construction solutions.',
       contactTitle: 'Contact Details',
       mapTitle: 'Location Map',
       mapDesc: 'Find us and visit our office during business hours.',
@@ -48,7 +52,7 @@ function ContactSectionContent({
         subtitle: "Share your information and we'll contact you as soon as possible.",
         name: 'Full Name',
         email: 'Email Address',
-        details: 'Customer Details',
+        details: 'Project Requirements',
         submit: 'Submit',
         submitting: 'Submitting...',
         successTitle: 'Registration successful',
@@ -65,7 +69,8 @@ function ContactSectionContent({
     },
     ar: {
       title: 'اتصل بنا',
-      intro: 'هل لديك مشروع؟ تواصل معنا اليوم وسنقوم بالرد عليك في أقرب وقت.',
+      introLineOne: 'هل لديك مشروع؟',
+      introLineTwo: 'تواصل معنا اليوم وسنقوم بالرد عليك في أقرب وقت.',
       contactTitle: 'بيانات التواصل',
       mapTitle: 'خريطة الموقع',
       mapDesc: 'اعثر علينا وقم بزيارة مقر الشركة خلال ساعات العمل.',
@@ -108,7 +113,7 @@ function ContactSectionContent({
       .then((json) => {
         if (cancelled) return
         const s = (json as any)?.settings
-        if (s && typeof s === 'object') setSettings(s as ContactSettings)
+        if (s && typeof s === 'object') setSettings(normalizeContactSettings(s))
       })
       .catch(() => {})
     return () => {
@@ -117,7 +122,8 @@ function ContactSectionContent({
   }, [])
 
   const title = settings?.title?.[language as 'en' | 'ar'] || data.title
-  const intro = settings?.intro?.[language as 'en' | 'ar'] || data.intro
+  const introLineOne = settings?.introLineOne?.[language as 'en' | 'ar'] || data.introLineOne
+  const introLineTwo = settings?.introLineTwo?.[language as 'en' | 'ar'] ?? data.introLineTwo
   const emailText = settings?.emailText || data.info.emailText
   const phoneNum = settings?.phoneNum || data.info.phoneNum
   const addressText = settings?.address?.[language as 'en' | 'ar'] || data.info.addressText
@@ -163,7 +169,10 @@ function ContactSectionContent({
         >
           <div className={styles.container}>
             <TitleTag className={styles.title}>{title}</TitleTag>
-            <p className={styles.intro}>{intro}</p>
+            <div className={styles.intro}>
+              <p className={styles.introPrimary}>{introLineOne}</p>
+              {introLineTwo ? <p className={styles.introSecondary}>{introLineTwo}</p> : null}
+            </div>
           </div>
         </section>
       ) : null}

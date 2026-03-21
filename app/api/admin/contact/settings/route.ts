@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { revalidatePath, revalidateTag } from 'next/cache'
 
+import { normalizeContactSettings } from '@/lib/contact-settings'
 import { contactTemplate } from '@/lib/content/contact-template'
 import { requireAdmin } from '@/lib/server/auth'
 import { getContactSettings, upsertContactSettings } from '@/lib/server/contact'
@@ -36,7 +37,7 @@ export async function PUT(req: Request) {
     return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 })
   }
 
-  const parsed = contactSettingsSchema.safeParse(body)
+  const parsed = contactSettingsSchema.safeParse(normalizeContactSettings(body))
   if (!parsed.success) {
     return NextResponse.json({ error: 'Invalid payload', issues: parsed.error.issues }, { status: 400 })
   }

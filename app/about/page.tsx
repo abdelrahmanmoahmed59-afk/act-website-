@@ -1,12 +1,10 @@
 'use client'
 
 import React, { useEffect, useState } from "react"
+import Image from 'next/image'
 import {
   Award,
   Eye,
-  Handshake,
-  Lightbulb,
-  ShieldCheck,
   Target,
   Users,
 } from 'lucide-react'
@@ -17,10 +15,110 @@ import Footer from '@/components/footer'
 import { useLanguage } from '@/providers/language-provider'
 import styles from './page.module.css'
 
+const livingValues = {
+  en: [
+    {
+      key: 'competent',
+      image: '/about-values/website-icons1.png',
+      imageAlt: 'Competent value card',
+      statement: 'We are very good at what we do.',
+      lead: 'We possess the skills and ability to do what you are currently doing or propose to do.',
+      bullets: [
+        'Performing consistently to the satisfaction of others against agreed upon standards.',
+        'Developing and supporting others where that is part of your role, seniority, and ability.',
+        `Knowing where you are competent and openly saying "I don't know" if appropriate.`,
+      ],
+    },
+    {
+      key: 'reliable',
+      image: '/about-values/website-icons21.png',
+      imageAlt: 'Reliable value card',
+      statement: 'We follow through on our commitments.',
+      lead: 'We meet the commitments we make and keep our promises.',
+      bullets: [
+        'Being on time for scheduled meetings and deliverables.',
+        'Doing what you say you will do by the promised deadline. If for some reason completion is at risk, others are notified prior to the due date/time.',
+      ],
+    },
+    {
+      key: 'sincere',
+      image: '/about-values/website-icons31.png',
+      imageAlt: 'Sincere value card',
+      statement: 'We mean what we say.',
+      lead: 'We are honest. We say what we mean and mean what we say.',
+      bullets: [
+        'Raising concerns or offering feedback immediately. While valuing candor, openness, and transparency over conflict avoidance, but in a respectful manner.',
+        `Bringing "background conversations" (what you are thinking) to the "foreground" (what you say out loud) tactfully so you are in genuine alignment with the team.`,
+        'Listening to the views or concerns of others and repeating them back so they are clearly heard and understood.',
+      ],
+    },
+    {
+      key: 'care',
+      image: '/about-values/website-icons41.png',
+      imageAlt: 'Care value card',
+      statement: 'We have a genuine desire to meet the needs of people.',
+      lead: "We have the other's interests in mind as well as our own when we make decisions and take actions.",
+      bullets: [
+        'Asking for feedback on your relationships to ensure collaboration and teamwork with others.',
+        'Building supportive and diverse teams that create stronger future promotion opportunities.',
+        'Going out of your way to lift others up and help teammates who might be struggling.',
+      ],
+    },
+  ],
+  ar: [
+    {
+      key: 'competent',
+      image: '/about-values/website-icons1.png',
+      imageAlt: 'بطاقة قيمة الكفاءة',
+      statement: 'نحن بارعون جدًا فيما نقوم به.',
+      lead: 'نمتلك المهارات والقدرات اللازمة لإنجاز ما تقوم به الآن أو ما تنوي القيام به.',
+      bullets: [
+        'نؤدي عملنا باستمرار بما يحقق رضا الآخرين وفقًا للمعايير المتفق عليها.',
+        'نطوّر الآخرين وندعمهم عندما يكون ذلك جزءًا من دورك أو خبرتك أو مستوى مسؤوليتك.',
+        'نعرف حدود كفاءتنا، ونقول بصراحة "لا أعرف" عندما يكون ذلك هو الأنسب.',
+      ],
+    },
+    {
+      key: 'reliable',
+      image: '/about-values/website-icons21.png',
+      imageAlt: 'بطاقة قيمة الموثوقية',
+      statement: 'نفي بالتزاماتنا.',
+      lead: 'نلتزم بما نعد به ونحافظ على وعودنا.',
+      bullets: [
+        'نحضر في الوقت المحدد للاجتماعات وتسليمات العمل والمواعيد المتفق عليها.',
+        'ننجز ما نلتزم به في الموعد الموعود. وإذا أصبح الإنجاز معرضًا للخطر لأي سبب، نبلغ الآخرين قبل موعد الاستحقاق.',
+      ],
+    },
+    {
+      key: 'sincere',
+      image: '/about-values/website-icons31.png',
+      imageAlt: 'بطاقة قيمة الصدق',
+      statement: 'نقول ما نعنيه بصدق.',
+      lead: 'نحن صادقون؛ نقول ما نقصده ونقصد ما نقوله.',
+      bullets: [
+        'نطرح المخاوف أو الملاحظات مباشرة وباحترام، مع تفضيل الصراحة والانفتاح والشفافية على تجنب الخلاف.',
+        'نُخرج "الأحاديث الجانبية" أي ما نفكر فيه إلى "الواجهة" أي ما نقوله بصوت مسموع، بأسلوب لبق يضمن الانسجام الحقيقي مع الفريق.',
+        'نستمع إلى آراء الآخرين ومخاوفهم ونعيد صياغتها للتأكد من أنها فُهمت ووصلت بوضوح.',
+      ],
+    },
+    {
+      key: 'care',
+      image: '/about-values/website-icons41.png',
+      imageAlt: 'بطاقة قيمة الاهتمام',
+      statement: 'لدينا رغبة صادقة في تلبية احتياجات الناس.',
+      lead: 'نضع مصالح الآخرين في اعتبارنا إلى جانب مصالحنا عندما نتخذ القرارات وننفذ الإجراءات.',
+      bullets: [
+        'نطلب ملاحظات حول علاقاتنا المهنية لضمان التعاون والعمل الجماعي مع الآخرين.',
+        'نبني فرقًا داعمة ومتنوعة تتيح فرصًا أفضل للتطور والترقي مستقبلًا.',
+        'نبذل جهدًا إضافيًا لرفع معنويات الآخرين ومساندة الزملاء الذين قد يمرون بصعوبات.',
+      ],
+    },
+  ],
+} as const
+
 function AboutContent() {
   const { language } = useLanguage()
-
-  const valueIcons = [Award, Lightbulb, Handshake, ShieldCheck] as const
+  const localizedValues = livingValues[language === 'ar' ? 'ar' : 'en']
 
   const content = {
     en: {
@@ -33,7 +131,7 @@ function AboutContent() {
         'To deliver exceptional construction and development solutions that exceed client expectations and contribute to Kuwait\'s sustainable growth.',
       vision: 'Our Vision',
       visionDesc:
-        'To be the most trusted and innovative construction partner in the region, known for quality, reliability, and transformative projects.',
+        "We want to build the best place to work. Our employees' high level of engagement comes from our focus on having a culture centered on caring for each other. We truly desire the best for everyone, which includes investing in mentorship, career planning, education, training, and goals. Engaged employees, in turn, create better project outcomes, stronger client relationships, and an exceptional work environment overall",
       values: 'Our Core Values',
       valuesList: [
         { title: 'Excellence', desc: 'Unwavering commitment to quality in every project' },
@@ -80,7 +178,7 @@ function AboutContent() {
         'تقديم حلول بناء وتطوير استثنائية تتجاوز توقعات العملاء وتساهم في النمو المستدام للكويت.',
       vision: 'رؤيتنا',
       visionDesc:
-        'أن نكون الشريك الإنشائي الأكثر موثوقية وابتكاراً في المنطقة، معروفين بالجودة والموثوقية والمشاريع التحويلية.',
+        'نريد بناء أفضل مكان للعمل. يأتي مستوى مشاركة موظفينا العالي من تركيزنا على وجود ثقافة تتمحور حول رعاية بعضنا البعض. نرغب حقًا في الأفضل للجميع، وهو ما يشمل الاستثمار في الإرشاد والتخطيط الوظيفي والتعليم والتدريب والأهداف. بدوره، يخلق الموظفون الملتزمون نتائج أفضل للمشاريع، وعلاقات أقوى مع العملاء، وبيئة عمل استثنائية بشكل عام',
       values: 'قيمنا الأساسية',
       valuesList: [
         { title: 'التميز', desc: 'التزام ثابت بالجودة في كل مشروع' },
@@ -197,33 +295,43 @@ function AboutContent() {
           </div>
         </section>
 
-        <section className={styles.values}>
+        <section className={styles.values} aria-labelledby="about-values-title">
           <div className={styles.container}>
-            <h2 className={styles.sectionTitle}>
+            <h2 id="about-values-title" className={styles.sectionTitle}>
               <span className={styles.titleIcon} aria-hidden="true" data-reveal-skip>
                 <Award className={styles.titleIconSvg} data-reveal-skip />
               </span>
               <span className={styles.titleText}>{data.values}</span>
             </h2>
             <div className={styles.valuesGrid}>
-              {data.valuesList.map((value: { title: string; desc: string }, index: number) => {
-                const Icon = valueIcons[index % valueIcons.length]
-                return (
-                  <div
-                    key={index}
-                    className={styles.valueCard}
-                    style={{ '--value-index': index } as React.CSSProperties}
-                  >
-                    <div className={styles.valueHeader}>
-                      <span className={styles.valueIcon} aria-hidden="true" data-reveal-skip>
-                        <Icon className={styles.valueIconSvg} data-reveal-skip />
-                      </span>
-                      <h3 className={styles.valueTitle}>{value.title}</h3>
-                    </div>
-                    <p className={styles.valueDesc}>{value.desc}</p>
+              {localizedValues.map((value, index) => (
+                <article
+                  key={value.key}
+                  className={styles.valueCard}
+                  style={{ '--value-index': index } as React.CSSProperties}
+                >
+                  <div className={styles.valuePosterWrap}>
+                    <Image
+                      src={value.image}
+                      alt={value.imageAlt}
+                      width={360}
+                      height={360}
+                      className={styles.valuePoster}
+                    />
                   </div>
-                )
-              })}
+                  <div className={styles.valueBody}>
+                    <h3 className={styles.valueTitle}>{value.statement}</h3>
+                    <p className={styles.valueLead}>{value.lead}</p>
+                    <ul className={styles.valueList}>
+                      {value.bullets.map((bullet) => (
+                        <li key={bullet} className={styles.valueListItem}>
+                          {bullet}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </article>
+              ))}
             </div>
           </div>
         </section>

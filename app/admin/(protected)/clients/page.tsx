@@ -951,7 +951,7 @@ export default function AdminClientsPage() {
       <section className={ui.section}>
         <div className={ui.sectionTitleRow}>
           <div>
-            <h2 className={ui.sectionTitle}>Our Success Clients section</h2>
+            <h2 className={ui.sectionTitle}>Our Clients section</h2>
             <p className={ui.sectionHint}>File-uploaded logos + bilingual alt text.</p>
           </div>
           <div className={ui.toolbar}>

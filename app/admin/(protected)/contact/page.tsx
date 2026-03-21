@@ -4,6 +4,7 @@ import React, { useCallback, useEffect, useId, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
 
 import ui from '../admin-ui.module.css'
+import { normalizeContactSettings } from '@/lib/contact-settings'
 import { contactSettingsSchema } from '@/lib/validation/contact'
 import { contactTemplate } from '@/lib/content/contact-template'
 
@@ -11,7 +12,8 @@ type LocalizedText = { en: string; ar: string }
 
 type ContactSettings = {
   title: LocalizedText
-  intro: LocalizedText
+  introLineOne: LocalizedText
+  introLineTwo: LocalizedText
   emailText: string
   phoneNum: string
   address: LocalizedText
@@ -143,7 +145,7 @@ export default function AdminContactPage() {
       }
       const settingsJson = await a.json().catch(() => null)
       const submissionsJson = await b.json().catch(() => null)
-      setSettings(((settingsJson as any)?.settings ?? contactTemplate) as ContactSettings)
+      setSettings(normalizeContactSettings((settingsJson as any)?.settings ?? contactTemplate))
       setSubmissions(Array.isArray((submissionsJson as any)?.submissions) ? ((submissionsJson as any).submissions as Submission[]) : [])
     } catch {
       setError('Failed to load.')
@@ -246,13 +248,20 @@ export default function AdminContactPage() {
             errors={{ en: fieldErrors['title.en'], ar: fieldErrors['title.ar'] }}
           />
           <LocalizedField
-            label="Intro"
-            value={settings.intro}
-            onChange={(v) => setSettings((p) => ({ ...p, intro: v }))}
+            label="Intro line 1"
+            value={settings.introLineOne}
+            onChange={(v) => setSettings((p) => ({ ...p, introLineOne: v }))}
             required
+            maxLength={4000}
+            errors={{ en: fieldErrors['introLineOne.en'], ar: fieldErrors['introLineOne.ar'] }}
+          />
+          <LocalizedField
+            label="Intro line 2"
+            value={settings.introLineTwo}
+            onChange={(v) => setSettings((p) => ({ ...p, introLineTwo: v }))}
             textarea
             maxLength={4000}
-            errors={{ en: fieldErrors['intro.en'], ar: fieldErrors['intro.ar'] }}
+            errors={{ en: fieldErrors['introLineTwo.en'], ar: fieldErrors['introLineTwo.ar'] }}
           />
 
           <div className={ui.gridTwo}>

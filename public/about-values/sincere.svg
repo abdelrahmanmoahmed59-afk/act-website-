@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 360" role="img" aria-labelledby="title">
+  <title>Sincere</title>
+  <path fill="#3c7692" d="M0 0h360v360H88C39 360 0 321 0 272V0Z"/>
+  <g fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="14">
+    <path d="M221 86c51 0 92 39 92 87 0 48-41 87-92 87-10 0-21-2-31-5l-47 23 12-47c-16-16-26-38-26-58 0-48 41-87 92-87Z"/>
+    <path d="M95 103h23l9-23 9 23h23l-18 14 7 23-21-15-20 15 7-23Z"/>
+    <path d="M178 146h68"/>
+    <path d="M169 181h86"/>
+    <path d="M182 216h60"/>
+  </g>
+  <text
+    x="180"
+    y="324"
+    fill="#fff"
+    font-family="Arial, Helvetica, sans-serif"
+    font-size="48"
+    font-weight="700"
+    letter-spacing="6"
+    text-anchor="middle"
+  >
+    SINCERE
+  </text>
+</svg>

@@ -13,10 +13,10 @@ function OurSuccessContent() {
       subtitle: "Achievements & Recognition",
       achievements: [
         { icon: "🏆", title: "Industry Awards", description: "Multiple awards for excellence in construction and innovation" },
-        { icon: "⭐", title: "Quality Standards", description: "ISO certified with international quality benchmarks" },
+        { icon: "⭐", title: "Quality Standards", description: "Delivering work that meets professional construction standards" },
         { icon: "📈", title: "Growth", description: "Consistent year-over-year growth and market expansion" },
         { icon: "🤝", title: "Partnerships", description: "Strategic partnerships with global industry leaders" },
-        { icon: "🌍", title: "Global Reach", description: "Successfully completed projects across multiple countries" },
+        { icon: "🌍", title: "Reach", description: "Successfully completed projects across Kuwait" },
         { icon: "💡", title: "Innovation", description: "Pioneering new technologies in construction management" }
       ]
     },
@@ -25,10 +25,10 @@ function OurSuccessContent() {
       subtitle: "الإنجازات والتكريمات",
       achievements: [
         { icon: "🏆", title: "جوائز الصناعة", description: "جوائز متعددة للتميز والابتكار في البناء" },
-        { icon: "⭐", title: "معايير الجودة", description: "حاصلة على شهادة ISO مع معايير جودة دولية" },
+        { icon: "⭐", title: "معايير الجودة", description: "تقديم أعمال تلبي معايير البناء المهنية" },
         { icon: "📈", title: "النمو", description: "نمو ثابت سنة بعد سنة وتوسع السوق" },
         { icon: "🤝", title: "الشراكات", description: "شراكات استراتيجية مع قادة الصناعة العالميين" },
-        { icon: "🌍", title: "الوصول العالمي", description: "اكتمال المشاريع بنجاح في عدة دول" },
+        { icon: "🌍", title: "الوصول العالمي", description: "اكتمال المشاريع بنجاح في عدة الكويت" },
         { icon: "💡", title: "الابتكار", description: "ريادة التقنيات الجديدة في إدارة البناء" }
       ]
     }

@@ -9,12 +9,12 @@ import styles from './footer.module.css'
 
 type FooterLink = { label: string; href: string }
 type SocialLink = FooterLink & { icon: LucideIcon }
-
 type LocalizedText = { en: string; ar: string }
 
 type ContactSettings = {
   title: LocalizedText
-  intro: LocalizedText
+  introLineOne: LocalizedText
+  introLineTwo: LocalizedText
   emailText: string
   phoneNum: string
   address: LocalizedText
@@ -31,6 +31,7 @@ function FooterContent() {
     'en' | 'ar',
     {
       headings: { company: string; office: string; contact: string }
+      brandLead: string
       brandDesc: string
       company: FooterLink[]
       contact: FooterLink[]
@@ -44,7 +45,9 @@ function FooterContent() {
         office: 'Office',
         contact: 'Contact',
       },
-      brandDesc: 'Advanced Combined Group - Leading construction and contracting solutions in Kuwait',
+      brandLead: 'Leading Construction & Contracting Company in Kuwait',
+      brandDesc:
+        'Advanced Combined Group is a leading construction and contracting company in Kuwait, delivering large-scale infrastructure, engineering, and development projects with precision and reliability. Trusted by government and private sector leaders across Kuwait.',
       company: [
         { label: 'Overview', href: '/overview' },
         { label: 'About Us', href: '/about' },
@@ -77,7 +80,9 @@ function FooterContent() {
         office: 'المكتب',
         contact: 'التواصل',
       },
-      brandDesc: 'المجموعة المتقدمة المتكاملة - حلول البناء والمقاولات الرائدة في الكويت',
+      brandLead: 'شركة رائدة في مجال الإنشاءات والمقاولات في الكويت',
+      brandDesc:
+        'تُعدّ مجموعة "أدفانسد كومبايند" شركة رائدة في مجال الإنشاءات والمقاولات في الكويت، حيث تُنفّذ مشاريع ضخمة في مجالات البنية التحتية والهندسة والتطوير بدقة وموثوقية عاليتين. تحظى المجموعة بثقة قادة القطاعين الحكومي والخاص في جميع أنحاء الكويت.',
       company: [
         { label: 'نظرة عامة', href: '/overview' },
         { label: 'من نحن', href: '/about' },
@@ -173,6 +178,7 @@ function FooterContent() {
                 className={styles.brandLogo}
               />
             </Link>
+            <p className={styles.brandLead}>{data.brandLead}</p>
             <p className={styles.brandDesc}>{data.brandDesc}</p>
 
             <div
@@ -265,9 +271,7 @@ function FooterContent() {
             © {currentYear} {t('footer.company')}. {t('footer.rights')}.
           </p>
           <p className={styles.credit}>
-            {language === 'en'
-              ? 'Crafted with innovation and precision'
-              : 'تم إنشاؤه بالابتكار والدقة'}
+            {language === 'en' ? 'Crafted with innovation and precision' : 'تم إنشاؤه بالابتكار والدقة'}
           </p>
         </div>
       </div>

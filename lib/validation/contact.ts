@@ -11,7 +11,11 @@ function localizedTextSchema(options: { min: number; max: number }) {
 
 export const contactSettingsSchema = z.object({
   title: localizedTextSchema({ min: 1, max: 180 }),
-  intro: localizedTextSchema({ min: 1, max: 4000 }),
+  introLineOne: localizedTextSchema({ min: 1, max: 4000 }),
+  introLineTwo: z.object({
+    en: z.string().trim().max(4000),
+    ar: z.string().trim().max(4000),
+  }),
   emailText: z.string().trim().min(3).max(320),
   phoneNum: z.string().trim().min(3).max(80),
   address: localizedTextSchema({ min: 1, max: 400 }),
