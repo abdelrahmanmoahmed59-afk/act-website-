@@ -164,9 +164,7 @@ function PortfolioContent() {
                         </div>
                         <div className={styles.tableCell} role="cell">
                           <span className={styles.mobileLabel}>{data.tableColumns.name}</span>
-                          <Link href={`/projects/${project.slug}`} className={styles.tableLink}>
-                            {project.title}
-                          </Link>
+                          <span className={styles.tableName}>{project.title}</span>
                         </div>
                         <div className={styles.tableCell} role="cell">
                           <span className={styles.mobileLabel}>{data.tableColumns.client}</span>

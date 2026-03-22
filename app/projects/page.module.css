@@ -251,17 +251,11 @@
   overflow-wrap: anywhere;
 }
 
-.tableLink {
+.tableName {
   color: rgba(from var(--foreground) r g b / 0.95);
-  text-decoration: none;
   font-weight: 900;
   line-height: 1.4;
   overflow-wrap: anywhere;
-}
-
-.tableLink:hover {
-  text-decoration: underline;
-  text-underline-offset: 4px;
 }
 
 .mobileLabel {
