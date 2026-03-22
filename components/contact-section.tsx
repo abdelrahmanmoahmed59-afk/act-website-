@@ -63,14 +63,14 @@ function ContactSectionContent({
       info: {
         emailText: 'info@act-kw.com',
         phoneNum: '+965 9558 8251',
-        addressText: 'Shuwaikh, Kuwait',
+        addressText: 'Khaitan - Block 6 - Ibn Zuhair Street - Suleiman Abdullah Al-Dabbous Center - First Floor - Office 5, Kuwait City',
       },
       helpText: 'Add a short summary of your request, scope, and timeline.',
     },
     ar: {
       title: 'اتصل بنا',
-      introLineOne: 'هل لديك مشروع؟',
-      introLineTwo: 'تواصل معنا اليوم وسنقوم بالرد عليك في أقرب وقت.',
+      introLineOne: ' دعونا نناقش مشاريع البناء الخاصة بك ',
+      introLineTwo: ' فريقنا جاهز لمناقشة متطلبات مشروعك وتقديم حلول بناء احترافية.',
       contactTitle: 'بيانات التواصل',
       mapTitle: 'خريطة الموقع',
       mapDesc: 'اعثر علينا وقم بزيارة مقر الشركة خلال ساعات العمل.',
@@ -94,7 +94,7 @@ function ContactSectionContent({
       info: {
         emailText: 'info@act-kw.com',
         phoneNum: '+965 9558 8251',
-        addressText: 'الشويخ، الكويت',
+        addressText: 'خيطان - بلوك 6 - شارع ابن زهير - مركز سليمان عبد الله الدبوس - الطابق الأول - مكتب 5، مدينة الكويت',
       },
       helpText: 'اكتب ملخصًا عن طلبك، نطاق العمل، والجدول الزمني.',
     },
@@ -103,7 +103,7 @@ function ContactSectionContent({
   const data = content[language as keyof typeof content]
 
   const mapSrc = useMemo(() => {
-    return 'https://www.google.com/maps?q=Shuwaikh%2C%20Kuwait&output=embed'
+    return 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d27839.26567672481!2d47.93666466803621!3d29.285023678612816!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3fcf9bc770801153%3A0xb6ec5934c8cb3494!2sKhaitan%2C%20Kuwait!5e0!3m2!1sen!2seg!4v1774188843025!5m2!1sen!2seg'
   }, [])
 
   useEffect(() => {
@@ -115,7 +115,7 @@ function ContactSectionContent({
         const s = (json as any)?.settings
         if (s && typeof s === 'object') setSettings(normalizeContactSettings(s))
       })
-      .catch(() => {})
+      .catch(() => { })
     return () => {
       cancelled = true
     }

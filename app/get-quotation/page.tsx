@@ -2,12 +2,9 @@
 
 import React, { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
 import Header from '@/components/header'
 import Footer from '@/components/footer'
 import { useLanguage } from '@/providers/language-provider'
-import type { LocalizedProject } from '@/lib/projects'
-import { getLocalizedProjects } from '@/lib/projects'
 import styles from './page.module.css'
 
 type Scope =
@@ -345,20 +342,6 @@ function GetQuotationContent() {
   )
 
   const t = content[language as keyof typeof content]
-  const [projects, setProjects] = useState<LocalizedProject[]>([])
-  useEffect(() => {
-    setProjects(getLocalizedProjects(language))
-  }, [language])
-
-  const featuredProjects = useMemo(() => {
-    const sorted = [...projects].sort((a, b) => {
-      const aHasImage = Boolean(a.images[0] && a.images[0] !== '/placeholder.jpg')
-      const bHasImage = Boolean(b.images[0] && b.images[0] !== '/placeholder.jpg')
-      if (aHasImage !== bHasImage) return aHasImage ? -1 : 1
-      return a.id - b.id
-    })
-    return sorted.slice(0, 6)
-  }, [projects])
 
   const onSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
@@ -822,55 +805,6 @@ function GetQuotationContent() {
           </div>
         </div>
       </section>
-
-      <section className={styles.projectsSection} aria-label={t.projectsTitle}>
-        <div className={styles.container}>
-          <header className={styles.projectsHeader}>
-            <h2 className={styles.sectionTitleCentered}>{t.projectsTitle}</h2>
-            <p className={styles.sectionNoteCentered}>{t.projectsIntro}</p>
-          </header>
-
-          <div className={styles.projectsGrid} role="list">
-            {featuredProjects.map((project) => {
-              const containsLogo = project.slug === 'national-orascom'
-              return (
-                <Link
-                  key={project.slug}
-                  href={`/projects/${project.slug}`}
-                  className={styles.projectCard}
-                  role="listitem"
-                  aria-label={project.title}
-                >
-                  <div className={styles.projectMedia} aria-hidden="true">
-                    <Image
-                      src={project.images[0]}
-                      alt=""
-                      fill
-                      sizes="(max-width: 640px) 100vw, (max-width: 1100px) 50vw, 33vw"
-                      className={`${styles.projectImage} ${containsLogo ? styles.projectImageContain : ''}`}
-                    />
-                    <div className={styles.projectMediaOverlay} aria-hidden="true" />
-                    <span className={styles.projectChip}>{project.sector}</span>
-                  </div>
-                  <div className={styles.projectBody}>
-                    <h3 className={styles.projectTitle}>{project.title}</h3>
-                    <p className={styles.projectMeta}>
-                      {project.location} • {project.year}
-                    </p>
-                  </div>
-                </Link>
-              )
-            })}
-          </div>
-
-          <div className={styles.projectsActions}>
-            <Link href="/projects" className={styles.projectsCta}>
-              {t.projectsCta}
-            </Link>
-          </div>
-        </div>
-      </section>
-
       <Footer />
     </main>
   )
