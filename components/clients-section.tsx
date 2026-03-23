@@ -1,7 +1,8 @@
 'use client'
 
-import React, { useMemo } from "react"
+import React, { useMemo } from 'react'
 import Image from 'next/image'
+
 import { useLanguage } from '@/providers/language-provider'
 import styles from './clients-section.module.css'
 import type { Language } from '@/lib/i18n/base-translations'
@@ -31,8 +32,28 @@ const DEFAULT_LOGOS: ClientLogo[] = [
   { src: '/placeholder-logo.png', alt: { en: 'Partner Logo', ar: 'شعار شريك' } },
 ]
 
+function normalizeRemoteLogos(logos: Array<{ src: string; alt: string }> | undefined): ClientLogo[] {
+  if (!Array.isArray(logos) || !logos.length) return []
+
+  return logos
+    .filter((logo) => typeof logo?.src === 'string' && logo.src.trim())
+    .map((logo, index) => {
+      const fallbackIndex = index + 1
+      const labelEn =
+        typeof logo.alt === 'string' && logo.alt.trim() ? logo.alt.trim() : `Client logo ${fallbackIndex}`
+      const labelAr =
+        typeof logo.alt === 'string' && logo.alt.trim() ? logo.alt.trim() : `شعار عميل ${fallbackIndex}`
+
+      return {
+        src: logo.src,
+        alt: { en: labelEn, ar: labelAr },
+      }
+    })
+}
+
 function ClientsSectionContent({ content }: { content?: SuccessClientsContentByLanguage }) {
   const { language } = useLanguage()
+  const isArabic = language === 'ar'
 
   const copy = useMemo(
     () => ({
@@ -43,23 +64,27 @@ function ClientsSectionContent({ content }: { content?: SuccessClientsContentByL
       },
       ar: {
         title: 'عملاؤنا الناجحون',
-        subtitle:
-          'نجاحنا المشترك هو أساس شراكتنا، سواء كنت مورّدًا أو عميلًا',
+        subtitle: 'نجاحنا المشترك هو أساس شراكتنا، سواء كنت مورّدًا أو عميلًا',
       },
     }),
-    [],
+    []
   )
 
-  const contentForLanguage = content?.[language]
+  const contentForLanguage = content?.[language] ?? content?.en
   const text = contentForLanguage
     ? { title: contentForLanguage.title, subtitle: contentForLanguage.subtitle }
-    : copy[language as keyof typeof copy]
+    : copy[language]
 
-  const logos: ClientLogo[] = contentForLanguage?.logos?.length
-    ? contentForLanguage.logos.map((logo) => ({ src: logo.src, alt: { en: logo.alt, ar: logo.alt } }))
-    : []
+  const logos = useMemo(() => {
+    const localized = normalizeRemoteLogos(contentForLanguage?.logos)
+    if (localized.length) return localized
 
-  if (!contentForLanguage) return null
+    const englishFallback = normalizeRemoteLogos(content?.en?.logos)
+    if (englishFallback.length) return englishFallback
+
+    return DEFAULT_LOGOS
+  }, [content, contentForLanguage])
+
   if (!logos.length) return null
 
   return (
@@ -70,16 +95,21 @@ function ClientsSectionContent({ content }: { content?: SuccessClientsContentByL
           <p className={styles.subtitle}>{text.subtitle}</p>
         </div>
 
-        <div className={styles.sliderShell} aria-label={language === 'ar' ? 'شريط شعارات العملاء' : 'Client logo slider'}>
+        <div
+          className={styles.sliderShell}
+          aria-label={isArabic ? 'شريط شعارات العملاء' : 'Client logo slider'}
+          data-direction={isArabic ? 'rtl' : 'ltr'}
+        >
           <div className={styles.sliderFadeLeft} aria-hidden="true" />
           <div className={styles.sliderFadeRight} aria-hidden="true" />
 
-          <div className={styles.sliderViewport}>
-            <div className={styles.track} role="list">
+          <div className={styles.sliderViewport} dir="ltr">
+            <div key={language} className={styles.track} role="list">
               {logos.concat(logos).map((logo, index) => {
-                const alt = language === 'ar' ? logo.alt.ar : logo.alt.en
+                const alt = isArabic ? logo.alt.ar : logo.alt.en
+
                 return (
-                  <div key={`${logo.src}-${index}`} className={styles.card} role="listitem" aria-label={alt}>
+                  <div key={`${language}-${logo.src}-${index}`} className={styles.card} role="listitem" aria-label={alt}>
                     <div className={styles.cardInner}>
                       <Image
                         src={logo.src}

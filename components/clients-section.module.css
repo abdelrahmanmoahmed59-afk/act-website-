@@ -65,6 +65,8 @@
 
 .sliderViewport {
   overflow: hidden;
+  direction: ltr;
+  unicode-bidi: isolate;
 }
 
 .sliderFadeLeft,
@@ -106,12 +108,17 @@
   will-change: transform;
 }
 
+.sliderShell[data-direction='rtl'] .track {
+  animation-direction: reverse;
+}
+
 .sliderShell:hover .track {
   animation-play-state: paused;
 }
 
 .card {
   min-width: 280px;
+  flex: 0 0 auto;
   height: 120px;
   border-radius: 18px;
   border: 1px solid rgba(from var(--foreground) r g b / 0.12);
@@ -139,6 +146,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  direction: ltr;
   background: rgba(from var(--foreground) r g b / 0.05);
 }
 
